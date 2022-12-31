@@ -2,15 +2,23 @@ import React, { useState, useEffect, ReactElement } from 'react'
 
 import RouteServices from '@/routes/services/route.services'
 import { Route } from '../models/route.model'
+import { useDispatch } from 'react-redux'
+import { logout } from '@/shared/store/features/auth-slice'
 
 const RoutesView = (): ReactElement => {
+  const dispatch = useDispatch()
   const routeServices = new RouteServices()
   const [routes, setRoutes] = useState<Route[]>([])
 
   useEffect(() => {
-    routeServices.getAll()
+    void routeServices.getAll()
       .then(setRoutes)
   }, [])
+
+  const handleLogout = (): void => {
+    dispatch(logout({}))
+    location.reload()
+  }
 
   return (
     <div>
@@ -28,6 +36,8 @@ const RoutesView = (): ReactElement => {
           )
         })
       }
+
+      <button onClick={handleLogout}>Logout</button>
     </div>
   )
 }

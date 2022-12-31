@@ -1,4 +1,4 @@
-import { AppServices } from '@/shared/service/app.service'
+import { AppServices } from '@/shared/service/app-api.service'
 import { Route, RouteApiResponse, transformRouteApiToRoute } from '../models/route.model'
 
 export default class RouteServices extends AppServices {
@@ -7,8 +7,7 @@ export default class RouteServices extends AppServices {
   }
 
   getAll = async (): Promise<Route[]> => {
-    console.log(this._fullBaseApiURL)
-    return this.get<RouteApiResponse[]>('')
+    return await this.get<RouteApiResponse[]>('')
       .then(response => response.data)
       .then(transformRouteApiToRoute)
   }

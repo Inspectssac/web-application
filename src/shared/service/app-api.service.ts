@@ -1,3 +1,4 @@
+import { TokenService } from '@/iam/services/token.service'
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { StatusCodes } from 'http-status-codes'
 
@@ -17,9 +18,9 @@ export abstract class AppServices {
   }
 
   setHeader (): void {
-    // TODO: when working with auth
-    // axios.defaults.headers.common.Authorization = `Bearer ${tokenService.getToken()}`
-    // axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
+    const token = TokenService.getToken()
+    if (token) { axios.defaults.headers.common.Authorization = `Bearer ${token}` }
+
     axios.defaults.headers.common['Content-Type'] = this._contentType
   }
 
@@ -40,7 +41,7 @@ export abstract class AppServices {
       })
   }
 
-  async post <T>(url: string, data?: T, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async post <T>(url: string, data?: Object, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return await axios.post(this._fullBaseApiURL + url, data, config)
       .then((response: AxiosResponse) => {
         return response
@@ -53,7 +54,7 @@ export abstract class AppServices {
       })
   }
 
-  async patch <T>(url: string, data?: T, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async patch <T>(url: string, data?: Object, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return await axios.patch(this._fullBaseApiURL + url, data, config)
       .then((response: AxiosResponse) => {
         return response
