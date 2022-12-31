@@ -1,10 +1,14 @@
 import React, { ReactElement } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import RoutesView from '@/routes/pages/RoutesView'
 
 function App (): ReactElement {
   return (
-    <h1 className='text-4xl font-bold underline bg-black text-white'>
-      Hello world
-    </h1>
+    <div>
+      <Routes>
+        <Route path="/routes" element={<RoutesView />} />
+      </Routes>
+    </div>
   )
 }
 
