@@ -4,5 +4,10 @@ export interface User {
   password: string
   active: boolean
   role: string
-  areas: string[]
+  areas: Area[]
+}
+
+export interface Area {
+  id: number
+  name: string
 }

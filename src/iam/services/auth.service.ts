@@ -11,27 +11,26 @@ export class AuthServices extends AppServices {
     super({ baseUrl: 'auth', contentType: 'application/json' })
   }
 
-  login = async (loginData: LoginData): Promise<UserStorage | null> => {
-    const response = await this.post<UserApiResponse>('/login', loginData)
+  login = async (loginData: LoginData): Promise<UserStorage | null | undefined> => {
+    return await this.post<UserApiResponse>('/login', loginData)
+      .then(response => {
+        if (response.status === StatusCodes.CREATED) {
+          const { tokens, authenticatedUser } = response.data
+          const { id, username, role, areas } = authenticatedUser
 
-    if (response.status === StatusCodes.CREATED) {
-      const { tokens, authenticatedUser } = response.data
-      const { id, username, role, areas } = authenticatedUser
+          const userStorage: UserStorage = {
+            id,
+            username,
+            role,
+            areas
+          }
 
-      const userStorage: UserStorage = {
-        id,
-        username,
-        role,
-        areas
-      }
+          TokenService.saveToken(tokens.accessToken)
+          localStorage.setItem('user', JSON.stringify(userStorage))
 
-      TokenService.saveToken(tokens.accessToken)
-      localStorage.setItem('user', JSON.stringify(userStorage))
-
-      return userStorage
-    }
-
-    return null
+          return userStorage
+        }
+      })
   }
 
   logout = (): void => {
