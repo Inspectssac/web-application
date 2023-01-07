@@ -27,24 +27,12 @@ const AddUserModal = ({ closeModal, refreshUserList }: AddUserModalProps): React
   const areaRef = useRef<HTMLSelectElement>(null)
 
   useEffect(() => {
-    void areasService.getAll()
+    void areasService.findAll()
       .then(setAreas)
   }, [])
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     const { name, value } = event.target
-
-    // if (value.trim() === '') {
-    //   setErrors({
-    //     ...errors,
-    //     [name]: `${name.charAt(0).toUpperCase() + name.slice(1)} cant no empty`
-    //   })
-    // } else {
-    //   setErrors({
-    //     ...errors,
-    //     [name]: ''
-    //   })
-    // }
 
     setNewUser({
       ...newUser,
@@ -60,6 +48,11 @@ const AddUserModal = ({ closeModal, refreshUserList }: AddUserModalProps): React
       .then(response => {
         void areasService.assignUser(parseInt(areaId), response.id)
           .then(refreshUserList)
+          .catch(error => {
+            console.log(error)
+            const { message } = error.data
+            setErrorMessage(message.toUpperCase())
+          })
       })
       .catch(error => {
         console.log(error)
@@ -94,7 +87,7 @@ const AddUserModal = ({ closeModal, refreshUserList }: AddUserModalProps): React
           {/* <p className='text-red font-bold'>{errors.username}</p> */}
         </div>
 
-        <select name="role" className={`${inputClass}`}>
+        <select name="role" className={`${inputClass}`} onChange={handleChange}>
           <option value={`${UserRole.USER}`}>{UserRole.USER.toUpperCase()}</option>
           <option value={`${UserRole.ADMIN}`}>{UserRole.ADMIN.toUpperCase()}</option>
           <option value={`${UserRole.SUPERVISOR}`}>{UserRole.SUPERVISOR.toUpperCase()}</option>

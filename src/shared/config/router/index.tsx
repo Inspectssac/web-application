@@ -6,7 +6,12 @@ import Layout from '@/shared/ui/components/Layout'
 import NotFound from '@/shared/ui/pages/NotFound'
 import Home from '@/shared/ui/pages/Home'
 import ErrorPage from '@/shared/ui/pages/ErrorPage'
-import AdminView from '@/admin/ui/pages/AdminView'
+import UsersView from '@/admin/ui/pages/UsersView'
+import ReportsView from '@/admin/ui/pages/ReportsView'
+import FieldsView from '@/admin/ui/pages/FieldsView'
+import ProfileView from '@/profiles/ui/pages/ProfileView'
+import VehiclesView from '@/admin/ui/pages/VehiclesView'
+import RequiredAdmin from '@/admin/ui/pages/RequiredAdmin'
 
 const authRequiredRoutes: RouteObject[] = [
   {
@@ -20,7 +25,29 @@ const authRequiredRoutes: RouteObject[] = [
   },
   {
     path: 'admin',
-    element: <AdminView />
+    element: <RequiredAdmin />,
+    children: [
+      {
+        path: 'users',
+        element: <UsersView />
+      },
+      {
+        path: 'reports',
+        element: <ReportsView />
+      },
+      {
+        path: 'fields',
+        element: <FieldsView />
+      },
+      {
+        path: 'vehicles',
+        element: <VehiclesView />
+      }
+    ]
+  },
+  {
+    path: 'profile',
+    element: <ProfileView />
   }
 ]
 

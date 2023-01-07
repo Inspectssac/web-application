@@ -1,18 +1,61 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
+
+type ButtonType = 'button' | 'submit' | 'reset' | undefined
+
+type ButtonColor = 'primary' | 'secondary' | 'danger' | 'success'
 
 interface ButtonProps {
-  text: string
-  color: string
+  children?: React.ReactNode
+  color: ButtonColor
   onClick: () => void
+  disabled?: boolean
+  type?: ButtonType
+  isLoading?: boolean
 }
 
-const Button = ({ text, color, onClick }: ButtonProps): ReactElement => {
+const getButtonColor = (buttonColor: ButtonColor): string => {
+  const colors = {
+    primary: 'bg-blue',
+    secondary: 'bg-black',
+    danger: 'bg-red',
+    success: 'bg-success'
+  }
+
+  return colors[buttonColor]
+}
+
+const getButtonLoadingColor = (buttonColor: ButtonColor): string => {
+  const colors = {
+    primary: 'bg-blue-dark',
+    secondary: 'bg-black-light',
+    danger: 'bg-red-dark',
+    success: 'bg-success-dark'
+  }
+
+  return colors[buttonColor]
+}
+
+const Button = ({ children, color, onClick, disabled = false, type = 'button', isLoading = false }: ButtonProps): ReactElement => {
+  const [bgColor, setBgColor] = useState('bg-blue-dark')
+
+  useEffect(() => {
+    if (isLoading) {
+      setBgColor(getButtonLoadingColor(color))
+    } else {
+      setBgColor(getButtonColor(color))
+    }
+  }, [color, isLoading])
+
+  const loadingStyle = 'after:absolute after:w-5 after:h-5 after:top-0 after:right-0 after:left-0 after:bottom-0 after:m-auto after:border-4 after:border-t-white after:opacity-100 after:rounded-[50%] after:animate-spin after:z-50'
+
   return (
     <button
-      className={`${color} text-white uppercase px-4 py-2 rounded-lg`}
+      className={`${bgColor} block max-h-14 text-white uppercase px-4 py-2 rounded-lg relative ${isLoading ? loadingStyle : ''}`}
       onClick={onClick}
+      disabled={disabled}
+      type={type}
     >
-      {text}
+      {children}
     </button>
   )
 }

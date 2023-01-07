@@ -105,7 +105,7 @@ const LoginForm = (): ReactElement => {
       <p className='text-center text-red font-bold mb-4'>{ hasFailed ? errorMessage : ''}</p>
       <button
         type='submit'
-        className="bg-red px-4 py-2 text-white rounded-lg w-full"
+        className="bg-blue px-4 py-2 text-white rounded-lg w-full"
       >Login</button>
     </form>
       )

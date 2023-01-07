@@ -22,4 +22,9 @@ export class UsersService extends AppServices {
     return await this.patch<User>(`/${userId}`, changeRole)
       .then(response => response.data)
   }
+
+  remove = async (id: string): Promise<User> => {
+    return await this.delete<User>(`/${id}`)
+      .then(response => response.data)
+  }
 }
