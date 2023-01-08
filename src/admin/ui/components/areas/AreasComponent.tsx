@@ -7,7 +7,11 @@ import AreaForm from './AreaForm'
 
 type FormAction = 'add' | 'update'
 
-const AreasComponent = (): ReactElement => {
+interface AreaComponentProps {
+  toastId: string
+}
+
+const AreasComponent = ({ toastId }: AreaComponentProps): ReactElement => {
   const areasServices = new AreasService()
   const [areas, setAreas] = useState<Area[]>([])
   const [selectedArea, setSelectedArea] = useState<Area | null>(null)
@@ -62,12 +66,13 @@ const AreasComponent = (): ReactElement => {
   }
 
   return (
-    <div>
-      <section>
+    <>
+      <section className='p-3'>
+        <h2 className='text-xl font-bold uppercase '>Areas</h2>
         {
           areas.map(area => (
             <div key={area.id}
-              className={'w-full flex justify-between items-center py-2 border-b-2'}>
+              className={'w-full flex justify-between items-center py-2 border-b-2 last-of-type:border-b-0'}>
               <p className='px-2'>{area.name}</p>
               <div className='flex gap-3 px-2'>
                 <EditIcon className='cursor-pointer w-5 h-5' onClick={() => update(area)} />
@@ -75,12 +80,12 @@ const AreasComponent = (): ReactElement => {
             </div>
           ))
         }
-        { areas.length <= 0 && (<p>Theres no Areas</p>)}
+        {areas.length <= 0 && (<p>Theres no Areas</p>)}
       </section>
-      <section>
-        <AreaForm area={selectedArea} formAction={formAction} onFinishSubmit={onFinishSubmit} reset={reset} />
+      <section className='border-t border-solid border-gray-light px-2'>
+        <AreaForm toastId={toastId} area={selectedArea} formAction={formAction} onFinishSubmit={onFinishSubmit} reset={reset} />
       </section>
-    </div>
+    </>
   )
 }
 

@@ -1,3 +1,5 @@
+import { UserRole } from '@/admin/models/role.enum'
+
 export interface User {
   updatedAt: string
   createdAt: string
@@ -5,7 +7,7 @@ export interface User {
   username: string
   password: string
   active: boolean
-  role: string
+  role: UserRole
   areas: Area[]
 }
 

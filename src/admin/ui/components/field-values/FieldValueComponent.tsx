@@ -4,11 +4,12 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import FieldValueForm from './FieldValueForm'
 
 interface FieldValueProp {
+  toastId: string
   field: Field
   addFieldValueToCurrent: (fieldValue: FieldValue) => void
 }
 
-const FieldValueComponent = ({ field, addFieldValueToCurrent }: FieldValueProp): ReactElement => {
+const FieldValueComponent = ({ field, toastId, addFieldValueToCurrent }: FieldValueProp): ReactElement => {
   const [values, setValues] = useState<FieldValue[]>(field.values)
 
   useEffect(() => {
@@ -17,39 +18,36 @@ const FieldValueComponent = ({ field, addFieldValueToCurrent }: FieldValueProp):
 
   const handleUpdateValues = (fieldValue: FieldValue): void => {
     addFieldValueToCurrent(fieldValue)
-    // setValues([...values, fieldValue])
   }
 
   return (
     <div>
-      <FieldValueForm field={field} updateFieldValues={handleUpdateValues}/>
+      {values.length > 0 && (
+        <>
+          <div className='w-full border-t border-solid border-gray-light my-3'></div>
+          <h2 className='uppercase font-medium'>Possible Values for Field: <span>{field.name}</span></h2>
+        </>
+      )}
       {
-        values.length > 0 && (
-          <section>
-            <h2>Possible Values for Field: { }</h2>
-            <table className='w-full'>
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  values.map(value => {
-                    return (
-                      <tr key={value.id}>
-                        <td>{value.id}</td>
-                        <td>{value.value}</td>
-                      </tr>
-                    )
-                  })
-                }
-              </tbody>
-            </table>
-          </section>
+        values.length > 0 &&
+        (
+          <ul>
+
+            {
+              values.map(value => {
+                return (
+                  <li
+                    key={value.id}
+                    className='capitalize'
+                  > - {value.value}</li>
+                )
+              })
+            }
+          </ul>
         )
       }
+
+      <FieldValueForm toastId={toastId} field={field} updateFieldValues={handleUpdateValues} />
     </div>
   )
 }

@@ -12,7 +12,7 @@ interface ToastProps {
 
 const Toast = ({ id }: ToastProps): ReactElement => {
   return (
-    <ToastContainer containerId={id} pauseOnHover={false} theme={'colored'} autoClose={2000} position={'bottom-right'}/>
+    <ToastContainer containerId={id} pauseOnHover={false} theme={'colored'} autoClose={1500} position={'bottom-right'}/>
   )
 }
 

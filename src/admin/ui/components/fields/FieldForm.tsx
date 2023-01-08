@@ -1,24 +1,35 @@
 import { FieldType } from '@/reports/models/enums/field-type.enum'
 import { Field } from '@/reports/models/field.entity'
 import { FieldsService } from '@/reports/services/field.service'
+import Button from '@/shared/ui/components/Button'
+import Input from '@/shared/ui/components/Input'
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 
 type FormAction = 'add' | 'update'
 
 interface FieldFormProps {
+  toastId: string
   field: Field
   formAction: FormAction
   onFinishSubmit: (fields: Field) => void
   reset: () => void
 }
 
-const FieldForm = ({ field, formAction, onFinishSubmit, reset }: FieldFormProps): ReactElement => {
+const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldFormProps): ReactElement => {
   const [inputValue, setInputValue] = useState<Field>(field)
   const fieldsService = new FieldsService()
 
   const fieldTypes = Object.values(FieldType)
 
   const inputNameRef = useRef<HTMLInputElement>(null)
+
+  const [canSubmit, setCanSubmit] = useState<boolean>(false)
+  const [validInputs, setValidInputs] = useState({
+    name: false,
+    placeholder: false
+  })
+  const [resetInputs, setResetInputs] = useState<boolean>(false)
 
   useEffect(() => {
     if (formAction === 'update') inputNameRef.current?.focus()
@@ -37,6 +48,11 @@ const FieldForm = ({ field, formAction, onFinishSubmit, reset }: FieldFormProps)
         .then(response => {
           resetForm()
           onFinishSubmit(response)
+          toast('Field updated correctly', { toastId, type: 'success' })
+        })
+        .catch((error) => {
+          const { message } = error.data
+          toast(message, { toastId, type: 'error' })
         })
       return
     }
@@ -45,14 +61,20 @@ const FieldForm = ({ field, formAction, onFinishSubmit, reset }: FieldFormProps)
       .then(response => {
         resetForm()
         onFinishSubmit(response)
+        toast('Field created correctly', { toastId, type: 'success' })
+      })
+      .catch((error) => {
+        const { message } = error.data
+        toast(message, { toastId, type: 'error' })
       })
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const { name, value } = event.target
 
-    if (name === 'type') {
-      if (value !== 'text') inputValue.placeholder = ''
+    if (value !== 'text') {
+      inputValue.placeholder = ''
+      setIsValidInput('placeholder', true)
     }
 
     setInputValue({
@@ -63,40 +85,71 @@ const FieldForm = ({ field, formAction, onFinishSubmit, reset }: FieldFormProps)
 
   const resetForm = (): void => {
     reset()
+    setResetInputs(!resetInputs)
     setInputValue(field)
+  }
+
+  useEffect(() => {
+    setCanSubmit(Object.values(validInputs).every(v => v))
+  }, [validInputs])
+
+  const setIsValidInput = (name: string, valid: boolean): void => {
+    // setCanSubmit(valid)
+    setValidInputs({
+      ...validInputs,
+      [name]: valid
+    })
+  }
+
+  const setValueInputValue = (name: string, value: string): void => {
+    setInputValue({
+      ...inputValue,
+      [name]: value
+    })
   }
 
   return (
     <div className='mt-5'>
-      <h2 className='uppercase font-bold'>Create new Field</h2>
+      <h2 className='uppercase font-bold'>{formAction} Field</h2>
       <form onSubmit={handleSubmit}>
+        <Input
+          value={inputValue.name}
+          name='field name' placeholder='Field Name' type='text'
+          setValid={(valid) => setIsValidInput('name', valid)}
+          reset={resetInputs}
+          setValue={(value) => setValueInputValue('name', value)}></Input>
+
         <div>
-          <label>Name</label>
-          <input type="text" name='name' value={inputValue.name} placeholder='name' onChange={handleChange} ref={inputNameRef}/>
-        </div>
-        <div>
-          <label>Field Type</label>
-          <select name="type" value={inputValue.type} onChange={handleChange}>
+          <select
+            className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none capitalize'
+            name="type" value={inputValue.type} onChange={handleChange}>
             {
               fieldTypes.map(fieldType => {
                 return (
-                  <option key={fieldType} value={fieldType}>{fieldType}</option>
+                  <option key={fieldType} value={fieldType} className='capitalize'>{fieldType}</option>
                 )
               })
             }
           </select>
         </div>
+
         {
+
           inputValue.type === FieldType.TEXT && (
-            <div>
-              <label>Placeholder</label>
-              <input type="text" name='placeholder' value={inputValue.placeholder} placeholder='placeholder' onChange={handleChange} />
-            </div>
+            <Input
+              value={inputValue.placeholder}
+              name='placeholder' placeholder='Placeholder' type='text'
+              setValid={(valid) => setIsValidInput('placeholder', valid)}
+              reset={resetInputs}
+              setValue={(value) => setValueInputValue('placeholder', value)}></Input>
           )
         }
 
-        <button className='bg-blue px-4 py-1 text-white rounded-lg capitalize'>{formAction}</button>
-        <button className='bg-red px-4 py-1 text-white rounded-lg capitalize' type='button' onClick={() => resetForm()}>Cancel</button>
+        <div className='mt-4 flex gap-3'>
+          <Button color='primary' type='submit' disabled={!canSubmit}>{formAction}</Button>
+          <Button color='danger' onClick={resetForm}>Cancel</Button>
+        </div>
+
       </form>
     </div>
   )

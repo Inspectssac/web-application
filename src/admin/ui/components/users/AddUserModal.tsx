@@ -3,16 +3,32 @@ import { UserRole } from '@/admin/models/role.enum'
 import { AreasService } from '@/admin/services/areas.service'
 import { UsersService } from '@/admin/services/users.service'
 import { Area, User } from '@/iam/models/user.model'
+import Button from '@/shared/ui/components/Button'
+import Input from '@/shared/ui/components/Input'
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 
 interface AddUserModalProps {
   closeModal: () => void
   refreshUserList: (user: User) => void
+  toastId: string
 }
 
-const AddUserModal = ({ closeModal, refreshUserList }: AddUserModalProps): ReactElement => {
+interface UserFormErrors {
+  username: string
+  password: string
+}
+
+const ERROR_INITIAL_STATE: UserFormErrors = {
+  username: '',
+  password: ''
+}
+
+const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProps): ReactElement => {
   const areasService = new AreasService()
   const usersService = new UsersService()
+
+  const [canSubmit, setCanSubmit] = useState<boolean>(false)
 
   const [newUser, setNewUser] = useState<AddUser>({
     username: '',
@@ -21,8 +37,7 @@ const AddUserModal = ({ closeModal, refreshUserList }: AddUserModalProps): React
   })
 
   const [areas, setAreas] = useState<Area[]>([])
-
-  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [errors, setErrors] = useState<UserFormErrors>(ERROR_INITIAL_STATE)
 
   const areaRef = useRef<HTMLSelectElement>(null)
 
@@ -31,8 +46,29 @@ const AddUserModal = ({ closeModal, refreshUserList }: AddUserModalProps): React
       .then(setAreas)
   }, [])
 
+  useEffect(() => {
+    setCanSubmit(
+      (errors.username === '' && newUser.username !== '') &&
+      (errors.password === '' && newUser.password !== '')
+    )
+  }, [errors, newUser])
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
-    const { name, value } = event.target
+    const { name, value, tagName } = event.target
+
+    if (tagName === 'INPUT') {
+      if (value.trim() === '') {
+        setErrors({
+          ...errors,
+          [name]: `${name} is empty`
+        })
+      } else {
+        setErrors({
+          ...errors,
+          [name]: ''
+        })
+      }
+    }
 
     setNewUser({
       ...newUser,
@@ -49,43 +85,47 @@ const AddUserModal = ({ closeModal, refreshUserList }: AddUserModalProps): React
         void areasService.assignUser(parseInt(areaId), response.id)
           .then(refreshUserList)
           .catch(error => {
-            console.log(error)
             const { message } = error.data
-            setErrorMessage(message.toUpperCase())
+            toast(message, { toastId, type: 'error' })
           })
+        toast('User created correctly', { toastId, type: 'success' })
       })
       .catch(error => {
-        console.log(error)
         const { message } = error.data
-        setErrorMessage(message.toUpperCase())
+        toast(message, { toastId, type: 'error' })
       })
-      .finally(() => closeModal())
+      .finally(() => {
+        closeModal()
+      })
+  }
+
+  const setValueInputValue = (name: string, value: string): void => {
+    setNewUser({
+      ...newUser,
+      [name]: value
+    })
+  }
+
+  const setIsValidInput = (valid: boolean): void => {
+    setCanSubmit(valid)
   }
 
   const inputClass = 'block w-full h-10 px-2 border-b border-solid border-purple-900 outline-none'
 
   return (
-    <div className='min-w-[300px] md:min-w-[600px] p-6'>
+    <div className='min-w-[300px] sm:min-w-[600px] p-6'>
       <h1 className='uppercase text-center font-bold mb-4'>Add user modal</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
-        <div>
-          <input
-            className={`${inputClass}`}
-            onChange={handleChange}
-            type="text" value={newUser.username}
-            name='username'
-            placeholder='Username' />
-          {/* <p className='text-red font-bold'>{errors.username}</p> */}
-        </div>
-        <div>
-          <input
-            className={`${inputClass}`}
-            onChange={handleChange}
-            type="password" value={newUser.password}
-            name='password'
-            placeholder='Password' />
-          {/* <p className='text-red font-bold'>{errors.username}</p> */}
-        </div>
+        <Input
+          value={newUser.username}
+          name='username' placeholder='Username' type='text'
+          setValid={setIsValidInput}
+          setValue={(value) => setValueInputValue('username', value)}></Input>
+        <Input
+          value={newUser.password}
+          name='password' placeholder='Password' type='password'
+          setValid={setIsValidInput}
+          setValue={(value) => setValueInputValue('password', value)}></Input>
 
         <select name="role" className={`${inputClass}`} onChange={handleChange}>
           <option value={`${UserRole.USER}`}>{UserRole.USER.toUpperCase()}</option>
@@ -102,10 +142,9 @@ const AddUserModal = ({ closeModal, refreshUserList }: AddUserModalProps): React
             })
           }
         </select>
-        <p>{errorMessage}</p>
         <div className='flex justify-center gap-5'>
-          <button className='bg-black text-white px-4 py-2 uppercase rounded-lg' type='button' onClick={closeModal}>Close</button>
-          <button className='bg-red text-white px-4 py-2 uppercase rounded-lg' type='submit'>Add user</button>
+          <Button color='danger' onClick={closeModal}>Close</Button>
+          <Button color='primary' type='submit' disabled={!canSubmit}>Add User</Button>
         </div>
       </form>
     </div>

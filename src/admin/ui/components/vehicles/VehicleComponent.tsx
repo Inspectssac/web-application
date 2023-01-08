@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { Vehicle } from '@/routes/models/vehicles.interface'
 import { VehiclesService } from '@/routes/services/vehicle.service'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
@@ -6,8 +6,12 @@ import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import Button from '@/shared/ui/components/Button'
 import AddVehicleForm from './AddVehicleForm'
 import UpdateVehicleForm from './UpdateVehicleForm'
+import { ToastContext } from '../../pages/VehiclesView'
+import { toast } from 'react-toastify'
+import Table from '@/shared/ui/components/Table'
 
 const VehicleComponent = (): ReactElement => {
+  const toastContext = useContext(ToastContext)
   const vehiclesService = new VehiclesService()
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
   const [showAddVehicleModal, setShowAddVehicleModal] = useState<boolean>(false)
@@ -57,6 +61,11 @@ const VehicleComponent = (): ReactElement => {
     void vehiclesService.remove(licensePlate)
       .then(response => {
         refreshList(response, licensePlate, true)
+        toast('Vehicle deleted correctly', { toastId: toastContext.id, type: 'success' })
+      })
+      .catch((error) => {
+        const { message } = error.data
+        toast(message, { toastId: toastContext.id, type: 'error' })
       })
   }
 
@@ -65,48 +74,51 @@ const VehicleComponent = (): ReactElement => {
     toggleUpdateModal()
   }
 
+  const tableHeadStyle = 'text-sm font-medium text-white px-6 py-4 capitalize'
+  const tableBodyStyle = 'text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'
+
   return (
     <div>
       {showAddVehicleModal && <AddVehicleForm closeModal={toggleAddModal} onFinishSubmit={onFinishSubmit} />}
       {showUpdateVehicleModal && <UpdateVehicleForm closeModal={toggleUpdateModal} vehicle={selectedVehicle} onFinishSubmit={onFinishSubmit} />}
       <div className='flex justify-between items-center mb-5'>
         <h2 className='text-xl font-bold uppercase '>Vehicles</h2>
-        <Button text='Add Vehicle' color='bg-blue' onClick={toggleAddModal} />
+        <Button color='primary' onClick={toggleAddModal}>Add Vehicle</Button>
       </div>
       {
         vehicles.length > 0
           ? (
-          <table className='w-full'>
-            <thead>
-              <tr>
-                <th>License Plate</th>
-                <th>Provider</th>
-                <th>Carrier</th>
-                <th>Imei</th>
-                <th>Last Maintenance</th>
-                <th>Vehicle Type</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                vehicles.map(vehicle => (
-                  <tr key={vehicle.licensePlate}>
-                    <td>{vehicle.licensePlate}</td>
-                    <td>{vehicle.provider}</td>
-                    <td>{vehicle.carrier}</td>
-                    <td>{vehicle.imei}</td>
-                    <td>{new Date(vehicle.lastMaintenance).toDateString()}</td>
-                    <td>{vehicle.vehicleType.name}</td>
-                    <td className='flex justify-center gap-3'>
-                      <EditIcon className='cursor-pointer w-5 h-5' onClick={() => update(vehicle)} />
-                      <DeleteIcon className='cursor-pointer w-5 h-5 text-red' onClick={() => remove(vehicle)} />
-                    </td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
+            <Table>
+              <thead className='border-b bg-black'>
+                <tr>
+                  <th scope='col' className={tableHeadStyle}>License Plate</th>
+                  <th scope='col' className={tableHeadStyle}>Provider</th>
+                  <th scope='col' className={tableHeadStyle}>Carrier</th>
+                  <th scope='col' className={tableHeadStyle}>Imei</th>
+                  <th scope='col' className={tableHeadStyle}>Last Maintenance</th>
+                  <th scope='col' className={tableHeadStyle}>Vehicle Type</th>
+                  <th scope='col' className={tableHeadStyle}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  vehicles.map(vehicle => (
+                    <tr key={vehicle.licensePlate} className='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'>
+                      <td className={tableBodyStyle}>{vehicle.licensePlate}</td>
+                      <td className={tableBodyStyle}>{vehicle.provider}</td>
+                      <td className={tableBodyStyle}>{vehicle.carrier}</td>
+                      <td className={tableBodyStyle}>{vehicle.imei}</td>
+                      <td className={tableBodyStyle}>{new Date(vehicle.lastMaintenance).toDateString()}</td>
+                      <td className={tableBodyStyle}>{vehicle.vehicleType.name}</td>
+                      <td className={` ${tableBodyStyle} flex justify-center gap-3`}>
+                        <EditIcon className='cursor-pointer w-5 h-5' onClick={() => update(vehicle)} />
+                        <DeleteIcon className='cursor-pointer w-5 h-5 text-red' onClick={() => remove(vehicle)} />
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </Table>
             )
           : (<p>Theres no vehicles</p>)
 

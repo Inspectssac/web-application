@@ -9,8 +9,10 @@ import Button from '@/shared/ui/components/Button'
 import Modal from '@/shared/ui/components/Modal'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 interface AssignFieldFormProps {
+  toastId: string
   reportType: ReportType
   reportTypeFields: ReportTypeField[]
   closeModal: () => void
@@ -33,7 +35,7 @@ const REPORT_FIELD_INITIAL_STATE = {
   mainInfo: false
 }
 
-const AssignFieldForm = ({ reportType, reportTypeFields, closeModal, onFinishSubmit }: AssignFieldFormProps): ReactElement => {
+const AssignFieldForm = ({ reportType, reportTypeFields, toastId, closeModal, onFinishSubmit }: AssignFieldFormProps): ReactElement => {
   const reportTypesService = new ReportTypesService()
   const navigate = useNavigate()
 
@@ -69,8 +71,17 @@ const AssignFieldForm = ({ reportType, reportTypeFields, closeModal, onFinishSub
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     void reportTypesService.assignField(reportType.id, selectedField.id, inputValue)
-      .then(onFinishSubmit)
-      .finally(() => closeModal())
+      .then((response) => {
+        onFinishSubmit(response)
+        toast('Field assigned correctly', { toastId, type: 'success' })
+      })
+      .catch((error) => {
+        const { message } = error.data
+        toast(message, { toastId, type: 'error' })
+      })
+      .finally(() => {
+        closeModal()
+      })
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -86,36 +97,42 @@ const AssignFieldForm = ({ reportType, reportTypeFields, closeModal, onFinishSub
     <>
       <h2 className='text-center font-bold uppercase text-xl'>Assign field</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Field</label>
-          <select className='w-full' onChange={handleSelectChange} value={selectedField.id}>
+        <div className='mb-3'>
+          <label className='font-medium'>Field</label>
+          <select
+            className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none capitalize'
+            onChange={handleSelectChange} value={selectedField.id}>
             {fields?.map(field => (
               <option key={field.id} value={field.id}>{field.name}</option>
             ))}
           </select>
         </div>
         {hasMaxLength && (
-          <div>
-            <label>Max Length</label>
-            <input onChange={handleChange} type="number" name='length' placeholder='max length' min={0} value={inputValue.length} />
+          <div className='mb-3'>
+            <label className='font-medium'>Max Length</label>
+            <input
+              className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none capitalize'
+              onChange={handleChange} type="number" name='length' placeholder='max length' min={0} value={inputValue.length} />
           </div>
         )}
-        <div>
-          <label htmlFor='required'>Required</label>
-          <input onChange={handleChange} id='required' checked={inputValue.required} type="checkbox" name='required' />
-        </div>
-        <div>
-          <label htmlFor='image'>Image Validation</label>
-          <input onChange={handleChange} id='image' checked={inputValue.imageValidation} type="checkbox" name='imageValidation' />
-        </div>
-        <div>
-          <label htmlFor='main'>Main info</label>
-          <input onChange={handleChange} id='main' checked={inputValue.mainInfo} type="checkbox" name='mainInfo' />
+        <div className='grid grid-cols-3 place-items-center'>
+          <div className='flex items-center gap-5'>
+            <label htmlFor='required'>Required</label>
+            <input onChange={handleChange} id='required' checked={inputValue.required} type="checkbox" name='required' />
+          </div>
+          <div className='flex items-center gap-5'>
+            <label htmlFor='image'>Image</label>
+            <input onChange={handleChange} id='image' checked={inputValue.imageValidation} type="checkbox" name='imageValidation' />
+          </div>
+          <div className='flex items-center gap-5'>
+            <label htmlFor='main'>Main info</label>
+            <input onChange={handleChange} id='main' checked={inputValue.mainInfo} type="checkbox" name='mainInfo' />
+          </div>
         </div>
 
-        <div className='flex justify-center gap-3 items-center'>
-          <button className='bg-blue px-4 py-1 rounded-lg text-white' type='submit'>Add</button>
-          <button className='bg-red px-4 py-1 rounded-lg text-white' type='button' onClick={closeModal}>Close</button>
+        <div className='mt-5 flex justify-center gap-3 items-center'>
+          <Button color='primary' type='submit'>Add</Button>
+          <Button color='danger' onClick={closeModal}>Close</Button>
         </div>
       </form>
     </>
@@ -126,8 +143,8 @@ const AssignFieldForm = ({ reportType, reportTypeFields, closeModal, onFinishSub
       <p className='text-center mb-3 text-lg'>All fields available are assign, create or active a field if you want to assign a new one</p>
 
       <div className='flex justify-center gap-3 items-center'>
-        <Button text={'Add fields'} color={'bg-blue'} onClick={() => navigate('/admin/fields')} />
-        <Button text={'Close'} color={'bg-red'} onClick={closeModal} />
+        <Button color='primary' onClick={() => navigate('/admin/fields')}>Add Fields</Button>
+        <Button color='danger' onClick={closeModal}>Close</Button>
       </div>
     </>
   )

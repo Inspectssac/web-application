@@ -5,12 +5,15 @@ import { ReportTypesService } from '@/reports/services/report-type.service'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
 import AssignFieldForm from './AssignFieldForm'
 import UpdateFieldForm from './UpdateFieldForm'
+import Table from '@/shared/ui/components/Table'
+import Button from '@/shared/ui/components/Button'
 
 interface ReportTypeFieldsComponentProps {
+  toastId: string
   reportType: ReportType
 }
 
-const ReportTypeFieldsComponent = ({ reportType }: ReportTypeFieldsComponentProps): ReactElement => {
+const ReportTypeFieldsComponent = ({ reportType, toastId }: ReportTypeFieldsComponentProps): ReactElement => {
   const reportTypesService = new ReportTypesService()
   const [showFieldModal, setShowFieldModal] = useState<boolean>(false)
   const [reportTypeFields, setReportTypeFields] = useState<ReportTypeField[]>([])
@@ -46,34 +49,43 @@ const ReportTypeFieldsComponent = ({ reportType }: ReportTypeFieldsComponentProp
     setReportTypeFields(fieldList)
   }
 
+  const tableHeadStyle = 'text-sm font-medium text-white px-6 py-4 capitalize'
+  const tableBodyStyle = 'text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'
   return (
     <section>
+      {reportType.id !== 0 &&
+        (
+          <div className='flex justify-end'>
+            <Button color='primary' onClick={() => setShowFieldModal(!showFieldModal)} className='mb-2'>AssignField</Button>
+          </div>
+        )
+      }
       {
         reportTypeFields.length > 0
           ? (
-            <table className='w-full'>
-              <thead>
+            <Table>
+              <thead className='border-b bg-black'>
                 <tr>
-                  <th>ReportType</th>
-                  <th>Active</th>
-                  <th>Max length</th>
-                  <th>Required</th>
-                  <th>Image</th>
-                  <th>Main info</th>
-                  <th>Actions</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>ReportType</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>Active</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>Max length</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>Required</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>Image</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>Main info</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {
                   reportTypeFields.map(reportTypeField => (
-                    <tr key={reportTypeField.fieldId}>
-                      <td>{reportTypeField.field.name}</td>
-                      <td>{reportTypeField.field.active ? 'active' : 'no active'}</td>
-                      <td>{reportTypeField.length}</td>
-                      <td>{reportTypeField.required ? 'Yes' : 'No'}</td>
-                      <td>{reportTypeField.imageValidation ? 'Yes' : 'No'}</td>
-                      <td>{reportTypeField.mainInfo ? 'Yes' : 'No'}</td>
-                      <td className='flex gap-3 justify-center'>
+                    <tr key={reportTypeField.fieldId} className='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'>
+                      <td className={tableBodyStyle}>{reportTypeField.field.name}</td>
+                      <td className={tableBodyStyle}>{reportTypeField.field.active ? 'active' : 'no active'}</td>
+                      <td className={tableBodyStyle}>{reportTypeField.length}</td>
+                      <td className={tableBodyStyle}>{reportTypeField.required ? 'Yes' : 'No'}</td>
+                      <td className={tableBodyStyle}>{reportTypeField.imageValidation ? 'Yes' : 'No'}</td>
+                      <td className={tableBodyStyle}>{reportTypeField.mainInfo ? 'Yes' : 'No'}</td>
+                      <td className={`${tableBodyStyle} flex gap-3 justify-center items-center`}>
                         <EditIcon className='w-6 h-6 cursor-pointer' onClick={() => handleUpdate(reportTypeField)} />
                         {/* <DeleteIcon className='w-6 h-6 cursor-pointer text-red' onClick={() => console.log('delete')} /> */}
                       </td>
@@ -81,15 +93,14 @@ const ReportTypeFieldsComponent = ({ reportType }: ReportTypeFieldsComponentProp
                   ))
                 }
               </tbody>
-            </table>
+            </Table>
             )
           : (
             <p>{reportType.id !== 0 ? 'There is no field assigned to the report type' : 'Select a report type'}</p>
             )
       }
-      {reportType.id !== 0 && <button className='bg-blue px-4 py-1 rounded-lg text-white mt-4' onClick={() => setShowFieldModal(!showFieldModal)}>Assign Field</button>}
-      {showFieldModal && <AssignFieldForm reportType={reportType} reportTypeFields={reportTypeFields} closeModal={() => setShowFieldModal(!showFieldModal)} onFinishSubmit={onFinishSubmit} />}
-      {showUpdateModal && <UpdateFieldForm reportType={reportType} reportTypeField={reportTypeFieldForm} closeModal={() => setShowUpdateModal(!showUpdateModal)} onFinishSubmit={onFinishSubmit} />}
+      {showFieldModal && <AssignFieldForm toastId={toastId} reportType={reportType} reportTypeFields={reportTypeFields} closeModal={() => setShowFieldModal(!showFieldModal)} onFinishSubmit={onFinishSubmit} />}
+      {showUpdateModal && <UpdateFieldForm toastId={toastId} reportType={reportType} reportTypeField={reportTypeFieldForm} closeModal={() => setShowUpdateModal(!showUpdateModal)} onFinishSubmit={onFinishSubmit} />}
     </section>
   )
 }

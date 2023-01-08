@@ -1,19 +1,26 @@
 import { ReportType } from '@/reports/models/report-type.interface'
 import { ReportTypesService } from '@/reports/services/report-type.service'
+import Button from '@/shared/ui/components/Button'
+import Input from '@/shared/ui/components/Input'
 import React, { ReactElement, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
 type FormAction = 'add' | 'update'
 
 interface ReportTypeFormProps {
+  toastId: string
   reportType: ReportType
   formAction: FormAction
   reset: () => void
   onFinishSubmit: (reportType: ReportType) => void
 }
 
-const ReportTypeForm = ({ reportType, reset, formAction, onFinishSubmit }: ReportTypeFormProps): ReactElement => {
+const ReportTypeForm = ({ reportType, toastId, formAction, reset, onFinishSubmit }: ReportTypeFormProps): ReactElement => {
   const reportTypesService = new ReportTypesService()
   const [inputValue, setInputValue] = useState<ReportType>(reportType)
+
+  const [canSubmit, setCanSubmit] = useState<boolean>(false)
+  const [resetInputs, setResetInputs] = useState<boolean>(false)
 
   useEffect(() => {
     setInputValue(reportType)
@@ -28,6 +35,11 @@ const ReportTypeForm = ({ reportType, reset, formAction, onFinishSubmit }: Repor
         .then(response => {
           resetForm()
           onFinishSubmit(response)
+          toast('Report Type updated correctly', { toastId, type: 'success' })
+        })
+        .catch((error) => {
+          const { message } = error.data
+          toast(message, { toastId, type: 'error' })
         })
       return
     }
@@ -36,34 +48,38 @@ const ReportTypeForm = ({ reportType, reset, formAction, onFinishSubmit }: Repor
       .then(response => {
         resetForm()
         onFinishSubmit(response)
+        toast('Report Type updated correctly', { toastId, type: 'success' })
       })
-  }
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = event.target
-
-    setInputValue({
-      ...inputValue,
-      [name]: value
-    })
+      .catch((error) => {
+        const { message } = error.data
+        toast(message, { toastId, type: 'error' })
+      })
   }
 
   const resetForm = (): void => {
     reset()
+    setResetInputs(!resetInputs)
     setInputValue(reportType)
+  }
+
+  const setIsValidInput = (valid: boolean): void => {
+    setCanSubmit(valid)
   }
 
   return (
     <div>
-      <h2>Add or Update Report Type</h2>
+      <h2 className='font-bold uppercase'>{formAction.toUpperCase()} Report Type</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <input type="text" name='name' placeholder='name' value={inputValue.name} onChange={handleChange} />
-        </div>
-        <div className='flex justify-center gap-2 mt-2'>
-          <button className='capitalize bg-red px-4 py-1 text-white rounded-lg' type='button' onClick={() => resetForm()}>Cancel</button>
-          <button className='capitalize bg-blue px-4 py-1 text-white rounded-lg' type='submit'>{formAction}</button>
+        <Input
+          value={inputValue.name}
+          name='name' placeholder='name' type='text'
+          setValid={setIsValidInput}
+          reset={resetInputs}
+          setValue={(value) => setInputValue({ ...inputValue, name: value })}></Input>
+
+        <div className='mt-3 flex items-center gap-3'>
+          <Button className='py-1' color='danger' onClick={resetForm} >Cancel</Button>
+          <Button className='py-1' color='primary' type='submit' disabled={!canSubmit}>{formAction}</Button>
         </div>
       </form>
     </div>

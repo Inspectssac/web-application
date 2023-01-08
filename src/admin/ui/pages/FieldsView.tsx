@@ -6,6 +6,8 @@ import FieldComponent from '../components/fields/FieldComponent'
 import FieldForm from '../components/fields/FieldForm'
 import FieldValueComponent from '../components/field-values/FieldValueComponent'
 import { FieldValue } from '@/reports/models/field-value.interface'
+import Toast from '@/shared/ui/components/Toast'
+import Table from '@/shared/ui/components/Table'
 
 const INITIAL_STATE = {
   id: 0,
@@ -17,6 +19,8 @@ const INITIAL_STATE = {
 }
 
 type FormAction = 'add' | 'update'
+
+const TOAST_ID = 'field'
 
 const FieldsView = (): ReactElement => {
   const fieldsService = new FieldsService()
@@ -79,65 +83,59 @@ const FieldsView = (): ReactElement => {
     )
   }
 
-  const tableColClassNames = 'text-sm font-bold text-gray-900 px-4 py-4 text-center uppercase'
+  const tableColClassNames = 'text-sm font-medium text-white px-6 py-4 capitalize'
 
   return (
     <div className='container'>
-      <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-light-grey after:block after:mt-1 '>Fields</h1>
+      <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-light-gray after:block after:mt-1'>Fields</h1>
       <div className='md:grid md:grid-cols-table md:gap-4'>
-        <div>
+        <div className='mb-5 md:mb-0'>
           <aside className='pr-28 mb-5 md:mb-0'>
             <h2 className='font-bold uppercase '>Field Types</h2>
             {
               fieldTypes.map(fieldType => {
                 return (
-                  <p className='capitalize border-t border-b first-of-type:border-t-0 px-3' key={fieldType}>{fieldType}</p>
+                  <p className='capitalize border-b last-of-type:border-b-0 px-3' key={fieldType}>{fieldType}</p>
                 )
               })
             }
           </aside>
-          <FieldForm field={fieldForm} formAction={formAction} onFinishSubmit={onFinishSubmit} reset={reset} />
+          <FieldForm toastId={TOAST_ID} field={fieldForm} formAction={formAction} onFinishSubmit={onFinishSubmit} reset={reset} />
         </div>
         <section>
           {
             fields.length > 0
               ? (
-                <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
-                  <div className='py-2 inline-block min-w-full sm:px-6 lg:px-8'>
-                    <div className='overflow-hidden'>
-                      <table className='min-w-full border-collapse table-auto'>
-                        <thead>
-                          <tr>
-                            <th scope='col' className={`${tableColClassNames}`}>Id</th>
-                            <th scope='col' className={`${tableColClassNames}`}>Name</th>
-                            <th scope='col' className={`${tableColClassNames}`}>Placeholder</th>
-                            <th scope='col' className={`${tableColClassNames}`}>Active</th>
-                            <th scope='col' className={`${tableColClassNames}`}>Type</th>
-                            <th scope='col' className={`${tableColClassNames}`}>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {
-                            fields.map(field => {
-                              return (
-                                <FieldComponent key={field.id} field={field} update={handleUpdate} updateList={updateFieldList} toggleShowValues={toggleShowFieldValues} current={currentField.id === field.id} />
-                              )
-                            })
-                          }
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
+                <Table>
+                  <thead className='border-b bg-black'>
+                    <tr>
+                      <th scope='col' className={`${tableColClassNames}`}>Id</th>
+                      <th scope='col' className={`${tableColClassNames}`}>Name</th>
+                      <th scope='col' className={`${tableColClassNames}`}>Placeholder</th>
+                      <th scope='col' className={`${tableColClassNames}`}>Active</th>
+                      <th scope='col' className={`${tableColClassNames}`}>Type</th>
+                      <th scope='col' className={`${tableColClassNames}`}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      fields.map(field => {
+                        return (
+                          <FieldComponent toastId={TOAST_ID} key={field.id} field={field} update={handleUpdate} updateList={updateFieldList} toggleShowValues={toggleShowFieldValues} current={currentField.id === field.id} />
+                        )
+                      })
+                    }
+                  </tbody>
+                </Table>
                 )
               : (<p>Theres no fields</p>)
           }
 
         </section>
-
-        <FieldValueComponent field={currentField} addFieldValueToCurrent={addFieldValueToCurrent} />
+        <FieldValueComponent toastId={TOAST_ID} field={currentField} addFieldValueToCurrent={addFieldValueToCurrent} />
       </div>
 
+      <Toast id={TOAST_ID}></Toast>
     </div>
   )
 }

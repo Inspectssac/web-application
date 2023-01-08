@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from '@/shared/config/store'
 import { LoginData } from '@/iam/models/interfaces/login.interface'
 import { login } from '@/shared/config/store/features/auth-slice'
 import { AUTH_STATUS } from '@/shared/config/store/types'
+import Button from '@/shared/ui/components/Button'
 
 interface FormState {
   loginData: LoginData
@@ -72,7 +73,7 @@ const LoginForm = (): ReactElement => {
     })
   }
 
-  const inputClass = 'block w-full h-10 px-2 border-b border-solid border-grey-900 outline-none'
+  const inputClass = 'block w-full h-10 px-2 border-b border-solid border-gray-900 outline-none'
 
   return isLoading
     ? (
@@ -103,10 +104,10 @@ const LoginForm = (): ReactElement => {
       </div>
 
       <p className='text-center text-red font-bold mb-4'>{ hasFailed ? errorMessage : ''}</p>
-      <button
-        type='submit'
-        className="bg-blue px-4 py-2 text-white rounded-lg w-full"
-      >Login</button>
+
+      <Button color='primary' type='submit' className='w-full block'>
+        Login
+      </Button>
     </form>
       )
 }

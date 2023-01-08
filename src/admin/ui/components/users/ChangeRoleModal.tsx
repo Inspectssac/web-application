@@ -1,26 +1,33 @@
 import { UserRole } from '@/admin/models/role.enum'
 import { UsersService } from '@/admin/services/users.service'
 import { User } from '@/iam/models/user.model'
-import React, { ReactElement, useRef, useState } from 'react'
+import Button from '@/shared/ui/components/Button'
+import React, { ReactElement, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
 interface ChangeRoleModalProps {
   user: User | null
   closeModal: () => void
   refreshUser: (user: User) => void
+  toastId: string
 }
 
-const ChangeRoleModal = ({ closeModal, user, refreshUser }: ChangeRoleModalProps): ReactElement => {
+const ChangeRoleModal = ({ user, toastId, closeModal, refreshUser }: ChangeRoleModalProps): ReactElement => {
   const isUserNull = user === null
   const usersService = new UsersService()
-  const roleRef = useRef<HTMLSelectElement>(null)
-  const [errorMessage, setErrorMessage] = useState('')
+
+  const [userRole, setUserRole] = useState<UserRole>(user?.role ?? UserRole.USER)
+
+  useEffect(() => {
+    console.log(user?.role)
+  }, [])
 
   if (isUserNull) {
     return (
       <div className='min-w-[300px] md:min-w-[600px] p-6'>
         <p className='font-bold text-center uppercase mb-4'>Please select a user</p>
         <div className='grid place-items-center'>
-          <button className='bg-black text-white px-4 py-2 uppercase rounded-lg' onClick={closeModal}>Close</button>
+          <Button color='secondary' onClick={closeModal}>Close</Button>
         </div>
       </div>
     )
@@ -28,19 +35,30 @@ const ChangeRoleModal = ({ closeModal, user, refreshUser }: ChangeRoleModalProps
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    const role = roleRef.current?.value ?? user.role
 
-    if (user?.role === role) {
+    if (user?.role === userRole) {
       closeModal()
+      toast('User already has the role selected', { toastId, type: 'info' })
     }
-    const roleEnum = role as UserRole
-    void usersService.changeRole({ role: roleEnum }, user.id)
-      .then(refreshUser)
-      .catch(error => {
-        console.log(error)
-        setErrorMessage('There was an error. Try it again later')
+
+    void usersService.changeRole({ role: userRole }, user.id)
+      .then((response) => {
+        refreshUser(response)
+        toast("User's role changed correctly", { toastId, type: 'success' })
       })
-      .finally(closeModal)
+      .catch(() => {
+        toast('There was an error, try it later', { toastId, type: 'error' })
+      })
+      .finally(() => {
+        closeModal()
+      })
+  }
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    const { value } = event.target
+
+    const roleEnum = value as UserRole
+    setUserRole(roleEnum)
   }
 
   return (
@@ -51,15 +69,15 @@ const ChangeRoleModal = ({ closeModal, user, refreshUser }: ChangeRoleModalProps
       </div>
 
       <form onSubmit={handleSubmit}>
-        <select name="role" ref={roleRef} defaultValue={user.role} className='block w-full h-10 px-2 border-b border-solid border-purple-900 outline-none mb-4'>
+        <select onChange={handleChange} name="role" value={userRole} className='block w-full h-10 px-2 border-b border-solid border-purple-900 outline-none mb-4'>
           <option value={UserRole.USER}>{UserRole.USER.toUpperCase()}</option>
           <option value={UserRole.ADMIN}>{UserRole.ADMIN.toUpperCase()}</option>
           <option value={UserRole.SUPERVISOR}>{UserRole.SUPERVISOR.toUpperCase()}</option>
         </select>
-        <p>{errorMessage}</p>
+
         <div className='flex justify-center gap-5'>
-          <button className='bg-black text-white px-4 py-2 uppercase rounded-lg' type='button' onClick={closeModal}>Close</button>
-          <button className='bg-red text-white px-4 py-2 uppercase rounded-lg' type='submit'>Change</button>
+          <Button color='secondary' onClick={closeModal}>Close</Button>
+          <Button color='primary' type='submit'>Change</Button>
         </div>
       </form>
     </div >

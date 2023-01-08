@@ -1,11 +1,15 @@
 import { AreaDto } from '@/admin/models/area-dto.interface'
 import { AreasService } from '@/admin/services/areas.service'
 import { Area } from '@/iam/models/user.model'
+import Button from '@/shared/ui/components/Button'
+import Input from '@/shared/ui/components/Input'
 import React, { ReactElement, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
 type FormAction = 'add' | 'update'
 
 interface AreaFormProps {
+  toastId: string
   area: Area | null
   formAction: FormAction
   onFinishSubmit: (area: Area) => void
@@ -22,9 +26,12 @@ const getInitialState = (area: Area | null): AreaDto => {
   return areaDto
 }
 
-const AreaForm = ({ area, formAction, onFinishSubmit, reset }: AreaFormProps): ReactElement => {
+const AreaForm = ({ area, formAction, toastId, onFinishSubmit, reset }: AreaFormProps): ReactElement => {
   const areasService = new AreasService()
   const [inputValue, setInputValue] = useState<AreaDto>(getInitialState(area))
+
+  const [canSubmit, setCanSubmit] = useState<boolean>(false)
+  const [resetInputs, setResetInputs] = useState<boolean>(false)
 
   useEffect(() => {
     setInputValue(getInitialState(area))
@@ -32,6 +39,7 @@ const AreaForm = ({ area, formAction, onFinishSubmit, reset }: AreaFormProps): R
 
   const resetForm = (): void => {
     reset()
+    setResetInputs(!resetInputs)
     setInputValue(getInitialState(null))
   }
 
@@ -43,7 +51,13 @@ const AreaForm = ({ area, formAction, onFinishSubmit, reset }: AreaFormProps): R
         .then(response => {
           resetForm()
           onFinishSubmit(response)
+          toast('Area updated correctly', { toastId, type: 'success' })
         })
+        .catch((error) => {
+          const { message } = error.data
+          toast(message, { toastId, type: 'error' })
+        })
+
       return
     }
 
@@ -51,27 +65,33 @@ const AreaForm = ({ area, formAction, onFinishSubmit, reset }: AreaFormProps): R
       .then(response => {
         resetForm()
         onFinishSubmit(response)
+        toast('Area created correctly', { toastId, type: 'success' })
+      })
+      .catch((error) => {
+        const { message } = error.data
+        toast(message, { toastId, type: 'error' })
       })
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = event.target
-    setInputValue({
-      ...inputValue,
-      [name]: value
-    })
+  const setIsValidInput = (valid: boolean): void => {
+    setCanSubmit(valid)
   }
 
   return (
-    <div className='mt-2'>
-      <h2 className='uppercase font-bold'>Create new Area</h2>
+    <div className='mt-3'>
+      <h2 className='uppercase font-bold'>{formAction} new Area</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <input type="text" name='name' value={inputValue.name} placeholder='name' onChange={handleChange} />
+        <Input
+            value={inputValue.name}
+            name='name' placeholder='name' type='text'
+            setValid={setIsValidInput}
+            reset={resetInputs}
+            setValue={(value) => setInputValue({ ...inputValue, name: value })}></Input>
+
+        <div className='mt-3 flex items-center gap-3'>
+          <Button className='py-1' color='danger' onClick={resetForm}>Cancel</Button>
+          <Button className='py-1' color='primary' type='submit' disabled={!canSubmit}>{formAction}</Button>
         </div>
-        <button className='bg-blue px-4 py-1 text-white rounded-lg capitalize'>{formAction}</button>
-        <button className='bg-red px-4 py-1 text-white rounded-lg capitalize' type='button' onClick={() => resetForm()}>Cancel</button>
       </form>
     </div>
   )

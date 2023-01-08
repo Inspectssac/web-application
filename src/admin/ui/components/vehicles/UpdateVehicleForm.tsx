@@ -1,8 +1,12 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { VehicleDto } from '@/routes/models/interface/vehicle-dto.interface'
 import { Vehicle } from '@/routes/models/vehicles.interface'
 import { VehiclesService } from '@/routes/services/vehicle.service'
 import Modal from '@/shared/ui/components/Modal'
+import { toast } from 'react-toastify'
+import { ToastContext } from '../../pages/VehiclesView'
+import Button from '@/shared/ui/components/Button'
+import Input from '@/shared/ui/components/Input'
 
 interface UpdateVehicleFormProps {
   vehicle: Vehicle | null
@@ -26,9 +30,19 @@ const getInitialState = (vehicle: Vehicle | null): VehicleDto => {
 }
 
 const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicleFormProps): ReactElement => {
+  const toastContext = useContext(ToastContext)
   const vehiclesService = new VehiclesService()
 
   const [inputValue, setInputValue] = useState<VehicleDto>(getInitialState(vehicle))
+
+  const [canSubmit, setCanSubmit] = useState<boolean>(false)
+  const [validInputs, setValidInputs] = useState({
+    licensePlate: true,
+    provider: true,
+    carrier: true,
+    imei: true,
+    lastMaintenance: true
+  })
 
   useEffect(() => {
     setInputValue(getInitialState(vehicle))
@@ -38,13 +52,32 @@ const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicl
     event.preventDefault()
 
     void vehiclesService.update(inputValue.licensePlate, inputValue)
-      .then(onFinishSubmit)
-      .finally(() => closeModal())
+      .then((response) => {
+        onFinishSubmit(response)
+        toast('Vehicle updated correctly', { toastId: toastContext.id, type: 'success' })
+      })
+      .catch((error) => {
+        const { message } = error.data
+        toast(message, { toastId: toastContext.id, type: 'error' })
+      })
+      .finally(() => {
+        closeModal()
+      })
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = event.target
+  useEffect(() => {
+    setCanSubmit(Object.values(validInputs).every(v => v))
+  }, [validInputs])
 
+  const setIsValidInput = (name: string, valid: boolean): void => {
+    // setCanSubmit(valid)
+    setValidInputs({
+      ...validInputs,
+      [name]: valid
+    })
+  }
+
+  const setValueInputValue = (name: string, value: string): void => {
     setInputValue({
       ...inputValue,
       [name]: value
@@ -62,28 +95,54 @@ const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicl
           </div>
           <div>
             <label htmlFor='licensePlate'>License Plate</label>
-            <input disabled id='licensePlate' value={inputValue.licensePlate} type="text" name='licensePlate' />
+            <Input
+              disabled={true}
+              value={inputValue.licensePlate}
+              name='license plate' placeholder='License Plate' type='text'
+              setValid={(valid) => setIsValidInput('licensePlate', valid)}
+              setValue={(value) => setValueInputValue('licensePlate', value)}></Input>
+            {/* <input disabled id='licensePlate' value={inputValue.licensePlate} type="text" name='licensePlate' /> */}
           </div>
           <div>
             <label htmlFor='provider'>Provider</label>
-            <input onChange={handleChange} id='provider' value={inputValue.provider} type="text" name='provider' />
+            <Input
+              value={inputValue.provider}
+              name='provider' placeholder='Provider' type='text'
+              setValid={(valid) => setIsValidInput('provider', valid)}
+              setValue={(value) => setValueInputValue('provider', value)}></Input>
+            {/* <input onChange={handleChange} id='provider' value={inputValue.provider} type="text" name='provider' /> */}
           </div>
           <div>
             <label htmlFor='carrier'>Carrier</label>
-            <input onChange={handleChange} id='carrier' value={inputValue.carrier} type="text" name='carrier' />
+            <Input
+              value={inputValue.carrier}
+              name='carrier' placeholder='Carrier' type='text'
+              setValid={(valid) => setIsValidInput('carrier', valid)}
+              setValue={(value) => setValueInputValue('carrier', value)}></Input>
+            {/* <input onChange={handleChange} id='carrier' value={inputValue.carrier} type="text" name='carrier' /> */}
           </div>
           <div>
             <label htmlFor='imei'>Imei</label>
-            <input onChange={handleChange} id='imei' value={inputValue.imei} type="text" name='imei' />
+            <Input
+              value={inputValue.imei}
+              name='imei' placeholder='Imei' type='text'
+              setValid={(valid) => setIsValidInput('imei', valid)}
+              setValue={(value) => setValueInputValue('imei', value)}></Input>
+            {/* <input onChange={handleChange} id='imei' value={inputValue.imei} type="text" name='imei' /> */}
           </div>
           <div>
             <label htmlFor="lastMaintenance">Last Maintenance</label>
-            <input onChange={handleChange} type="date" id='lastMaintenance' name='lastMaintenance' value={new Date(inputValue.lastMaintenance).toISOString().substring(0, 10)} />
+            <Input
+              value={new Date(inputValue.lastMaintenance).toISOString().substring(0, 10)}
+              name='lastMaintenance' placeholder='Last Maintenance' type='date'
+              setValid={(valid) => setIsValidInput('lastMaintenance', valid)}
+              setValue={(value) => setValueInputValue('lastMaintenance', value)}></Input>
+            {/* <input onChange={handleChange} type="date" id='lastMaintenance' name='lastMaintenance' value={new Date(inputValue.lastMaintenance).toISOString().substring(0, 10)} /> */}
           </div>
 
           <div className='flex justify-center gap-3 items-center'>
-            <button className='bg-blue px-4 py-1 rounded-lg text-white' type='submit'>Update</button>
-            <button className='bg-red px-4 py-1 rounded-lg text-white' type='button' onClick={closeModal}>Close</button>
+            <Button color='primary' type='submit' disabled={!canSubmit}>Update</Button>
+            <Button color='danger' onClick={closeModal}>Close</Button>
           </div>
         </form>
       </div>

@@ -7,8 +7,10 @@ import EyeIcon from '@/shared/ui/assets/icons/EyeIcon'
 import ToggleOffIcon from '@/shared/ui/assets/icons/ToggleOfIcon'
 import ToggleOnIcon from '@/shared/ui/assets/icons/ToogleOnIcon'
 import React, { ReactElement } from 'react'
+import { toast } from 'react-toastify'
 
 interface FieldComponentProps {
+  toastId: string
   field: Field
   update: (field: Field) => void
   updateList: (field: Field, id: number, remove?: boolean) => void
@@ -16,7 +18,7 @@ interface FieldComponentProps {
   current: boolean
 }
 
-const FieldComponent = ({ field, updateList, update, toggleShowValues, current }: FieldComponentProps): ReactElement => {
+const FieldComponent = ({ field, toastId, updateList, update, toggleShowValues, current }: FieldComponentProps): ReactElement => {
   const fieldsService = new FieldsService()
 
   const handleRemove = (field: Field): void => {
@@ -27,6 +29,11 @@ const FieldComponent = ({ field, updateList, update, toggleShowValues, current }
     void fieldsService.remove(id)
       .then(response => {
         updateList(response, id, true)
+        toast('Field deleted correctly', { toastId, type: 'success' })
+      })
+      .catch((error) => {
+        const { message } = error.data
+        toast(message, { toastId, type: 'error' })
       })
   }
 
@@ -34,6 +41,11 @@ const FieldComponent = ({ field, updateList, update, toggleShowValues, current }
     void fieldsService.toggleActive(fieldToToggle.id)
       .then(response => {
         updateList(response, response.id)
+        toast('Field updated correctly', { toastId, type: 'success' })
+      })
+      .catch((error) => {
+        const { message } = error.data
+        toast(message, { toastId, type: 'error' })
       })
   }
 
@@ -50,7 +62,7 @@ const FieldComponent = ({ field, updateList, update, toggleShowValues, current }
   }
 
   return (
-    <tr>
+    <tr className='bg-white border-b transition duration-300 ease-in-out  hover:bg-gray-100'>
       <td className='py-3'>{field.id}</td>
       <td className='py-3'>{field.name}</td>
       <td className='py-3'>{field.placeholder ? field.placeholder : '-'}</td>

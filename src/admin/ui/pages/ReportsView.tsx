@@ -5,6 +5,7 @@ import EditIcon from '@/shared/ui/assets/icons/EditIcon'
 import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import ReportTypeForm from '../components/report-types/ReportTypeForm'
 import ReportTypeFieldsComponent from '../components/report-types/ReportTypeFieldsComponent'
+import Toast from '@/shared/ui/components/Toast'
 
 const INITIAL_STATE = {
   createdAt: '',
@@ -14,6 +15,8 @@ const INITIAL_STATE = {
 }
 
 type FormAction = 'add' | 'update'
+
+const TOAST_ID = 'reports'
 
 const ReportsView = (): ReactElement => {
   const reportTypesService = new ReportTypesService()
@@ -31,6 +34,10 @@ const ReportsView = (): ReactElement => {
   useEffect(() => {
     if (reportTypes.length > 0) setSelectedReportType(reportTypes[0])
   }, [reportTypes])
+
+  useEffect(() => {
+    reset()
+  }, [selectedReportType])
 
   const handleUpdate = (reportType: ReportType): void => {
     setReportTypeForm(reportType)
@@ -65,39 +72,43 @@ const ReportsView = (): ReactElement => {
 
   return (
     <div className='container'>
-      <h1 className='text-3xl mb-4 after:h-px after:w-52 after:bg-light-grey after:block after:mt-1'>Report Types</h1>
-      <div className='grid grid-cols-table gap-12'>
-        <main className=''>
-          <ReportTypeForm reportType={reportTypeForm} reset={reset} formAction={formAction} onFinishSubmit={onFinishSubmit} />
-          <div>
-            <h2 className='uppercase font-bold mt-2 text-center'>Report Types</h2>
+      <h1 className='text-3xl mb-4 after:h-px after:w-52 after:bg-light-gray after:block after:mt-1'>Report Types</h1>
+      <div className='sm:grid sm:grid-cols-table sm:gap-12'>
+        <main className='mb-4'>
+          <div className='mb-4'>
+            <h2 className='uppercase font-bold mt-2'>Report Types</h2>
             {
               reportTypes.length > 0
                 ? (
 
                     reportTypes.map(reportType =>
                       (
-                        <div key={reportType.id}
-                          onClick={() => setSelectedReportType(reportType)}
-                          className={`w-full flex justify-between items-center py-2 rounded-r-xl cursor-pointer
+                    <div key={reportType.id}
+                      onClick={() => setSelectedReportType(reportType)}
+                      className={`w-full flex justify-between items-center py-2 rounded-r-xl cursor-pointer
                                       ${selectedReportType.id === reportType.id ? 'bg-blue text-white' : ''}`}>
-                          <p className='px-2'>{reportType.name}</p>
-                          <div className='flex gap-3 px-2'>
-                            <EditIcon className='cursor-pointer w-5 h-5' onClick={() => handleUpdate(reportType)} />
-                            <DeleteIcon className='cursor-pointer w-5 h-5 ' onClick={() => console.log('click')} />
-                          </div>
-                        </div>
+                      <p className='px-2'>{reportType.name}</p>
+                      <div className='flex gap-3 px-2'>
+                        <EditIcon className='cursor-pointer w-5 h-5' onClick={() => handleUpdate(reportType)} />
+                        <DeleteIcon className='cursor-pointer w-5 h-5 ' onClick={() => console.log('click')} />
+                      </div>
+                    </div>
                       ))
 
                   )
                 : (<p>Theres no report types</p>)
             }
           </div>
+          <div className='w-full border-t border-solid border-gray-light my-3'></div>
+          <ReportTypeForm toastId={TOAST_ID} reportType={reportTypeForm} reset={reset} formAction={formAction} onFinishSubmit={onFinishSubmit} />
+
         </main>
 
-        <ReportTypeFieldsComponent reportType={selectedReportType} />
+        <div className='w-full 1order-t border-solid border-gray-light my-3 sm:hidden'></div>
+        <ReportTypeFieldsComponent toastId={TOAST_ID} reportType={selectedReportType} />
       </div>
 
+      <Toast id={TOAST_ID}></Toast>
     </div>
 
   )

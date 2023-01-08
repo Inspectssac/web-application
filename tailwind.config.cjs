@@ -23,9 +23,9 @@ module.exports = {
           DEFAULT: '#dc3545',
           dark: '#70151e'
         },
-        grey: {
-          DEFAULT: colors.grey,
-          light: 'rgba(0, 0, 0, 0.5)'
+        gray: {
+          DEFAULT: colors.gray,
+          light: 'rgba(0, 0, 0, 0.2)'
         },
         black: {
           DEFAULT: colors.black,
@@ -40,6 +40,9 @@ module.exports = {
       },
       gridTemplateColumns: {
         table: '1fr 2fr'
+      },
+      boxShadow: {
+        card: '0px 1px 10px -1px rgba(0,0,0,0.2)'
       }
     },
     screens: {

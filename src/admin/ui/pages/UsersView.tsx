@@ -11,6 +11,11 @@ import AddUserModal from '../components/users/AddUserModal'
 import AreasComponent from '../components/areas/AreasComponent'
 import ChangeRoleModal from '../components/users/ChangeRoleModal'
 import UserComponent from '../components/users/UserComponent'
+import Toast from '@/shared/ui/components/Toast'
+import { toast } from 'react-toastify'
+import Table from '@/shared/ui/components/Table'
+
+const TOAST_ID = 'users'
 
 const UsersView = (): ReactElement => {
   const usersService = new UsersService()
@@ -25,7 +30,8 @@ const UsersView = (): ReactElement => {
   useEffect(() => {
     void usersService.getAll()
       .then(response => {
-        setUsers(response.filter(user => user.id !== currentUser.id))
+        // TODO: Delete assertion with username postman
+        setUsers(response.filter(user => user.id !== currentUser.id && user.username !== 'postman'))
       })
   }, [])
 
@@ -36,13 +42,13 @@ const UsersView = (): ReactElement => {
   const handleSelectedUser = (user: User): void => {
     setSelectedUser(user)
   }
-  const tableColClassNames = 'text-sm font-bold text-gray-900 px-6 py-4 text-left uppercase'
 
   const closeModal = (): void => {
     setShowModal(false)
   }
 
   const refreshUser = (newUser: User): void => {
+    setSelectedUser(newUser)
     refreshUserList(newUser, newUser.id)
   }
 
@@ -68,7 +74,7 @@ const UsersView = (): ReactElement => {
       return
     }
 
-    const result = confirm(`Are you sure you want to delete user ${selectedUser.username}`)
+    const result = confirm(`Are you sure you want to delete user '${selectedUser.username}'`)
 
     if (!result) { return }
 
@@ -77,27 +83,32 @@ const UsersView = (): ReactElement => {
       .then(response => {
         setSelectedUser(null)
         refreshUserList(response, id, true)
+        toast('User deleted correctly', { toastId: TOAST_ID, type: 'success' })
+      })
+      .catch(() => {
+        toast('There was an error, try it later', { toastId: TOAST_ID, type: 'error' })
       })
   }
 
   const handleAddUser = (): void => {
     setShowModal(true)
-    setModalContent(<AddUserModal closeModal={closeModal} refreshUserList={refreshUser} />)
+    setModalContent(<AddUserModal closeModal={closeModal} refreshUserList={refreshUser} toastId={TOAST_ID} />)
   }
 
   const handleChangeRole = (): void => {
     setShowModal(true)
-    setModalContent(<ChangeRoleModal closeModal={closeModal} user={selectedUser} refreshUser={refreshUser} />)
+    setModalContent(<ChangeRoleModal closeModal={closeModal} user={selectedUser} refreshUser={refreshUser} toastId={TOAST_ID} />)
   }
 
+  const tableColClassNames = 'text-sm font-medium text-white px-6 py-4 capitalize'
   return (
     <div className='container'>
       <div className='sm:flex sm:justify-between sm:items-center'>
-        <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-light-grey after:block after:mt-1 '>Users</h1>
+        <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-gray-light after:block after:mt-1'>Users</h1>
         <div className='flex flex-col sm:flex-row gap-2 sm:justify-center'>
-          <Button text='add user' color='bg-blue' onClick={handleAddUser} />
-          <Button text='change role' color='bg-success ' onClick={handleChangeRole} />
-          <Button text='remove' color={` ${!canRemove ? 'bg-dark-red' : 'bg-red'}`} onClick={handleRemove} disabled={!canRemove} />
+          <Button color='danger' onClick={handleRemove} disabled={!canRemove}>Remove</Button>
+          <Button color='success' onClick={handleChangeRole}>Change Role</Button>
+          <Button color='primary' onClick={handleAddUser}>Add User</Button>
         </div>
       </div>
 
@@ -108,42 +119,36 @@ const UsersView = (): ReactElement => {
           </Modal>
         }
 
-        <div className='order-2 md:order-1 mt-5'>
-          <h2 className='text-xl font-bold uppercase '>Areas</h2>
-          <AreasComponent />
+        <div className='order-2 md:order-1 '>
+          <AreasComponent toastId={TOAST_ID} />
         </div>
 
-        <div className='w-full order-1 md:order-2'>
-          <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
-            <div className='py-2 inline-block min-w-full sm:px-6 lg:px-8'>
-              <p className='text-xl'>Selected user: <span className='font-bold'>{selectedUser ? selectedUser.username : 'No user selected'}</span></p>
-              <div className='overflow-hidden'>
-
-                <table className='min-w-full border-collapse table-auto'>
-                  <thead className='border-b'>
-                    <tr>
-                      <th scope='col' className={`${tableColClassNames}`}>Username</th>
-                      <th scope='col' className={`${tableColClassNames}`}>Role</th>
-                      <th scope='col' className={`${tableColClassNames}`}>State</th>
-                      <th scope='col' className={`${tableColClassNames}`}>Areas</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      users.map(user => {
-                        return (
-                          <UserComponent key={user.id} user={user} setSelectedUser={handleSelectedUser} />
-                        )
-                      })
-                    }
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+        <div className='w-full order-1 md:order-2 mt-3 md:mt-0'>
+          <p className='text-xl mb-2'>Selected user: <span className='font-bold'>{selectedUser ? selectedUser.username : 'No user selected'}</span></p>
+          <Table>
+            <thead className='border-b bg-black'>
+              <tr>
+                <th scope='col' className={`${tableColClassNames}`}>Username</th>
+                <th scope='col' className={`${tableColClassNames}`}>Role</th>
+                <th scope='col' className={`${tableColClassNames}`}>State</th>
+                <th scope='col' className={`${tableColClassNames}`}>Areas</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                users.map(user => {
+                  return (
+                    <UserComponent key={user.id} user={user} setSelectedUser={handleSelectedUser} selected={user.id === selectedUser?.id}/>
+                  )
+                })
+              }
+            </tbody>
+          </Table>
         </div>
 
       </main>
+      <Toast id={TOAST_ID}></Toast>
+
     </div>
 
   )

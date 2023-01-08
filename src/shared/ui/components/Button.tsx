@@ -7,10 +7,11 @@ type ButtonColor = 'primary' | 'secondary' | 'danger' | 'success'
 interface ButtonProps {
   children?: React.ReactNode
   color: ButtonColor
-  onClick: () => void
+  onClick?: () => void
   disabled?: boolean
   type?: ButtonType
   isLoading?: boolean
+  className?: string
 }
 
 const getButtonColor = (buttonColor: ButtonColor): string => {
@@ -35,22 +36,22 @@ const getButtonLoadingColor = (buttonColor: ButtonColor): string => {
   return colors[buttonColor]
 }
 
-const Button = ({ children, color, onClick, disabled = false, type = 'button', isLoading = false }: ButtonProps): ReactElement => {
+const Button = ({ children, color, onClick, disabled = false, type = 'button', isLoading = false, className = '' }: ButtonProps): ReactElement => {
   const [bgColor, setBgColor] = useState('bg-blue-dark')
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLoading || disabled) {
       setBgColor(getButtonLoadingColor(color))
     } else {
       setBgColor(getButtonColor(color))
     }
-  }, [color, isLoading])
+  }, [color, isLoading, disabled])
 
-  const loadingStyle = 'after:absolute after:w-5 after:h-5 after:top-0 after:right-0 after:left-0 after:bottom-0 after:m-auto after:border-4 after:border-t-white after:opacity-100 after:rounded-[50%] after:animate-spin after:z-50'
+  const loadingStyle = 'after:absolute after:w-5 after:h-5 after:top-0 after:right-0 after:left-0 after:bottom-0 after:m-auto after:border-4 after:border-t-white after:opacity-100 after:rounded-[50%] after:animate-spin'
 
   return (
     <button
-      className={`${bgColor} block max-h-14 text-white uppercase px-4 py-2 rounded-lg relative ${isLoading ? loadingStyle : ''}`}
+      className={`${className} ${bgColor} text-white uppercase px-4 py-[6px] rounded-lg relative ${isLoading ? loadingStyle : ''}`}
       onClick={onClick}
       disabled={disabled}
       type={type}

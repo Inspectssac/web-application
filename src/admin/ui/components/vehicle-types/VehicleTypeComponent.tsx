@@ -2,12 +2,15 @@ import { VehicleType } from '@/routes/models/vehicle-type.interface'
 import { VehicleTypesService } from '@/routes/services/vehicle-type.service'
 import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+import { ToastContext } from '../../pages/VehiclesView'
 import VehicleTypeForm from './VehicleTypeForm'
 
 type FormAction = 'add' | 'update'
 
 const VehicleTypeComponent = (): ReactElement => {
+  const toastContext = useContext(ToastContext)
   const vehicleTypesService = new VehicleTypesService()
   const [vehicleTypes, setVehicleTypes] = useState<VehicleType[]>([])
   const [selectedVehicleType, setSelectedVehicleType] = useState<VehicleType | null>(null)
@@ -36,6 +39,11 @@ const VehicleTypeComponent = (): ReactElement => {
     void vehicleTypesService.remove(id)
       .then(response => {
         updateFieldList(response, id, true)
+        toast('Vehicle type deleted correctly', { toastId: toastContext.id, type: 'success' })
+      })
+      .catch((error) => {
+        const { message } = error.data
+        toast(message, { toastId: toastContext.id, type: 'error' })
       })
   }
 
