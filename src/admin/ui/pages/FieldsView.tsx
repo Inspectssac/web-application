@@ -87,11 +87,11 @@ const FieldsView = (): ReactElement => {
 
   return (
     <div className='container'>
-      <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-light-gray after:block after:mt-1'>Fields</h1>
+      <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-light-gray after:block after:mt-1'>Campos</h1>
       <div className='md:grid md:grid-cols-table md:gap-4'>
         <div className='mb-5 md:mb-0'>
           <aside className='pr-28 mb-5 md:mb-0'>
-            <h2 className='font-bold uppercase '>Field Types</h2>
+            <h2 className='font-bold uppercase '>Tipo de campos</h2>
             {
               fieldTypes.map(fieldType => {
                 return (
@@ -110,11 +110,11 @@ const FieldsView = (): ReactElement => {
                   <thead className='border-b bg-black'>
                     <tr>
                       <th scope='col' className={`${tableColClassNames}`}>Id</th>
-                      <th scope='col' className={`${tableColClassNames}`}>Name</th>
+                      <th scope='col' className={`${tableColClassNames}`}>Nombre</th>
                       <th scope='col' className={`${tableColClassNames}`}>Placeholder</th>
-                      <th scope='col' className={`${tableColClassNames}`}>Active</th>
-                      <th scope='col' className={`${tableColClassNames}`}>Type</th>
-                      <th scope='col' className={`${tableColClassNames}`}>Actions</th>
+                      <th scope='col' className={`${tableColClassNames}`}>Activo</th>
+                      <th scope='col' className={`${tableColClassNames}`}>Tipo</th>
+                      <th scope='col' className={`${tableColClassNames}`}>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>

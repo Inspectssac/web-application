@@ -10,7 +10,7 @@ const RequiredAdmin = (): ReactElement => {
   return (
     user.role === 'admin'
       ? <Outlet />
-      : <Navigate to='/home' state={{ from: location }} replace />
+      : <Navigate to='/inicio' state={{ from: location }} replace />
 
   )
 }

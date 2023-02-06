@@ -16,7 +16,7 @@ import RequiredAdmin from '@/admin/ui/pages/RequiredAdmin'
 const authRequiredRoutes: RouteObject[] = [
   {
     index: true,
-    path: 'home',
+    path: 'inicio',
     element: <Home />
   },
   {
@@ -28,25 +28,25 @@ const authRequiredRoutes: RouteObject[] = [
     element: <RequiredAdmin />,
     children: [
       {
-        path: 'users',
+        path: 'usuarios',
         element: <UsersView />
       },
       {
-        path: 'reports',
+        path: 'reportes',
         element: <ReportsView />
       },
       {
-        path: 'fields',
+        path: 'campos',
         element: <FieldsView />
       },
       {
-        path: 'vehicles',
+        path: 'vehiculos',
         element: <VehiclesView />
       }
     ]
   },
   {
-    path: 'profile',
+    path: 'perfil',
     element: <ProfileView />
   }
 ]

@@ -10,10 +10,10 @@ const VehiclesView = (): ReactElement => {
   return (
     <ToastContext.Provider value={{ id: TOAST_ID }}>
       <div className='container'>
-        <h1 className='text-3xl mb-4 after:h-px after:w-52 after:bg-light-gray after:block after:mt-1'>Vehicles</h1>
+        <h1 className='text-3xl mb-4 after:h-px after:w-52 after:bg-light-gray after:block after:mt-1'>Vehículos</h1>
         <div className='md:grid md:grid-cols-table md:gap-12'>
           <div className='mb-5 sm:mb-0'>
-            <h2 className='text-xl font-bold uppercase'>Vehicle types</h2>
+            <h2 className='text-xl font-bold uppercase'>Tipo de vehículos</h2>
             <VehicleTypeComponent />
           </div>
           <VehicleComponent />

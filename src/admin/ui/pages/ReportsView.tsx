@@ -72,11 +72,11 @@ const ReportsView = (): ReactElement => {
 
   return (
     <div className='container'>
-      <h1 className='text-3xl mb-4 after:h-px after:w-52 after:bg-light-gray after:block after:mt-1'>Report Types</h1>
+      <h1 className='text-3xl mb-4 after:h-px after:w-52 after:bg-light-gray after:block after:mt-1'>Tipo de Reportes</h1>
       <div className='sm:grid sm:grid-cols-table sm:gap-12'>
         <main className='mb-4'>
           <div className='mb-4'>
-            <h2 className='uppercase font-bold mt-2'>Report Types</h2>
+            <h2 className='uppercase font-bold mt-2'>Tipo de Reportes</h2>
             {
               reportTypes.length > 0
                 ? (
@@ -96,7 +96,7 @@ const ReportsView = (): ReactElement => {
                       ))
 
                   )
-                : (<p>Theres no report types</p>)
+                : (<p>No hay tipo de reportes</p>)
             }
           </div>
           <div className='w-full border-t border-solid border-gray-light my-3'></div>

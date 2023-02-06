@@ -25,7 +25,7 @@ const FieldValueComponent = ({ field, toastId, addFieldValueToCurrent }: FieldVa
       {values.length > 0 && (
         <>
           <div className='w-full border-t border-solid border-gray-light my-3'></div>
-          <h2 className='uppercase font-medium'>Possible Values for Field: <span>{field.name}</span></h2>
+          <h2 className='uppercase font-medium'>Valores posibles para el campo: <span>{field.name}</span></h2>
         </>
       )}
       {

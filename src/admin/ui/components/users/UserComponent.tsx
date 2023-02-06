@@ -13,7 +13,7 @@ const UserComponent = ({ user, selected, setSelectedUser }: UserProps): ReactEle
     <tr className={`bg-white border-b cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${selected ? 'bg-gray-100' : ''}`} onClick={ () => setSelectedUser(user)}>
       <td className={`${userColStyle}`}>{user.username}</td>
       <td className={`${userColStyle}`}>{user.role}</td>
-      <td className={`${userColStyle}`}>{user.active ? 'active' : 'no active'}</td>
+      <td className={`${userColStyle}`}>{user.active ? 'activo' : 'no activo'}</td>
       <td className={`${userColStyle}`}>{user.areas.map(({ name }) => name)[0]}</td>
     </tr>
   )

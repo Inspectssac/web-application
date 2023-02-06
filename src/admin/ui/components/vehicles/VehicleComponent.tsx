@@ -82,8 +82,8 @@ const VehicleComponent = (): ReactElement => {
       {showAddVehicleModal && <AddVehicleForm closeModal={toggleAddModal} onFinishSubmit={onFinishSubmit} />}
       {showUpdateVehicleModal && <UpdateVehicleForm closeModal={toggleUpdateModal} vehicle={selectedVehicle} onFinishSubmit={onFinishSubmit} />}
       <div className='flex justify-between items-center mb-5'>
-        <h2 className='text-xl font-bold uppercase '>Vehicles</h2>
-        <Button color='primary' onClick={toggleAddModal}>Add Vehicle</Button>
+        <h2 className='text-xl font-bold uppercase'>Vehículos</h2>
+        <Button color='primary' onClick={toggleAddModal}>Añadir vehículo</Button>
       </div>
       {
         vehicles.length > 0
@@ -91,13 +91,13 @@ const VehicleComponent = (): ReactElement => {
             <Table>
               <thead className='border-b bg-black'>
                 <tr>
-                  <th scope='col' className={tableHeadStyle}>License Plate</th>
-                  <th scope='col' className={tableHeadStyle}>Provider</th>
-                  <th scope='col' className={tableHeadStyle}>Carrier</th>
+                  <th scope='col' className={tableHeadStyle}>Placa</th>
+                  <th scope='col' className={tableHeadStyle}>Proveedor</th>
+                  <th scope='col' className={tableHeadStyle}>Transportista</th>
                   <th scope='col' className={tableHeadStyle}>Imei</th>
-                  <th scope='col' className={tableHeadStyle}>Last Maintenance</th>
-                  <th scope='col' className={tableHeadStyle}>Vehicle Type</th>
-                  <th scope='col' className={tableHeadStyle}>Actions</th>
+                  <th scope='col' className={tableHeadStyle}>Último Mantenimiento</th>
+                  <th scope='col' className={tableHeadStyle}>Tipo de vehículo</th>
+                  <th scope='col' className={tableHeadStyle}>Acciones</th>
                 </tr>
               </thead>
               <tbody>

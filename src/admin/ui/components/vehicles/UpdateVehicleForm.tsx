@@ -87,36 +87,36 @@ const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicl
   return (
     <Modal>
       <div className='w-full min-w-[300px] sm:min-w-[600px] p-3'>
-        <h2 className='text-center font-bold uppercase text-xl'>Update Vehicle</h2>
+        <h2 className='text-center font-bold uppercase text-xl'>Editar Vehículo</h2>
         <form onSubmit={handleSubmit}>
           <div>
-            <label>Vehicle Type</label>
+            <label>Tipo de vehículo</label>
             <p>{vehicle?.vehicleType.name}</p>
           </div>
           <div>
-            <label htmlFor='licensePlate'>License Plate</label>
+            <label htmlFor='licensePlate'>Placa</label>
             <Input
               disabled={true}
               value={inputValue.licensePlate}
-              name='license plate' placeholder='License Plate' type='text'
+              name='license plate' placeholder='Placa' type='text'
               setValid={(valid) => setIsValidInput('licensePlate', valid)}
               setValue={(value) => setValueInputValue('licensePlate', value)}></Input>
             {/* <input disabled id='licensePlate' value={inputValue.licensePlate} type="text" name='licensePlate' /> */}
           </div>
           <div>
-            <label htmlFor='provider'>Provider</label>
+            <label htmlFor='provider'>Proveedor</label>
             <Input
               value={inputValue.provider}
-              name='provider' placeholder='Provider' type='text'
+              name='provider' placeholder='Proveedor' type='text'
               setValid={(valid) => setIsValidInput('provider', valid)}
               setValue={(value) => setValueInputValue('provider', value)}></Input>
             {/* <input onChange={handleChange} id='provider' value={inputValue.provider} type="text" name='provider' /> */}
           </div>
           <div>
-            <label htmlFor='carrier'>Carrier</label>
+            <label htmlFor='carrier'>Transportista</label>
             <Input
               value={inputValue.carrier}
-              name='carrier' placeholder='Carrier' type='text'
+              name='carrier' placeholder='Transportista' type='text'
               setValid={(valid) => setIsValidInput('carrier', valid)}
               setValue={(value) => setValueInputValue('carrier', value)}></Input>
             {/* <input onChange={handleChange} id='carrier' value={inputValue.carrier} type="text" name='carrier' /> */}
@@ -131,7 +131,7 @@ const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicl
             {/* <input onChange={handleChange} id='imei' value={inputValue.imei} type="text" name='imei' /> */}
           </div>
           <div>
-            <label htmlFor="lastMaintenance">Last Maintenance</label>
+            <label htmlFor="lastMaintenance">Último Mantenimiento</label>
             <Input
               value={new Date(inputValue.lastMaintenance).toISOString().substring(0, 10)}
               name='lastMaintenance' placeholder='Last Maintenance' type='date'
@@ -141,8 +141,8 @@ const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicl
           </div>
 
           <div className='flex justify-center gap-3 items-center'>
-            <Button color='primary' type='submit' disabled={!canSubmit}>Update</Button>
-            <Button color='danger' onClick={closeModal}>Close</Button>
+            <Button color='primary' type='submit' disabled={!canSubmit}>Editar</Button>
+            <Button color='danger' onClick={closeModal}>Cerrar</Button>
           </div>
         </form>
       </div>

@@ -25,9 +25,9 @@ const ChangeRoleModal = ({ user, toastId, closeModal, refreshUser }: ChangeRoleM
   if (isUserNull) {
     return (
       <div className='min-w-[300px] md:min-w-[600px] p-6'>
-        <p className='font-bold text-center uppercase mb-4'>Please select a user</p>
+        <p className='font-bold text-center uppercase mb-4'>Por favor, selecciona un usuario</p>
         <div className='grid place-items-center'>
-          <Button color='secondary' onClick={closeModal}>Close</Button>
+          <Button color='secondary' onClick={closeModal}>Cerrar</Button>
         </div>
       </div>
     )
@@ -64,8 +64,8 @@ const ChangeRoleModal = ({ user, toastId, closeModal, refreshUser }: ChangeRoleM
   return (
     <div className='min-w-[300px] md:min-w-[600px] p-6'>
       <div className='mb-4'>
-        <p className='text-center uppercase text-xl'><span className='font-bold'>Current user:</span> {user.username}</p>
-        <p className='text-center uppercase text-red'><span className='font-bold'>Role:</span> {user.role}</p>
+        <p className='text-center uppercase text-xl'><span className='font-bold'>Usuario seleccionado:</span> {user.username}</p>
+        <p className='text-center uppercase text-red'><span className='font-bold'>Rol:</span> {user.role}</p>
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -76,8 +76,8 @@ const ChangeRoleModal = ({ user, toastId, closeModal, refreshUser }: ChangeRoleM
         </select>
 
         <div className='flex justify-center gap-5'>
-          <Button color='secondary' onClick={closeModal}>Close</Button>
-          <Button color='primary' type='submit'>Change</Button>
+          <Button color='secondary' onClick={closeModal}>Cerrar</Button>
+          <Button color='primary' type='submit'>Cambiar</Button>
         </div>
       </form>
     </div >

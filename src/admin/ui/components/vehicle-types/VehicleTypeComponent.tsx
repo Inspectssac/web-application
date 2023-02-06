@@ -84,7 +84,7 @@ const VehicleTypeComponent = (): ReactElement => {
             </div>
           ))
         }
-        { vehicleTypes.length <= 0 && (<p>Theres no vehicle types</p>)}
+        { vehicleTypes.length <= 0 && (<p>No hay tipo de vehículos</p>)}
       </section>
       <section>
         <VehicleTypeForm vehicleType={selectedVehicleType} formAction={formAction} onFinishSubmit={onFinishSubmit} reset={reset} />

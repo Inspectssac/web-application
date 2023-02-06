@@ -44,7 +44,7 @@ const LoginForm = (): ReactElement => {
 
     void dispatch(login(loginData)).unwrap()
       .then(response => {
-        navigate('/home')
+        navigate('/inicio')
       })
       .catch(error => {
         const { message } = error.data

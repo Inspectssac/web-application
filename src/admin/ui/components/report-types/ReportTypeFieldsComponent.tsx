@@ -50,13 +50,13 @@ const ReportTypeFieldsComponent = ({ reportType, toastId }: ReportTypeFieldsComp
   }
 
   const tableHeadStyle = 'text-sm font-medium text-white px-6 py-4 capitalize'
-  const tableBodyStyle = 'text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'
+  const tableBodyStyle = 'text-sm text-gray-900 font-light px-6 py-4'
   return (
     <section>
       {reportType.id !== 0 &&
         (
           <div className='flex justify-end'>
-            <Button color='primary' onClick={() => setShowFieldModal(!showFieldModal)} className='mb-2'>AssignField</Button>
+            <Button color='primary' onClick={() => setShowFieldModal(!showFieldModal)} className='mb-2'>Asignar campo</Button>
           </div>
         )
       }
@@ -66,25 +66,25 @@ const ReportTypeFieldsComponent = ({ reportType, toastId }: ReportTypeFieldsComp
             <Table>
               <thead className='border-b bg-black'>
                 <tr>
-                  <th scope='col' className={`${tableHeadStyle}`}>ReportType</th>
-                  <th scope='col' className={`${tableHeadStyle}`}>Active</th>
-                  <th scope='col' className={`${tableHeadStyle}`}>Max length</th>
-                  <th scope='col' className={`${tableHeadStyle}`}>Required</th>
-                  <th scope='col' className={`${tableHeadStyle}`}>Image</th>
-                  <th scope='col' className={`${tableHeadStyle}`}>Main info</th>
-                  <th scope='col' className={`${tableHeadStyle}`}>Actions</th>
+                  <th scope='col' className={`w-[10px] ${tableHeadStyle} `}>Campo</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>Activo</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>Max caractéres</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>Requerido</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>Imagen</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>Info Principal</th>
+                  <th scope='col' className={`${tableHeadStyle}`}>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {
                   reportTypeFields.map(reportTypeField => (
                     <tr key={reportTypeField.fieldId} className='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'>
-                      <td className={tableBodyStyle}>{reportTypeField.field.name}</td>
-                      <td className={tableBodyStyle}>{reportTypeField.field.active ? 'active' : 'no active'}</td>
+                      <td className={`w-[10px] ${tableBodyStyle}`}>{reportTypeField.field.name}</td>
+                      <td className={tableBodyStyle}>{reportTypeField.field.active ? 'activo' : 'no activo'}</td>
                       <td className={tableBodyStyle}>{reportTypeField.length}</td>
-                      <td className={tableBodyStyle}>{reportTypeField.required ? 'Yes' : 'No'}</td>
-                      <td className={tableBodyStyle}>{reportTypeField.imageValidation ? 'Yes' : 'No'}</td>
-                      <td className={tableBodyStyle}>{reportTypeField.mainInfo ? 'Yes' : 'No'}</td>
+                      <td className={tableBodyStyle}>{reportTypeField.required ? 'Si' : 'No'}</td>
+                      <td className={tableBodyStyle}>{reportTypeField.imageValidation ? 'Si' : 'No'}</td>
+                      <td className={tableBodyStyle}>{reportTypeField.mainInfo ? 'Si' : 'No'}</td>
                       <td className={`${tableBodyStyle} flex gap-3 justify-center items-center`}>
                         <EditIcon className='w-6 h-6 cursor-pointer' onClick={() => handleUpdate(reportTypeField)} />
                         {/* <DeleteIcon className='w-6 h-6 cursor-pointer text-red' onClick={() => console.log('delete')} /> */}
@@ -96,7 +96,7 @@ const ReportTypeFieldsComponent = ({ reportType, toastId }: ReportTypeFieldsComp
             </Table>
             )
           : (
-            <p>{reportType.id !== 0 ? 'There is no field assigned to the report type' : 'Select a report type'}</p>
+            <p>{reportType.id !== 0 ? 'No hay campos asignados al tipo de reporte' : 'Seleccionar tipo de reporte'}</p>
             )
       }
       {showFieldModal && <AssignFieldForm toastId={toastId} reportType={reportType} reportTypeFields={reportTypeFields} closeModal={() => setShowFieldModal(!showFieldModal)} onFinishSubmit={onFinishSubmit} />}

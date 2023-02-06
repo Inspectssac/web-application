@@ -68,7 +68,7 @@ const ReportTypeForm = ({ reportType, toastId, formAction, reset, onFinishSubmit
 
   return (
     <div>
-      <h2 className='font-bold uppercase'>{formAction.toUpperCase()} Report Type</h2>
+      <h2 className='font-bold uppercase'>{formAction === 'add' ? 'Añadir' : 'Editar'} Tipo de reporte</h2>
       <form onSubmit={handleSubmit}>
         <Input
           value={inputValue.name}
@@ -78,8 +78,8 @@ const ReportTypeForm = ({ reportType, toastId, formAction, reset, onFinishSubmit
           setValue={(value) => setInputValue({ ...inputValue, name: value })}></Input>
 
         <div className='mt-3 flex items-center gap-3'>
-          <Button className='py-1' color='danger' onClick={resetForm} >Cancel</Button>
-          <Button className='py-1' color='primary' type='submit' disabled={!canSubmit}>{formAction}</Button>
+          <Button className='py-1' color='danger' onClick={resetForm} >Cancelar</Button>
+          <Button className='py-1' color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Editar'}</Button>
         </div>
       </form>
     </div>

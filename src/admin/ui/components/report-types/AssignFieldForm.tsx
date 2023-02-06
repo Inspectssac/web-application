@@ -95,10 +95,10 @@ const AssignFieldForm = ({ reportType, reportTypeFields, toastId, closeModal, on
 
   const modal = (): ReactElement => (
     <>
-      <h2 className='text-center font-bold uppercase text-xl'>Assign field</h2>
+      <h2 className='text-center font-bold uppercase text-xl'>Asignar campo</h2>
       <form onSubmit={handleSubmit}>
         <div className='mb-3'>
-          <label className='font-medium'>Field</label>
+          <label className='font-medium'>Campo</label>
           <select
             className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none capitalize'
             onChange={handleSelectChange} value={selectedField.id}>
@@ -109,7 +109,7 @@ const AssignFieldForm = ({ reportType, reportTypeFields, toastId, closeModal, on
         </div>
         {hasMaxLength && (
           <div className='mb-3'>
-            <label className='font-medium'>Max Length</label>
+            <label className='font-medium'>Max cantidad de caractéres</label>
             <input
               className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none capitalize'
               onChange={handleChange} type="number" name='length' placeholder='max length' min={0} value={inputValue.length} />
@@ -117,22 +117,22 @@ const AssignFieldForm = ({ reportType, reportTypeFields, toastId, closeModal, on
         )}
         <div className='grid grid-cols-3 place-items-center'>
           <div className='flex items-center gap-5'>
-            <label htmlFor='required'>Required</label>
+            <label htmlFor='required'>Requerido</label>
             <input onChange={handleChange} id='required' checked={inputValue.required} type="checkbox" name='required' />
           </div>
           <div className='flex items-center gap-5'>
-            <label htmlFor='image'>Image</label>
+            <label htmlFor='image'>Imagen</label>
             <input onChange={handleChange} id='image' checked={inputValue.imageValidation} type="checkbox" name='imageValidation' />
           </div>
           <div className='flex items-center gap-5'>
-            <label htmlFor='main'>Main info</label>
+            <label htmlFor='main'>Info Principal</label>
             <input onChange={handleChange} id='main' checked={inputValue.mainInfo} type="checkbox" name='mainInfo' />
           </div>
         </div>
 
         <div className='mt-5 flex justify-center gap-3 items-center'>
-          <Button color='primary' type='submit'>Add</Button>
-          <Button color='danger' onClick={closeModal}>Close</Button>
+          <Button color='primary' type='submit'>Añadir</Button>
+          <Button color='danger' onClick={closeModal}>Cerrar</Button>
         </div>
       </form>
     </>
@@ -140,11 +140,11 @@ const AssignFieldForm = ({ reportType, reportTypeFields, toastId, closeModal, on
 
   const addFieldMessage = (): ReactElement => (
     <>
-      <p className='text-center mb-3 text-lg'>All fields available are assign, create or active a field if you want to assign a new one</p>
+      <p className='text-center mb-3 text-lg'>Todos los campos están asignados, crea o activa algún campo si es que quieres asignar más</p>
 
       <div className='flex justify-center gap-3 items-center'>
-        <Button color='primary' onClick={() => navigate('/admin/fields')}>Add Fields</Button>
-        <Button color='danger' onClick={closeModal}>Close</Button>
+        <Button color='primary' onClick={() => navigate('/admin/campos')}>Añadir campos</Button>
+        <Button color='danger' onClick={closeModal}>Cerrar</Button>
       </div>
     </>
   )

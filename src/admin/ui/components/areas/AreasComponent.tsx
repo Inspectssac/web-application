@@ -80,7 +80,7 @@ const AreasComponent = ({ toastId }: AreaComponentProps): ReactElement => {
             </div>
           ))
         }
-        {areas.length <= 0 && (<p>Theres no Areas</p>)}
+        {areas.length <= 0 && (<p>No hay areas creadas</p>)}
       </section>
       <section className='border-t border-solid border-gray-light px-2'>
         <AreaForm toastId={toastId} area={selectedArea} formAction={formAction} onFinishSubmit={onFinishSubmit} reset={reset} />

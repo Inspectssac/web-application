@@ -12,10 +12,10 @@ export const DesktopAdminOptions = (): ReactElement => {
     </a>
   )
   const items = [
-    { to: 'admin/users', name: 'Users', icon: <UserIcon className='w-5 h-5 mr-2'/> },
-    { to: 'admin/reports', name: 'Reports', icon: <ReportIcon className='w-5 h-5 mr-2'/> },
-    { to: 'admin/fields', name: 'Fields', icon: <FieldIcon className='w-5 h-5 mr-2'/> },
-    { to: 'admin/vehicles', name: 'Vehicles', icon: <VehicleIcon className='w-5 h-5 mr-2'/> }
+    { to: 'admin/usuarios', name: 'Usuarios', icon: <UserIcon className='w-5 h-5 mr-2'/> },
+    { to: 'admin/reportes', name: 'Reportes', icon: <ReportIcon className='w-5 h-5 mr-2'/> },
+    { to: 'admin/campos', name: 'Campos', icon: <FieldIcon className='w-5 h-5 mr-2'/> },
+    { to: 'admin/vehiculos', name: 'Vehículos', icon: <VehicleIcon className='w-5 h-5 mr-2'/> }
   ]
   return (
     <DropDown menu={adminMenu} items={items} logout={false}/>

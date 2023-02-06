@@ -85,10 +85,10 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
 
   const modal = (): ReactElement => (
     <>
-      <h2 className='text-center font-bold uppercase text-xl'>Add Vehicle</h2>
+      <h2 className='text-center font-bold uppercase text-xl'>Añadir Vehículo</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label className='font-medium'>Vehicle Types</label>
+          <label className='font-medium'>Tipo de vehículos</label>
           <select
             className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none capitalize'
             ref={vehicleTypeRef}>
@@ -98,28 +98,28 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           </select>
         </div>
         <div className='mt-2'>
-          <label className='font-medium' htmlFor='licensePlate'>License Plate</label>
+          <label className='font-medium' htmlFor='licensePlate'>Placa</label>
           <Input
             value={inputValue.licensePlate}
-            name='license plate' placeholder='License Plate' type='text'
+            name='license plate' placeholder='Placa' type='text'
             setValid={(valid) => setIsValidInput('licensePlate', valid)}
             setValue={(value) => setValueInputValue('licensePlate', value)}></Input>
           {/* <input onChange={handleChange} id='licensePlate' value={inputValue.licensePlate} type="text" name='licensePlate' /> */}
         </div>
         <div className='mt-2'>
-          <label className='font-medium' htmlFor='provider'>Provider</label>
+          <label className='font-medium' htmlFor='provider'>Proveedor</label>
           <Input
             value={inputValue.provider}
-            name='provider' placeholder='Provider' type='text'
+            name='provider' placeholder='Proveedor' type='text'
             setValid={(valid) => setIsValidInput('provider', valid)}
             setValue={(value) => setValueInputValue('provider', value)}></Input>
           {/* <input onChange={handleChange} id='provider' value={inputValue.provider} type="text" name='provider' /> */}
         </div>
         <div className='mt-2'>
-          <label className='font-medium' htmlFor='carrier'>Carrier</label>
+          <label className='font-medium' htmlFor='carrier'>Transportista</label>
           <Input
             value={inputValue.carrier}
-            name='carrier' placeholder='Carrier' type='text'
+            name='carrier' placeholder='Transportista' type='text'
             setValid={(valid) => setIsValidInput('carrier', valid)}
             setValue={(value) => setValueInputValue('carrier', value)}></Input>
           {/* <input onChange={handleChange} id='carrier' value={inputValue.carrier} type="text" name='carrier' /> */}
@@ -134,18 +134,18 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           {/* <input onChange={handleChange} id='imei' value={inputValue.imei} type="text" name='imei' /> */}
         </div>
         <div className='mt-2'>
-          <label className='font-medium' htmlFor="lastMaintenance">Last Maintenance</label>
+          <label className='font-medium' htmlFor="lastMaintenance">Último Mantenimiento</label>
           <Input
             value={new Date(inputValue.lastMaintenance).toISOString().substring(0, 10)}
-            name='lastMaintenance' placeholder='Provider' type='date'
+            name='lastMaintenance' placeholder='' type='date'
             setValid={(valid) => setIsValidInput('lastMaintenance', valid)}
             setValue={(value) => setValueInputValue('lastMaintenance', value)}></Input>
           {/* <input onChange={handleChange} type="date" id='lastMaintenance' name='lastMaintenance' value={new Date(inputValue.lastMaintenance).toISOString().substring(0, 10)} /> */}
         </div>
 
         <div className='mt-4 flex justify-center gap-3 items-center'>
-          <Button color='primary' type='submit' disabled={!canSubmit}>Create</Button>
-          <Button color='danger' onClick={closeModal}>Close</Button>
+          <Button color='primary' type='submit' disabled={!canSubmit}>Crear</Button>
+          <Button color='danger' onClick={closeModal}>Cerrar</Button>
         </div>
       </form>
     </>
@@ -153,7 +153,7 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
 
   const addVehicleMessage = (): ReactElement => (
     <>
-      <p className='text-center mb-3 text-lg'>There is no vehicle types, please enter a new vehicle type before adding a new vehicle</p>
+      <p className='text-center mb-3 text-lg'>No hay tipo de vehículos, por favor añade un tipo de vehículo antes de añadir un vehículo</p>
 
       <div className='flex justify-center gap-3 items-center'>
         <Button color='danger' onClick={closeModal}>Close</Button>

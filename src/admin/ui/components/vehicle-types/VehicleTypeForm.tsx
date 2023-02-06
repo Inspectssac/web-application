@@ -87,17 +87,17 @@ const VehicleTypeForm = ({ vehicleType, formAction, onFinishSubmit, reset }: Veh
 
   return (
     <div className='mt-2'>
-      <h2 className='uppercase font-bold'>{formAction} Vehicle Type</h2>
+      <h2 className='uppercase font-bold'>{formAction === 'add' ? 'Añadir' : 'Editar'} Tipo de Vehículo</h2>
       <form onSubmit={handleSubmit}>
         <Input
           value={inputValue.name}
-          name='name' placeholder='Vehicle type Name' type='text'
+          name='name' placeholder='Nombre' type='text'
           setValid={setIsValidInput}
           reset={resetInputs}
           setValue={(value) => setValueInputValue('name', value)}></Input>
         <div className='mt-5 flex gap-2'>
-          <Button color='primary' type='submit' disabled={!canSubmit}>{formAction}</Button>
-          <Button color='danger' onClick={resetForm}>Close</Button>
+          <Button color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Editar'}</Button>
+          <Button color='danger' onClick={resetForm}>Cancelar</Button>
         </div>
       </form>
     </div>

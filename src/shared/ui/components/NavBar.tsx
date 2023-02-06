@@ -18,7 +18,7 @@ interface Link {
 }
 
 const links: Link[] = [
-  { name: 'Home', to: '/home' }
+  { name: 'Inicio', to: '/inicio' }
   // { name: 'routes', to: '/routes' }
 ]
 

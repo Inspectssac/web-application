@@ -13,7 +13,7 @@ const Login = (): ReactElement => {
   const isAboveSmallScreen = useMediaQuery('(min-width: 640px)')
 
   useEffect(() => {
-    if (authenticated) navigate('/home')
+    if (authenticated) navigate('/inicio')
   }, [])
 
   return (

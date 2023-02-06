@@ -104,11 +104,11 @@ const UsersView = (): ReactElement => {
   return (
     <div className='container'>
       <div className='sm:flex sm:justify-between sm:items-center'>
-        <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-gray-light after:block after:mt-1'>Users</h1>
+        <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-gray-light after:block after:mt-1'>Usuarios</h1>
         <div className='flex flex-col sm:flex-row gap-2 sm:justify-center'>
-          <Button color='danger' onClick={handleRemove} disabled={!canRemove}>Remove</Button>
-          <Button color='success' onClick={handleChangeRole}>Change Role</Button>
-          <Button color='primary' onClick={handleAddUser}>Add User</Button>
+          <Button color='danger' onClick={handleRemove} disabled={!canRemove}>Eliminar</Button>
+          <Button color='success' onClick={handleChangeRole}>Cambiar rol</Button>
+          <Button color='primary' onClick={handleAddUser}>Añadir usuario</Button>
         </div>
       </div>
 
@@ -124,14 +124,14 @@ const UsersView = (): ReactElement => {
         </div>
 
         <div className='w-full order-1 md:order-2 mt-3 md:mt-0'>
-          <p className='text-xl mb-2'>Selected user: <span className='font-bold'>{selectedUser ? selectedUser.username : 'No user selected'}</span></p>
+          <p className='text-xl mb-2'>Usuario seleccionado: <span className='font-bold'>{selectedUser ? selectedUser.username : 'Ningún usuario fue seleccionado'}</span></p>
           <Table>
             <thead className='border-b bg-black'>
               <tr>
-                <th scope='col' className={`${tableColClassNames}`}>Username</th>
-                <th scope='col' className={`${tableColClassNames}`}>Role</th>
-                <th scope='col' className={`${tableColClassNames}`}>State</th>
-                <th scope='col' className={`${tableColClassNames}`}>Areas</th>
+                <th scope='col' className={`${tableColClassNames}`}>Usuario</th>
+                <th scope='col' className={`${tableColClassNames}`}>Rol</th>
+                <th scope='col' className={`${tableColClassNames}`}>Estado</th>
+                <th scope='col' className={`${tableColClassNames}`}>Áreas</th>
               </tr>
             </thead>
             <tbody>

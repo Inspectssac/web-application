@@ -110,7 +110,7 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
 
   return (
     <div className='mt-5'>
-      <h2 className='uppercase font-bold'>{formAction} Field</h2>
+      <h2 className='uppercase font-bold'>{formAction === 'add' ? 'Añadir' : 'Editar'} Campo</h2>
       <form onSubmit={handleSubmit}>
         <Input
           value={inputValue.name}
@@ -146,8 +146,8 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
         }
 
         <div className='mt-4 flex gap-3'>
-          <Button color='primary' type='submit' disabled={!canSubmit}>{formAction}</Button>
-          <Button color='danger' onClick={resetForm}>Cancel</Button>
+          <Button color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Editar'}</Button>
+          <Button color='danger' onClick={resetForm}>Cancelar</Button>
         </div>
 
       </form>

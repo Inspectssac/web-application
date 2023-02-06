@@ -52,14 +52,14 @@ const FieldValueForm = ({ field, toastId, updateFieldValues }: FieldValueFormPro
     <div className='mt-3'>
       {currentField.id !== 0 && (
         <>
-          <h2 className='uppercase font-medium'>Insert value</h2>
+          <h2 className='uppercase font-medium'>Insertar posible valor</h2>
           <form onSubmit={handleValueSubmit}>
             <input
               className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none'
               type="text" placeholder='Field value' name='value' onChange={handleValueChange} />
 
             <div className='mt-5'>
-              <Button color='primary' type='submit'>Add</Button>
+              <Button color='primary' type='submit'>Añadir</Button>
             </div>
           </form>
         </>

@@ -60,7 +60,7 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
       if (value.trim() === '') {
         setErrors({
           ...errors,
-          [name]: `${name} is empty`
+          [name]: `${name} está vacío`
         })
       } else {
         setErrors({
@@ -81,7 +81,7 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
 
     const areaId = areaRef.current?.value ?? areas[0].id.toString()
     void usersService.create(newUser)
-      .then(response => {
+      .then((response) => {
         void areasService.assignUser(parseInt(areaId), response.id)
           .then(refreshUserList)
           .catch(error => {
@@ -114,7 +114,7 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
 
   return (
     <div className='min-w-[300px] sm:min-w-[600px] p-6'>
-      <h1 className='uppercase text-center font-bold mb-4'>Add user modal</h1>
+      <h1 className='uppercase text-center font-bold mb-4'>Añadir Usuario</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
         <Input
           value={newUser.username}
@@ -123,7 +123,7 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
           setValue={(value) => setValueInputValue('username', value)}></Input>
         <Input
           value={newUser.password}
-          name='password' placeholder='Password' type='password'
+          name='password' placeholder='Contraseña' type='password'
           setValid={setIsValidInput}
           setValue={(value) => setValueInputValue('password', value)}></Input>
 
@@ -143,8 +143,8 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
           }
         </select>
         <div className='flex justify-center gap-5'>
-          <Button color='danger' onClick={closeModal}>Close</Button>
-          <Button color='primary' type='submit' disabled={!canSubmit}>Add User</Button>
+          <Button color='danger' onClick={closeModal}>Cerrar</Button>
+          <Button color='primary' type='submit' disabled={!canSubmit}>Añadir Usuario</Button>
         </div>
       </form>
     </div>

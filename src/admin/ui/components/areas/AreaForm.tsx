@@ -79,7 +79,7 @@ const AreaForm = ({ area, formAction, toastId, onFinishSubmit, reset }: AreaForm
 
   return (
     <div className='mt-3'>
-      <h2 className='uppercase font-bold'>{formAction} new Area</h2>
+      <h2 className='uppercase font-bold'>{formAction === 'add' ? 'Añadir' : 'Editar'} Area</h2>
       <form onSubmit={handleSubmit}>
         <Input
             value={inputValue.name}
@@ -89,8 +89,8 @@ const AreaForm = ({ area, formAction, toastId, onFinishSubmit, reset }: AreaForm
             setValue={(value) => setInputValue({ ...inputValue, name: value })}></Input>
 
         <div className='mt-3 flex items-center gap-3'>
-          <Button className='py-1' color='danger' onClick={resetForm}>Cancel</Button>
-          <Button className='py-1' color='primary' type='submit' disabled={!canSubmit}>{formAction}</Button>
+          <Button className='py-1' color='danger' onClick={resetForm}>Cancelar</Button>
+          <Button className='py-1' color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Editar'}</Button>
         </div>
       </form>
     </div>
