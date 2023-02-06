@@ -1,5 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import RouteServices from '@/routes/services/route.services'
+import React, { ReactElement } from 'react'
 import useMediaQuery from '@/shared/hooks/userMediaQuery'
 
 const Home = (): ReactElement => {

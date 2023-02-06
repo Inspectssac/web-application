@@ -20,7 +20,7 @@ const Login = (): ReactElement => {
     <div className={`container h-screen flex ${isAboveSmallScreen ? 'flex-row justify-center' : 'flex-col justify-between'} items-center`}>
       <div className={`h-100 ${isAboveSmallScreen ? 'w-[50%]' : 'w-full'} pt-5`}>
         <img className='w-full max-w-md'
-          src="./src/iam/ui/assets/login-image.svg" alt="login-image"
+          src="/login-image.svg" alt="login-image"
         />
       </div>
       <div className={`h-full ${isAboveSmallScreen ? 'w-[50%]' : 'w-full'} flex flex-col justify-center`}>
