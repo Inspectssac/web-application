@@ -1,5 +1,6 @@
 export enum FieldType {
   TEXT = 'text',
   NUMBER = 'number',
-  CHECK = 'check'
+  CHECK = 'check',
+  DATE = 'date'
 }

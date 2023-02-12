@@ -2,7 +2,7 @@ import { TokenService } from '@/iam/services/token.service'
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { StatusCodes } from 'http-status-codes'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'https://054f-38-25-16-8.sa.ngrok.io/api/v1'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? ''
 
 export abstract class AppServices {
   _baseUrl: string

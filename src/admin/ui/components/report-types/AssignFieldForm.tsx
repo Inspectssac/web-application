@@ -1,22 +1,21 @@
 import { FieldType } from '@/reports/models/enums/field-type.enum'
 import { Field } from '@/reports/models/field.entity'
-import { ReportTypeFieldDto } from '@/reports/models/interfaces/report-type-field-dto.interface'
-import { ReportTypeField } from '@/reports/models/report-type-fields.interface'
-import { ReportType } from '@/reports/models/report-type.interface'
+import { GroupFieldDto } from '@/reports/models/interfaces/group-field-dto.interface'
+import { GroupField } from '@/reports/models/group-field.interface'
 import { FieldsService } from '@/reports/services/field.service'
-import { ReportTypesService } from '@/reports/services/report-type.service'
 import Button from '@/shared/ui/components/Button'
-import Modal from '@/shared/ui/components/Modal'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { GroupsService } from '@/reports/services/group.service'
+import { ToastContext } from '../../pages/VehiclesView'
+import { Group } from '@/reports/models/group.interface'
+import { ReportTypesService } from '@/reports/services/report-type.service'
 
 interface AssignFieldFormProps {
-  toastId: string
-  reportType: ReportType
-  reportTypeFields: ReportTypeField[]
-  closeModal: () => void
-  onFinishSubmit: (reportTypeField: ReportTypeField) => void
+  group: Group
+  groupFields: GroupField[]
+  onFinishSubmit: (reportTypeField: GroupField) => void
 }
 
 const FIELD_INITIAL_STATE = {
@@ -28,28 +27,34 @@ const FIELD_INITIAL_STATE = {
   values: []
 }
 
-const REPORT_FIELD_INITIAL_STATE = {
-  length: 0,
-  required: true,
-  imageValidation: false,
-  mainInfo: false
+const GROUP_FIELD_INITIAL_STATE = {
+  maxLength: 0,
+  isCritical: true,
+  needImage: false
 }
 
-const AssignFieldForm = ({ reportType, reportTypeFields, toastId, closeModal, onFinishSubmit }: AssignFieldFormProps): ReactElement => {
-  const reportTypesService = new ReportTypesService()
+const AssignFieldForm = ({ group, groupFields, onFinishSubmit }: AssignFieldFormProps): ReactElement => {
+  const toastContext = useContext(ToastContext)
+  const groupsService = new GroupsService()
   const navigate = useNavigate()
 
   const fieldsService = new FieldsService()
+  const reportTypesService = new ReportTypesService()
   const [fields, setFields] = useState<Field[]>([])
   const [selectedField, setSelectedField] = useState<Field>(FIELD_INITIAL_STATE)
   const [hasMaxLength, setHasMaxLength] = useState<boolean>(false)
 
-  const [inputValue, setInputValue] = useState<ReportTypeFieldDto>(REPORT_FIELD_INITIAL_STATE)
+  const [inputValue, setInputValue] = useState<GroupFieldDto>(GROUP_FIELD_INITIAL_STATE)
   useEffect(() => {
     void fieldsService.findAll()
       .then(response => {
-        const actualFields = reportTypeFields.map(reportTypeField => reportTypeField.fieldId)
-        setFields(response.filter(field => !actualFields.includes(field.id) && field.active))
+        const actualFields = groupFields.map(groupField => groupField.fieldId)
+
+        void reportTypesService.findAllGroupFields(group.reportTypeId)
+          .then(groupFields => {
+            const existingGroupFields = groupFields.map(groupField => groupField.fieldId)
+            setFields(response.filter(field => (!actualFields.includes(field.id) && !existingGroupFields.includes(field.id)) && field.active))
+          })
       })
   }, [])
 
@@ -58,7 +63,7 @@ const AssignFieldForm = ({ reportType, reportTypeFields, toastId, closeModal, on
   }, [fields])
 
   useEffect(() => {
-    if (selectedField.type !== 'text') { inputValue.length = 0 }
+    if (selectedField.type !== 'text') { inputValue.maxLength = 0 }
     setHasMaxLength(selectedField.type === 'text')
   }, [selectedField])
 
@@ -70,17 +75,16 @@ const AssignFieldForm = ({ reportType, reportTypeFields, toastId, closeModal, on
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    void reportTypesService.assignField(reportType.id, selectedField.id, inputValue)
+    void groupsService.assignField(group.id, selectedField.id, inputValue)
       .then((response) => {
         onFinishSubmit(response)
-        toast('Field assigned correctly', { toastId, type: 'success' })
+        toast('Field assigned correctly', { toastId: toastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
-        toast(message, { toastId, type: 'error' })
+        toast(message, { toastId: toastContext.id, type: 'error' })
       })
       .finally(() => {
-        closeModal()
       })
   }
 
@@ -112,27 +116,22 @@ const AssignFieldForm = ({ reportType, reportTypeFields, toastId, closeModal, on
             <label className='font-medium'>Max cantidad de caractéres</label>
             <input
               className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none capitalize'
-              onChange={handleChange} type="number" name='length' placeholder='max length' min={0} value={inputValue.length} />
+              onChange={handleChange} type="number" name='maxLength' placeholder='max length' min={0} value={inputValue.maxLength} />
           </div>
         )}
-        <div className='grid grid-cols-3 place-items-center'>
+        <div className='grid grid-cols-2 place-items-center'>
           <div className='flex items-center gap-5'>
-            <label htmlFor='required'>Requerido</label>
-            <input onChange={handleChange} id='required' checked={inputValue.required} type="checkbox" name='required' />
+            <label htmlFor='isCritical'>Es crítico</label>
+            <input onChange={handleChange} id='isCritical' checked={inputValue.isCritical} type="checkbox" name='isCritical' />
           </div>
           <div className='flex items-center gap-5'>
-            <label htmlFor='image'>Imagen</label>
-            <input onChange={handleChange} id='image' checked={inputValue.imageValidation} type="checkbox" name='imageValidation' />
-          </div>
-          <div className='flex items-center gap-5'>
-            <label htmlFor='main'>Info Principal</label>
-            <input onChange={handleChange} id='main' checked={inputValue.mainInfo} type="checkbox" name='mainInfo' />
+            <label htmlFor='needImage'>Imagen</label>
+            <input onChange={handleChange} id='needImage' checked={inputValue.needImage} type="checkbox" name='needImage' />
           </div>
         </div>
 
         <div className='mt-5 flex justify-center gap-3 items-center'>
           <Button color='primary' type='submit'>Añadir</Button>
-          <Button color='danger' onClick={closeModal}>Cerrar</Button>
         </div>
       </form>
     </>
@@ -144,17 +143,12 @@ const AssignFieldForm = ({ reportType, reportTypeFields, toastId, closeModal, on
 
       <div className='flex justify-center gap-3 items-center'>
         <Button color='primary' onClick={() => navigate('/admin/campos')}>Añadir campos</Button>
-        <Button color='danger' onClick={closeModal}>Cerrar</Button>
       </div>
     </>
   )
 
   return (
-    <Modal>
-      <div className='w-full min-w-[300px] sm:min-w-[600px] p-3'>
-        {fields.length > 0 ? modal() : addFieldMessage()}
-      </div>
-    </Modal>
+    fields.length > 0 ? modal() : addFieldMessage()
   )
 }
 

@@ -4,7 +4,7 @@ import { ReportTypesService } from '@/reports/services/report-type.service'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
 import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import ReportTypeForm from '../components/report-types/ReportTypeForm'
-import ReportTypeFieldsComponent from '../components/report-types/ReportTypeFieldsComponent'
+import GroupsComponent from '../components/groups/GroupsComponent'
 import Toast from '@/shared/ui/components/Toast'
 
 const INITIAL_STATE = {
@@ -105,7 +105,7 @@ const ReportsView = (): ReactElement => {
         </main>
 
         <div className='w-full 1order-t border-solid border-gray-light my-3 sm:hidden'></div>
-        <ReportTypeFieldsComponent toastId={TOAST_ID} reportType={selectedReportType} />
+        <GroupsComponent reportType={selectedReportType} />
       </div>
 
       <Toast id={TOAST_ID}></Toast>
