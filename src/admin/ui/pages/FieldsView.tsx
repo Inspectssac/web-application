@@ -86,7 +86,7 @@ const FieldsView = (): ReactElement => {
   const tableColClassNames = 'text-sm font-medium text-white px-6 py-4 capitalize'
 
   return (
-    <div className='container'>
+    <div className='container-page'>
       <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-light-gray after:block after:mt-1'>Campos</h1>
       <div className='md:grid md:grid-cols-table md:gap-4'>
         <div className='mb-5 md:mb-0'>

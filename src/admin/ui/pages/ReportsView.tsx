@@ -71,7 +71,7 @@ const ReportsView = (): ReactElement => {
   }
 
   return (
-    <div className='container'>
+    <div className='container-page'>
       <h1 className='text-3xl mb-4 after:h-px after:w-52 after:bg-light-gray after:block after:mt-1'>Tipo de Reportes</h1>
       <div className='sm:grid sm:grid-cols-table sm:gap-12'>
         <main className='mb-4'>

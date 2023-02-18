@@ -5,7 +5,7 @@ interface IconProps {
   onClick?: () => void
 }
 
-const ProfileIcon = ({ className, onClick }: IconProps): ReactElement => {
+const EyeIcon = ({ className, onClick }: IconProps): ReactElement => {
   return (
     <svg
       onClick={onClick}
@@ -18,4 +18,4 @@ const ProfileIcon = ({ className, onClick }: IconProps): ReactElement => {
   )
 }
 
-export default ProfileIcon
+export default EyeIcon

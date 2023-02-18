@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { AppDispatch, RootState } from '@/shared/config/store'
 import { LoginData } from '@/iam/models/interfaces/login.interface'
 import { login } from '@/shared/config/store/features/auth-slice'
-import { AUTH_STATUS } from '@/shared/config/store/types'
+import { STATUS } from '@/shared/config/store/types'
 import Button from '@/shared/ui/components/Button'
 
 interface FormState {
@@ -25,8 +25,8 @@ const LoginForm = (): ReactElement => {
   const loginStatus = useSelector<RootState>(({ auth }: RootState) => auth.status, shallowEqual)
 
   useEffect(() => {
-    setHasFailed(loginStatus === AUTH_STATUS.FAILED)
-    setIsLoading(loginStatus === AUTH_STATUS.PENDING)
+    setHasFailed(loginStatus === STATUS.FAILED)
+    setIsLoading(loginStatus === STATUS.PENDING)
   }, [loginStatus])
 
   const [loginData, setLoginData] = useState<FormState['loginData']>({

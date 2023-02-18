@@ -18,8 +18,8 @@ interface Link {
 }
 
 const links: Link[] = [
-  { name: 'Inicio', to: '/inicio' }
-  // { name: 'routes', to: '/routes' }
+  { name: 'Inicio', to: '/inicio' },
+  { name: 'Rutas', to: '/recorridos' }
 ]
 
 const NavBar = ({ divLinksClasses, extraLinkClasses, handleClick }: NavBarProps): ReactElement => {

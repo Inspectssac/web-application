@@ -19,7 +19,11 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/react-table-types/react-table-config.d.ts"
+    ],
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

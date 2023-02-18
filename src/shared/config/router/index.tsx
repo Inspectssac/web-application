@@ -12,6 +12,7 @@ import FieldsView from '@/admin/ui/pages/FieldsView'
 import ProfileView from '@/profiles/ui/pages/ProfileView'
 import VehiclesView from '@/admin/ui/pages/VehiclesView'
 import RequiredAdmin from '@/admin/ui/pages/RequiredAdmin'
+import RouteDetail from '@/routes/pages/RouteDetail'
 
 const authRequiredRoutes: RouteObject[] = [
   {
@@ -20,8 +21,12 @@ const authRequiredRoutes: RouteObject[] = [
     element: <Home />
   },
   {
-    path: 'routes',
+    path: 'recorridos',
     element: <RoutesView />
+  },
+  {
+    path: 'detalle-recorrido',
+    element: <RouteDetail />
   },
   {
     path: 'admin',

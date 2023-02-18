@@ -6,3 +6,8 @@ export interface Group {
   reportTypeId: number
   fieldsGroups: []
 }
+
+export interface ReportGroup {
+  id: number
+  name: string
+}

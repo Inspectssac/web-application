@@ -1,7 +1,7 @@
 
 import React, { Fragment, ReactElement } from 'react'
 import { NavLink } from 'react-router-dom'
-import ProfileIcon from '../../assets/icons/EyeIcon'
+import EyeIcon from '../../assets/icons/EyeIcon'
 import UserIcon from '../../assets/icons/UserIcon'
 import DropDown from './DropDown'
 
@@ -12,7 +12,7 @@ interface DesktopUserOptionsProps {
 export const DesktopUserOptions = ({ handleLogout }: DesktopUserOptionsProps): ReactElement => {
   const userIcon = <UserIcon className='w-8 h-8 text-blue'/>
   const items = [
-    { to: 'perfil', name: 'Perfil', icon: <ProfileIcon className='w-5 h-5 mr-2' /> }
+    { to: 'perfil', name: 'Perfil', icon: <EyeIcon className='w-5 h-5 mr-2' /> }
   ]
   return (
     <DropDown menu={userIcon} items={items} logout={true} handleLogout={handleLogout}/>

@@ -1,7 +1,7 @@
 import { LoginData } from '@/iam/models/interfaces/login.interface'
 import { AuthServices } from '@/iam/services/auth.service'
 import { createAsyncThunk, createSlice, SliceCaseReducers } from '@reduxjs/toolkit'
-import { AUTH_STATUS, AUTH_STATE } from '@/shared/config/store/types'
+import { STATUS, AUTH_STATE } from '@/shared/config/store/types'
 import { UserStorage } from '@/iam/models/interfaces/user-storage.interface'
 
 const getInitialState = (): AUTH_STATE => {
@@ -10,14 +10,14 @@ const getInitialState = (): AUTH_STATE => {
     return {
       user: null,
       authenticated: false,
-      status: AUTH_STATUS.IDLE
+      status: STATUS.IDLE
     }
   }
 
   return {
     user: JSON.parse(userJson),
     authenticated: true,
-    status: AUTH_STATUS.SUCCEEDED
+    status: STATUS.SUCCEEDED
   }
 }
 
@@ -49,15 +49,15 @@ const authSlice = createSlice<AUTH_STATE, SliceCaseReducers<AUTH_STATE>>({
   extraReducers (builder) {
     builder
       .addCase(login.pending, (state, action) => {
-        state.status = AUTH_STATUS.PENDING
+        state.status = STATUS.PENDING
       })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload
         state.authenticated = true
-        state.status = AUTH_STATUS.SUCCEEDED
+        state.status = STATUS.SUCCEEDED
       })
       .addCase(login.rejected, (state, action) => {
-        state.status = AUTH_STATUS.FAILED
+        state.status = STATUS.FAILED
       })
       // .addCase(register.pending, (state, action) => {
       //   state.status = AUTH_STATUS.LOADING
