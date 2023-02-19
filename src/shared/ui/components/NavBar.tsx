@@ -41,7 +41,7 @@ const NavBar = ({ divLinksClasses, extraLinkClasses, handleClick }: NavBarProps)
             to={to}
             className={({ isActive }) =>
               ` py-3 font-m text-white px-6 sm:rounded-2xl md:py-1
-              ${extraLinkClasses ?? ''} ${isActive ? 'bg-blue' : ''}`
+              ${extraLinkClasses ?? ''} ${isActive ? 'bg-red' : ''}`
             }
             onClick={handleClick}
           >

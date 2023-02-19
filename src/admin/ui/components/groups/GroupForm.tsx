@@ -90,7 +90,7 @@ const GroupForm = ({ group, reportTypeId, formAction, close, update, reset }: Cr
 
         <div className='mt-5 flex justify-center gap-3 items-center'>
           <Button color='primary' type='submit'>Añadir</Button>
-          <Button color='danger' onClick={close}>Cerrar</Button>
+          <Button color='secondary' onClick={close}>Cerrar</Button>
         </div>
       </form>
       </div>

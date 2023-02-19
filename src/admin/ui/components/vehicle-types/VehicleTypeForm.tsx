@@ -97,7 +97,7 @@ const VehicleTypeForm = ({ vehicleType, formAction, onFinishSubmit, reset }: Veh
           setValue={(value) => setValueInputValue('name', value)}></Input>
         <div className='mt-5 flex gap-2'>
           <Button color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Editar'}</Button>
-          <Button color='danger' onClick={resetForm}>Cancelar</Button>
+          <Button color='secondary' onClick={resetForm}>Cancelar</Button>
         </div>
       </form>
     </div>

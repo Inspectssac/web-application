@@ -10,7 +10,7 @@ interface DesktopUserOptionsProps {
 }
 
 export const DesktopUserOptions = ({ handleLogout }: DesktopUserOptionsProps): ReactElement => {
-  const userIcon = <UserIcon className='w-8 h-8 text-blue'/>
+  const userIcon = <UserIcon className='w-8 h-8 text-red'/>
   const items = [
     { to: 'perfil', name: 'Perfil', icon: <EyeIcon className='w-5 h-5 mr-2' /> }
   ]
@@ -30,7 +30,7 @@ export const MobileUserOptions = ({ handleClick, handleLogout }: MobileUserOptio
       <NavLink
         to='/perfil'
         className={({ isActive }) =>
-          `block py-3 font-m text-white px-6 hover:bg-blue ${isActive ? 'bg-blue' : ''}`
+          `block py-3 font-m text-white px-6 hover:bg-blue ${isActive ? 'bg-red' : ''}`
         }
         onClick={handleClick}
       >

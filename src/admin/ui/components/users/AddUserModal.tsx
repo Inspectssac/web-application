@@ -143,7 +143,7 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
           }
         </select>
         <div className='flex justify-center gap-5'>
-          <Button color='danger' onClick={closeModal}>Cerrar</Button>
+          <Button color='secondary' onClick={closeModal}>Cerrar</Button>
           <Button color='primary' type='submit' disabled={!canSubmit}>Añadir Usuario</Button>
         </div>
       </form>

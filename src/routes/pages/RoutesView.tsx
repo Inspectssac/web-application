@@ -183,7 +183,7 @@ const RoutesView = (): ReactElement => {
             <p className='font-bold'>Fecha de última búsqueda</p>
             <p>{lastDateRequest !== null ? lastDateRequest.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h12' }) : ''}</p>
           </div>
-          <Button color='danger' onClick={findAll}>Buscar recorridos</Button>
+          <Button color='secondary' onClick={findAll}>Buscar recorridos</Button>
         </div>
       </div>
       {showFilter

@@ -20,7 +20,7 @@ module.exports = {
           dark: darken('#0d6efd', 0.5)
         },
         red: {
-          DEFAULT: '#dc3545',
+          DEFAULT: '#DC3545',
           dark: '#70151e'
         },
         gray: {

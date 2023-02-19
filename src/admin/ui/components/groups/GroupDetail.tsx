@@ -95,7 +95,7 @@ const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
   return (
     <Modal>
       <div className='w-full min-w-[300px] sm:min-w-[800px] p-3'>
-        <div className='flex justify-between items-center mb-4'>
+        <div className='flex justify-between items-center mb-4 gap-4'>
           <h2 className='text-center text-2xl uppercase'>{group.name}</h2>
 
           <div className='flex gap-2'>

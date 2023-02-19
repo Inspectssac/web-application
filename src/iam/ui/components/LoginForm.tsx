@@ -88,7 +88,7 @@ const LoginForm = (): ReactElement => {
           onChange={handleChange}
           type="text" value={loginData.username}
           name='username'
-          placeholder='username' />
+          placeholder='Usuario' />
         <p className='text-red font-bold'>{errors.username}</p>
       </div>
 
@@ -99,7 +99,7 @@ const LoginForm = (): ReactElement => {
           type="password"
           value={loginData.password}
           name='password'
-          placeholder='password' />
+          placeholder='Contraseña' />
         <p className='text-red font-bold'>{errors.password}</p>
       </div>
 

@@ -89,8 +89,8 @@ const AreaForm = ({ area, formAction, toastId, onFinishSubmit, reset }: AreaForm
             setValue={(value) => setInputValue({ ...inputValue, name: value })}></Input>
 
         <div className='mt-3 flex items-center gap-3'>
-          <Button className='py-1' color='danger' onClick={resetForm}>Cancelar</Button>
           <Button className='py-1' color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Editar'}</Button>
+          <Button className='py-1' color='secondary' onClick={resetForm}>Cancelar</Button>
         </div>
       </form>
     </div>

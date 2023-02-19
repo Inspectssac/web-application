@@ -165,7 +165,7 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
 
         <div className='mt-4 flex justify-center gap-3 items-center'>
           <Button color='primary' type='submit' disabled={!canSubmit}>Crear</Button>
-          <Button color='danger' onClick={closeModal}>Cerrar</Button>
+          <Button color='secondary' onClick={closeModal}>Cerrar</Button>
         </div>
       </form>
     </>
@@ -176,7 +176,7 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
       <p className='text-center mb-3 text-lg'>No hay tipo de vehículos, por favor añade un tipo de vehículo antes de añadir un vehículo</p>
 
       <div className='flex justify-center gap-3 items-center'>
-        <Button color='danger' onClick={closeModal}>Close</Button>
+        <Button color='secondary' onClick={closeModal}>Close</Button>
       </div>
     </>
   )

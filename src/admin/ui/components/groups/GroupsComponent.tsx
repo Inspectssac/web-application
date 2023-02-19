@@ -112,11 +112,11 @@ const GroupsComponent = ({ reportType }: GroupsComponentProps): ReactElement => 
             <div className='flex gap-4 flex-wrap'>
               {
                 groups.map(group => (
-                  <div key={group.id} className='max-w-[220px] p-7 bg-black text-white rounded-lg cursor-pointer flex flex-col justify-between gap-2'>
+                  <div key={group.id} className='max-w-[220px] p-7 bg-black text-white rounded-lg flex flex-col justify-between gap-2'>
                     <p className='uppercase'>{group.name}</p>
 
                     <div className='flex justify-between gap-2 mt-3'>
-                      <EyeIcon className='w-6 h-6 cursor-pointer' onClick={() => showDetail(group)}></EyeIcon>
+                      <EyeIcon className='w-6 h-6 cursor-pointer hover:text-red' onClick={() => showDetail(group)}></EyeIcon>
                       <EditIcon className='w-6 h-6 cursor-pointer' onClick={() => update(group)} />
                       <DeleteIcon className='w-6 h-6 cursor-pointer text-red' onClick={() => remove(group)} />
                     </div>

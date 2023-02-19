@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react'
 
 type ButtonType = 'button' | 'submit' | 'reset' | undefined
 
-type ButtonColor = 'primary' | 'secondary' | 'danger' | 'success'
+type ButtonColor = 'primary' | 'secondary' | 'success' | 'primary-dark'
 
 interface ButtonProps {
   children?: React.ReactNode
@@ -16,10 +16,10 @@ interface ButtonProps {
 
 const getButtonColor = (buttonColor: ButtonColor): string => {
   const colors = {
-    primary: 'bg-blue',
+    primary: 'bg-red',
     secondary: 'bg-black',
-    danger: 'bg-red',
-    success: 'bg-success'
+    success: 'bg-success',
+    'primary-dark': 'bg-red-dark'
   }
 
   return colors[buttonColor]
@@ -27,10 +27,10 @@ const getButtonColor = (buttonColor: ButtonColor): string => {
 
 const getButtonLoadingColor = (buttonColor: ButtonColor): string => {
   const colors = {
-    primary: 'bg-blue-dark',
+    primary: 'bg-red-dark',
     secondary: 'bg-black-light',
-    danger: 'bg-red-dark',
-    success: 'bg-success-dark'
+    success: 'bg-success-dark',
+    'primary-dark': 'bg-red-dark'
   }
 
   return colors[buttonColor]

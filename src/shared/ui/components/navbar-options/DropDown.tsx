@@ -45,7 +45,7 @@ const DropDown = ({ menu, items, logout, handleLogout }: DropDownProps): ReactEl
                           to={item.to}
                           className={({ isActive }) =>
                             `group flex w-full items-center rounded-md px-2 py-2 text-sm
-                            ${isActive || active ? 'bg-blue text-white' : ''}`
+                            ${isActive || active ? 'bg-red text-white' : ''}`
                           }
                         >
                           {item.icon}
@@ -63,7 +63,7 @@ const DropDown = ({ menu, items, logout, handleLogout }: DropDownProps): ReactEl
                 <Menu.Item>
                   {({ active }) => (
                     <button
-                      className={`${active ? 'bg-blue text-white' : ''
+                      className={`${active ? 'bg-red text-white' : ''
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       onClick={handleLogout}
                     >

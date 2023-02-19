@@ -24,7 +24,7 @@ const Login = (): ReactElement => {
         />
       </div>
       <div className={`h-full ${isAboveSmallScreen ? 'w-[50%]' : 'w-full'} flex flex-col justify-center`}>
-        <h1 className="text-center mb-5 bold text-xl font-semibold uppercase">Login to Inspectorssac</h1>
+        <h1 className="text-center mb-5 bold text-xl font-semibold uppercase">Login to InspectESSAC</h1>
         <LoginForm />
       </div>
     </div>

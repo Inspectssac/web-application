@@ -147,7 +147,7 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
 
         <div className='mt-4 flex gap-3'>
           <Button color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Editar'}</Button>
-          <Button color='danger' onClick={resetForm}>Cancelar</Button>
+          <Button color='secondary' onClick={resetForm}>Cancelar</Button>
         </div>
 
       </form>

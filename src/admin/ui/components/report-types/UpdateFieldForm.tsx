@@ -83,7 +83,7 @@ const UpdateFieldForm = ({ group, groupField, closeModal, onFinishSubmit }: Upda
 
         <div className='mt-5 flex justify-center gap-3 items-center'>
           <Button color='primary' type='submit'>Editar</Button>
-          <Button color='danger' onClick={closeModal}>Cerrar</Button>
+          <Button color='secondary' onClick={closeModal}>Cerrar</Button>
         </div>
       </form>
     </div>

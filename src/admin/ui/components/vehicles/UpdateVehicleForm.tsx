@@ -162,7 +162,7 @@ const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicl
 
           <div className='flex justify-center gap-3 items-center'>
             <Button color='primary' type='submit' disabled={!canSubmit}>Editar</Button>
-            <Button color='danger' onClick={closeModal}>Cerrar</Button>
+            <Button color='secondary' onClick={closeModal}>Cerrar</Button>
           </div>
         </form>
       </div>
