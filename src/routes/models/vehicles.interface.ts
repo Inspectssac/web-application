@@ -7,6 +7,8 @@ export interface Vehicle {
   provider: string
   carrier: string
   imei: string
+  brand: string
+  model: string
   lastMaintenance: string
   vehicleType: VehicleType
 }

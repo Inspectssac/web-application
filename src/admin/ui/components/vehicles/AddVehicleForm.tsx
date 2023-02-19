@@ -20,6 +20,8 @@ const INITIAL_STATE = {
   provider: '',
   carrier: '',
   imei: '',
+  model: '',
+  brand: '',
   lastMaintenance: new Date().toISOString()
 }
 const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): ReactElement => {
@@ -131,6 +133,24 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
             name='imei' placeholder='Imei' type='text'
             setValid={(valid) => setIsValidInput('imei', valid)}
             setValue={(value) => setValueInputValue('imei', value)}></Input>
+          {/* <input onChange={handleChange} id='imei' value={inputValue.imei} type="text" name='imei' /> */}
+        </div>
+        <div className='mt-2'>
+          <label className='font-medium' htmlFor='model'>Model</label>
+          <Input
+            value={inputValue.model}
+            name='model' placeholder='Modelo' type='text'
+            setValid={(valid) => setIsValidInput('model', valid)}
+            setValue={(value) => setValueInputValue('model', value)}></Input>
+          {/* <input onChange={handleChange} id='imei' value={inputValue.imei} type="text" name='imei' /> */}
+        </div>
+        <div className='mt-2'>
+          <label className='font-medium' htmlFor='brand'>Marca</label>
+          <Input
+            value={inputValue.brand}
+            name='brand' placeholder='Marca' type='text'
+            setValid={(valid) => setIsValidInput('brand', valid)}
+            setValue={(value) => setValueInputValue('brand', value)}></Input>
           {/* <input onChange={handleChange} id='imei' value={inputValue.imei} type="text" name='imei' /> */}
         </div>
         <div className='mt-2'>

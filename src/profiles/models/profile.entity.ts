@@ -8,5 +8,8 @@ export interface Profile {
   company: string
   phone1: string
   phone2: string
+  email: string
+  license: string
+  licenseCategory: string
   fullName: string
 }

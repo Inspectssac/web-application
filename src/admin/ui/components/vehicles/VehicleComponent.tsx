@@ -78,7 +78,7 @@ const VehicleComponent = (): ReactElement => {
   const tableBodyStyle = 'text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'
 
   return (
-    <div>
+    <div className='max-w-[900px]'>
       {showAddVehicleModal && <AddVehicleForm closeModal={toggleAddModal} onFinishSubmit={onFinishSubmit} />}
       {showUpdateVehicleModal && <UpdateVehicleForm closeModal={toggleUpdateModal} vehicle={selectedVehicle} onFinishSubmit={onFinishSubmit} />}
       <div className='flex justify-between items-center mb-5'>
@@ -97,6 +97,8 @@ const VehicleComponent = (): ReactElement => {
                   <th scope='col' className={tableHeadStyle}>Imei</th>
                   <th scope='col' className={tableHeadStyle}>Último Mantenimiento</th>
                   <th scope='col' className={tableHeadStyle}>Tipo de vehículo</th>
+                  <th scope='col' className={tableHeadStyle}>Marca</th>
+                  <th scope='col' className={tableHeadStyle}>Modelo</th>
                   <th scope='col' className={tableHeadStyle}>Acciones</th>
                 </tr>
               </thead>
@@ -110,6 +112,8 @@ const VehicleComponent = (): ReactElement => {
                       <td className={tableBodyStyle}>{vehicle.imei}</td>
                       <td className={tableBodyStyle}>{new Date(vehicle.lastMaintenance).toDateString()}</td>
                       <td className={tableBodyStyle}>{vehicle.vehicleType.name}</td>
+                      <td className={tableBodyStyle}>{vehicle.brand}</td>
+                      <td className={tableBodyStyle}>{vehicle.model}</td>
                       <td className={` ${tableBodyStyle} flex justify-center gap-3`}>
                         <EditIcon className='cursor-pointer w-5 h-5' onClick={() => update(vehicle)} />
                         <DeleteIcon className='cursor-pointer w-5 h-5 text-red' onClick={() => remove(vehicle)} />
