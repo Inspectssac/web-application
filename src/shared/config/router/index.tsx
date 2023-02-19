@@ -14,10 +14,15 @@ import VehiclesView from '@/admin/ui/pages/VehiclesView'
 import RequiredAdmin from '@/admin/ui/pages/RequiredAdmin'
 import RouteDetail from '@/routes/pages/RouteDetail'
 import CheckpointsView from '@/routes/pages/CheckpointsView'
+import Redirect from '@/shared/ui/components/Redirect'
 
 const authRequiredRoutes: RouteObject[] = [
   {
     index: true,
+    path: '',
+    element: <Redirect />
+  },
+  {
     path: 'inicio',
     element: <Home />
   },
