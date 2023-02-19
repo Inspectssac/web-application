@@ -13,6 +13,7 @@ import ProfileView from '@/profiles/ui/pages/ProfileView'
 import VehiclesView from '@/admin/ui/pages/VehiclesView'
 import RequiredAdmin from '@/admin/ui/pages/RequiredAdmin'
 import RouteDetail from '@/routes/pages/RouteDetail'
+import CheckpointsView from '@/routes/pages/CheckpointsView'
 
 const authRequiredRoutes: RouteObject[] = [
   {
@@ -27,6 +28,10 @@ const authRequiredRoutes: RouteObject[] = [
   {
     path: 'detalle-recorrido',
     element: <RouteDetail />
+  },
+  {
+    path: 'detalle-checkpoints',
+    element: <CheckpointsView />
   },
   {
     path: 'admin',

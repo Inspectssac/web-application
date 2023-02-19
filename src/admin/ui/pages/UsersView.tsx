@@ -10,10 +10,11 @@ import { useSelector } from 'react-redux'
 import AddUserModal from '../components/users/AddUserModal'
 import AreasComponent from '../components/areas/AreasComponent'
 import ChangeRoleModal from '../components/users/ChangeRoleModal'
-import UserComponent from '../components/users/UserComponent'
 import Toast from '@/shared/ui/components/Toast'
 import { toast } from 'react-toastify'
-import Table from '@/shared/ui/components/Table'
+import { Column } from 'react-table'
+import EnhancedTable from '@/shared/ui/components/EnhancedTable'
+import { SortIconAsc, SortIconDesc } from '@/routes/assets/SortIcons'
 
 const TOAST_ID = 'users'
 
@@ -38,10 +39,6 @@ const UsersView = (): ReactElement => {
   useEffect(() => {
     setCanRemove(selectedUser !== null)
   }, [selectedUser])
-
-  const handleSelectedUser = (user: User): void => {
-    setSelectedUser(user)
-  }
 
   const closeModal = (): void => {
     setShowModal(false)
@@ -100,7 +97,40 @@ const UsersView = (): ReactElement => {
     setModalContent(<ChangeRoleModal closeModal={closeModal} user={selectedUser} refreshUser={refreshUser} toastId={TOAST_ID} />)
   }
 
-  const tableColClassNames = 'text-sm font-medium text-white px-6 py-4 capitalize'
+  const COLUMN_HEADERS: Array<Column<User>> = [
+    { Header: 'Usuario', accessor: 'username' },
+    { Header: 'Rol', accessor: 'role' },
+    { Header: 'Estado', id: 'status', accessor: (row: User) => row.active ? 'Activo' : 'No activo' },
+    { Header: 'Area', id: 'area', accessor: (row: User) => row.areas[0] ? row.areas[0].name : 'area' }
+  ]
+
+  const [sortColumn, setSortColumn] = useState<string>('username')
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
+
+  const getSortIcon = (column: string): React.ReactElement => {
+    if (sortColumn !== column) return (<span></span>)
+    const className = 'text-white w-6 h-6'
+    return sortDirection === 'asc' ? <SortIconAsc className={className} /> : <SortIconDesc className={className} />
+  }
+
+  const handleSortColumn = (column: string): void => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+    }
+    console.log(column)
+    setSortColumn(column)
+  }
+
+  const onClickUser = (id: string): void => {
+    if (selectedUser?.id === id) {
+      setSelectedUser(null)
+      return
+    }
+
+    const user = users.find(user => user.id === id)
+    setSelectedUser(user ?? null)
+  }
+
   return (
     <div className='container-page'>
       <div className='sm:flex sm:justify-between sm:items-center'>
@@ -125,25 +155,8 @@ const UsersView = (): ReactElement => {
 
         <div className='w-full order-1 md:order-2 mt-3 md:mt-0'>
           <p className='text-xl mb-2'>Usuario seleccionado: <span className='font-bold'>{selectedUser ? selectedUser.username : 'Ningún usuario fue seleccionado'}</span></p>
-          <Table>
-            <thead className='border-b bg-black'>
-              <tr>
-                <th scope='col' className={`${tableColClassNames}`}>Usuario</th>
-                <th scope='col' className={`${tableColClassNames}`}>Rol</th>
-                <th scope='col' className={`${tableColClassNames}`}>Estado</th>
-                <th scope='col' className={`${tableColClassNames}`}>Áreas</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                users.map(user => {
-                  return (
-                    <UserComponent key={user.id} user={user} setSelectedUser={handleSelectedUser} selected={user.id === selectedUser?.id}/>
-                  )
-                })
-              }
-            </tbody>
-          </Table>
+          <EnhancedTable columns={COLUMN_HEADERS} data={users} sortIcon={getSortIcon} setSortColumn={handleSortColumn}
+            onRowClick={onClickUser} />
         </div>
 
       </main>

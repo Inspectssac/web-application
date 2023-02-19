@@ -1,9 +1,10 @@
+import React, { ReactElement, useEffect, useState } from 'react'
 import { FieldReport } from '@/reports/models/field-report.interface'
 import { Report } from '@/reports/models/report.interface'
 import { ReportsService } from '@/reports/services/report.service'
 import EyeIcon from '@/shared/ui/assets/icons/EyeIcon'
-import React, { ReactElement, useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import Button from '@/shared/ui/components/Button'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import ShowImageEvidence from '../components/ShowImageEvidence'
 import { Route } from '../models/route.interface'
 import RoutesServices from '../services/route.services'
@@ -51,6 +52,7 @@ interface FieldSelected {
 const RouteDetail = (): ReactElement => {
   const routesService = new RoutesServices()
   const reportsService = new ReportsService()
+  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const [route, setRoute] = useState<Route>(ROUTE_INITIAL_STATE)
   const [report, setReport] = useState<Report>(REPORT_INITIAL_STATE)
@@ -186,13 +188,24 @@ const RouteDetail = (): ReactElement => {
 
       </div>
 
-      <h2 className='uppercase text-3xl font-semibold mt-6'>Checklist</h2>
+      <div className='flex gap-3 justify-between items-center mt-6'>
+        <h2 className='uppercase text-3xl font-semibold '>Checklist</h2>
+        { report.checkpoints.length > 0 ? <Button color='primary' onClick={() => { navigate(`/detalle-checkpoints?report-id=${report.id}&route-id=${route.id}`) }}>Ver Observaciones</Button> : <div></div>}
+      </div>
       <div className='w-full border-b-2 mt-2 mb-4'></div>
-      <div>
-        <p>{report.id}</p>
-        <p>Tipo de reporte: {report.reportType.name}</p>
-        <p>Ubicación: {report.location}</p>
-        <p>Checkpoints: {report.checkpoints.length}</p>
+      <div className='uppercase'>
+        <div className='flex gap-6'>
+          <p className='font-semibold w-1/6'>Tipo de Reporte</p>
+          <p>: {report.reportType.name}</p>
+        </div>
+        <div className='flex gap-6'>
+          <p className='font-semibold w-1/6'>Ubicación</p>
+          <p>: {report.location}</p>
+        </div>
+        <div className='flex gap-6'>
+          <p className='font-semibold w-1/6'>Checkpoints</p>
+          <p>: {report.checkpoints.length}</p>
+        </div>
       </div>
 
       <div className='grid grid-cols-2 gap-6 uppercase'>
@@ -217,14 +230,6 @@ const RouteDetail = (): ReactElement => {
                               {fieldReport.imageEvidence !== '' && <EyeIcon className='w-6 h-6 cursor-pointer transition-all hover:text-red' onClick={() => { imageEvidenceOnClick(fieldReport.imageEvidence, fieldReport.field.name) }}></EyeIcon>}
                             </div>
                           </div>
-
-                          {/* {fieldReport.imageEvidence !== '' &&
-                            (
-                              <div className='h-[250px] w-[250px] overflow-hidden rounded-md'>
-                                <img className='object-cover' src={`${fieldReport.imageEvidence}`} alt="" />
-                              </div>
-                            )
-                          } */}
                         </div>
                       )
                     })
@@ -235,7 +240,7 @@ const RouteDetail = (): ReactElement => {
           })
         }
       </div>
-      { showImage && <ShowImageEvidence imageUrl={fieldSelected.url} name={fieldSelected.name} close={() => { setShowImage(false) }}/>}
+      {showImage && <ShowImageEvidence imageUrl={fieldSelected.url} name={fieldSelected.name} close={() => { setShowImage(false) }} />}
     </div>
 
   )

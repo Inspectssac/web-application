@@ -1,4 +1,5 @@
 import { AppServices } from '@/shared/service/app-api.service'
+import { Checkpoint } from '../models/checkpoint.interface'
 import { FieldReport } from '../models/field-report.interface'
 import { Report } from '../models/report.interface'
 
@@ -23,6 +24,11 @@ export class ReportsService extends AppServices {
 
   findAllFieldsByReportId = async (reportId: string): Promise<FieldReport[]> => {
     return await this.get<FieldReport[]>(`/${reportId}/fields`)
+      .then(response => response.data)
+  }
+
+  findAllCheckpoints = async (reportId: string): Promise<Checkpoint[]> => {
+    return await this.get<Checkpoint[]>(`/${reportId}/checkpoints`)
       .then(response => response.data)
   }
 }

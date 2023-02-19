@@ -1,18 +1,16 @@
 import React, { ReactElement } from 'react'
 import { Column, usePagination, useTable } from 'react-table'
-import { BackIcon, DoubleBackIcon, DoubleForwardIcon, ForwardIcon } from '../assets/PaginationIcon'
-import Pagination, { PaginationButton } from './Pagination'
-import { Route } from '../models/route.interface'
-
-interface TableProps {
-  columns: Array<Column<Route>>
-  data: Route[]
+import { BackIcon, DoubleBackIcon, DoubleForwardIcon, ForwardIcon } from '../../../routes/assets/PaginationIcon'
+import Pagination, { PaginationButton } from '../../../routes/components/Pagination'
+interface TableProps<T extends object> {
+  columns: Array<Column<T>>
+  data: T[]
   onRowClick?: (id: string) => void
   sortIcon: (column: string) => ReactElement
   setSortColumn: (column: string) => void
 }
 
-const Table = ({ columns, data, sortIcon, setSortColumn, onRowClick = (id) => { console.log(id) } }: TableProps): ReactElement => {
+function Table<T extends object> ({ columns, data, sortIcon, setSortColumn, onRowClick = (id: string) => { console.log(id) } }: TableProps<T>): ReactElement {
   const {
     getTableProps,
     getTableBodyProps,
@@ -81,12 +79,12 @@ const Table = ({ columns, data, sortIcon, setSortColumn, onRowClick = (id) => { 
                 ))}
               </thead>
               <tbody {...getTableBodyProps()}>
-                {page.map((row) => {
+                {page.map((row, index) => {
                   prepareRow(row)
                   return (
                     <tr
                       {...row.getRowProps()}
-                      key={row.original.id}
+                      key={row.original['id' as keyof T] as string}
                       className={'bg-white border-b transition duration-300 ease-in-out hover:bg-gray-200'}
                     >
                       {row.cells.map((cell, index) => (
@@ -94,7 +92,7 @@ const Table = ({ columns, data, sortIcon, setSortColumn, onRowClick = (id) => { 
                           {...cell.getCellProps()}
                           key={index}
                           className={`${bodyStyle}`}
-                          onClick={() => { onRowClick(row.original.id) }}
+                          onClick={() => { onRowClick(row.original['id' as keyof T] as string) }}
                         >{cell.render('Cell')} { }</td>
                       ))}
 
