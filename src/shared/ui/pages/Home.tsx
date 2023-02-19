@@ -70,7 +70,7 @@ const Home = (): ReactElement => {
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 type="date"
                 name='date-start'
-                value={dateRange.formattedDateStart() }
+                value={dateRange.formattedDateStart()}
                 onChange={onChangeInputDate}
               />
             </div>
@@ -97,20 +97,27 @@ const Home = (): ReactElement => {
 
         <div className='mt-4'>
           <p className='uppercase font-semibold text-xl'>Cantidad de Reportes</p>
-          <div className='flex gap-5 mt-5'>
-            {
-              Array.from(reportsByType.entries()).map(([key, value]) => {
-                return (
-                  <div
-                    className='inline-block p-8 bg-black text-white rounded-md text-center'
-                    key={key}>
-                    <p className='text-xl'>{key.toUpperCase()}</p>
-                    <p className='text-2xl'>{value}</p>
-                  </div>
-                )
-              })
-            }
-          </div>
+          {Array.from(reportsByType.entries()).length > 0
+            ? (
+              <div className='flex gap-5 mt-5'>
+                {
+                  Array.from(reportsByType.entries()).map(([key, value]) => {
+                    return (
+                      <div
+                        className='inline-block p-8 bg-black text-white rounded-md text-center'
+                        key={key}>
+                        <p className='text-xl'>{key.toUpperCase()}</p>
+                        <p className='text-2xl'>{value}</p>
+                      </div>
+                    )
+                  })
+                }
+              </div>
+              )
+            : (
+              <p className='uppercase mt-3 text-red font-semibold'>No hay recorridos registrados en ese rango de fecha</p>
+              )
+          }
 
         </div>
       </main>
