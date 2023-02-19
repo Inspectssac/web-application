@@ -2,7 +2,7 @@ import { TokenService } from '@/iam/services/token.service'
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { StatusCodes } from 'http-status-codes'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? ''
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api/v1'
 
 export abstract class AppServices {
   _baseUrl: string
