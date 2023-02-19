@@ -120,7 +120,7 @@ const VehicleComponent = (): ReactElement => {
               </tbody>
             </Table>
             )
-          : (<p>Theres no vehicles</p>)
+          : (<p>No hay vehiculos registrados</p>)
 
       }
     </div>

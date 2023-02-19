@@ -15,6 +15,7 @@ import { toast } from 'react-toastify'
 import { Column } from 'react-table'
 import EnhancedTable from '@/shared/ui/components/EnhancedTable'
 import { SortIconAsc, SortIconDesc } from '@/routes/assets/SortIcons'
+import ImportModal from '../components/ImportModal'
 
 const TOAST_ID = 'users'
 
@@ -22,6 +23,7 @@ const UsersView = (): ReactElement => {
   const usersService = new UsersService()
   const [users, setUsers] = useState<User[]>([])
   const [showModal, setShowModal] = useState(false)
+  const [showImportModal, setShowImportModal] = useState(false)
   const [modalContent, setModalContent] = useState<React.ReactNode>(null)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const currentUser = useSelector<RootState, UserStorage>(getCurrentUser)
@@ -49,6 +51,10 @@ const UsersView = (): ReactElement => {
     refreshUserList(newUser, newUser.id)
   }
 
+  const refreshImportedUsers = (newUsers: User[]): void => {
+    setUsers(users.concat(newUsers))
+  }
+
   const refreshUserList = (user: User, id: string, remove: boolean = false): void => {
     const index = users.findIndex(user => user.id === id)
 
@@ -67,11 +73,11 @@ const UsersView = (): ReactElement => {
 
   const handleRemove = (): void => {
     if (selectedUser === null) {
-      alert('First select a user')
+      alert('Primero selecciona un usuario')
       return
     }
 
-    const result = confirm(`Are you sure you want to delete user '${selectedUser.username}'`)
+    const result = confirm(`Estás seguro que quieres eliminar el usuario '${selectedUser.username}'`)
 
     if (!result) { return }
 
@@ -80,10 +86,10 @@ const UsersView = (): ReactElement => {
       .then(response => {
         setSelectedUser(null)
         refreshUserList(response, id, true)
-        toast('User deleted correctly', { toastId: TOAST_ID, type: 'success' })
+        toast('Usuario eliminado correctamente', { toastId: TOAST_ID, type: 'success' })
       })
       .catch(() => {
-        toast('There was an error, try it later', { toastId: TOAST_ID, type: 'error' })
+        toast('Hubo un error, intente nuevamente luego', { toastId: TOAST_ID, type: 'error' })
       })
   }
 
@@ -101,7 +107,7 @@ const UsersView = (): ReactElement => {
     { Header: 'Usuario', accessor: 'username' },
     { Header: 'Rol', accessor: 'role' },
     { Header: 'Estado', id: 'status', accessor: (row: User) => row.active ? 'Activo' : 'No activo' },
-    { Header: 'Area', id: 'area', accessor: (row: User) => row.areas[0] ? row.areas[0].name : 'area' }
+    { Header: 'Area', id: 'area', accessor: (row: User) => row.areas ? row.areas[0] ? row.areas[0].name : 'area' : 'area' }
   ]
 
   const [sortColumn, setSortColumn] = useState<string>('username')
@@ -131,11 +137,16 @@ const UsersView = (): ReactElement => {
     setSelectedUser(user ?? null)
   }
 
+  const handleImportExcel = (): void => {
+    setShowImportModal(true)
+  }
+
   return (
     <div className='container-page'>
       <div className='sm:flex sm:justify-between sm:items-center'>
         <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-gray-light after:block after:mt-1'>Usuarios</h1>
         <div className='flex flex-col sm:flex-row gap-2 sm:justify-center'>
+          <Button color='primary' onClick={handleImportExcel}>ImportExcel</Button>
           <Button color='danger' onClick={handleRemove} disabled={!canRemove}>Eliminar</Button>
           <Button color='success' onClick={handleChangeRole}>Cambiar rol</Button>
           <Button color='primary' onClick={handleAddUser}>Añadir usuario</Button>
@@ -160,6 +171,7 @@ const UsersView = (): ReactElement => {
         </div>
 
       </main>
+      { showImportModal && <ImportModal close={() => { setShowImportModal(false) }} refreshUserList={refreshImportedUsers} toastId={TOAST_ID} />}
       <Toast id={TOAST_ID}></Toast>
 
     </div>
