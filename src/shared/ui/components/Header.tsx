@@ -13,7 +13,7 @@ const Header = (): ReactElement => {
   }
 
   const desktopNav = (): ReactElement => (
-    <NavBar handleClick={handleLinkClick} divLinksClasses='flex gap-2 items-center' extraLinkClasses=''/>
+    <NavBar handleClick={handleLinkClick} divLinksClasses='flex gap-2 items-center' extraLinkClasses='' />
   )
 
   const hamburgerMenu = (): ReactElement => (
@@ -40,9 +40,12 @@ const Header = (): ReactElement => {
     </div>
   )
   return (
-    <header className='bg-black shadow-md shadow-black/10 py-4 mb-4'>
-      <nav className='flex items-center justify-between mx-auto w-5/6'>
-        <h4 className='text-3xl font-bold text-white invisible'>I</h4>
+    <header className='bg-gray-500 shadow-md shadow-black/10 py-6 mb-7'>
+      <nav className='flex items-center justify-between mx-auto w-[92%]'>
+        <div className='flex gap-4 items-center'>
+          <img className='max-w-[180px] border-r-[3px] pr-5 border-red' src="/logo.png" alt="" />
+          <img className='max-w-[150px]' src="/brand.png" alt="" />
+        </div>
         {
           isAboveSmallScreens
             ? desktopNav()

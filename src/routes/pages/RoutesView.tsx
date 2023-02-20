@@ -136,14 +136,13 @@ const RoutesView = (): ReactElement => {
   }
 
   const COLUMN_HEADERS: Array<Column<Route>> = [
-    { Header: 'Nombre', accessor: 'name' },
+    { Header: 'Placa', accessor: 'name' },
     { Header: 'Fecha de Creación', id: 'createdAt', accessor: (row: Route) => formatDate(row.createdAt) },
     { Header: 'Ubicación de inicio', id: 'startLocation', accessor: 'startLocation' },
     { Header: 'Ubicación de Llegada', id: 'endLocation', accessor: (row: Route) => row.endLocation === null ? 'No terminada' : row.endLocation },
     { Header: 'Checkpoints', id: 'checkpoints', accessor: (row: Route) => row.reports[0].checkpoints.length },
     { Header: 'Doble licencia', id: 'doubleLicensePlate', accessor: (row: Route) => row.doubleLicensePlate ? 'Si' : 'No' },
-    { Header: '¿Va llena?', id: 'isFull', accessor: (row: Route) => row.isFull ? 'Si' : 'No' },
-    { Header: 'Placa', id: 'licensePlate', accessor: (row: Route) => row.vehicles[0].licensePlate }
+    { Header: '¿Va llena?', id: 'isFull', accessor: (row: Route) => row.isFull ? 'Si' : 'No' }
   ]
 
   return (
