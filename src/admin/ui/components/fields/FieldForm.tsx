@@ -114,12 +114,13 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
       <form onSubmit={handleSubmit}>
         <Input
           value={inputValue.name}
-          name='field name' placeholder='Field Name' type='text'
+          name='field name' placeholder='Nombre del campo' type='text'
           setValid={(valid) => setIsValidInput('name', valid)}
           reset={resetInputs}
           setValue={(value) => setValueInputValue('name', value)}></Input>
 
-        <div>
+        <div className='mt-2'>
+          <p className='font-bold text-sm'>Selecciona el tipo de campo</p>
           <select
             className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none capitalize'
             name="type" value={inputValue.type} onChange={handleChange}>
@@ -136,12 +137,14 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
         {
 
           inputValue.type === FieldType.TEXT && (
-            <Input
-              value={inputValue.placeholder}
-              name='placeholder' placeholder='Placeholder' type='text'
-              setValid={(valid) => setIsValidInput('placeholder', valid)}
-              reset={resetInputs}
-              setValue={(value) => setValueInputValue('placeholder', value)}></Input>
+            <div className='mt-2'>
+              <Input
+                value={inputValue.placeholder}
+                name='placeholder' placeholder='Descripción del campo' type='text'
+                setValid={(valid) => setIsValidInput('placeholder', valid)}
+                reset={resetInputs}
+                setValue={(value) => setValueInputValue('placeholder', value)}></Input>
+            </div>
           )
         }
 

@@ -40,10 +40,10 @@ const Header = (): ReactElement => {
     </div>
   )
   return (
-    <header className='bg-gray-500 shadow-md shadow-black/10 py-6 mb-7'>
+    <header className='bg-black shadow-md shadow-black/10 py-5 mb-7'>
       <nav className='flex items-center justify-between mx-auto w-[92%]'>
         <div className='flex gap-4 items-center'>
-          <img className='max-w-[180px] border-r-[3px] pr-5 border-red' src="/logo.png" alt="" />
+          <img className='max-w-[180px] border-r-[3px] filter brightness-0 invert pr-5 border-red' src="/logo.png" alt="" />
           <img className='max-w-[150px]' src="/brand.png" alt="" />
         </div>
         {

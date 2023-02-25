@@ -20,7 +20,8 @@ module.exports = {
           dark: darken('#0d6efd', 0.5)
         },
         red: {
-          DEFAULT: '#DC3545',
+          DEFAULT: '#94010f',
+          logo: '#DC3545',
           dark: '#70151e'
         },
         gray: {
@@ -42,7 +43,8 @@ module.exports = {
         table: '1fr 2fr'
       },
       boxShadow: {
-        card: '0px 1px 10px -1px rgba(0,0,0,0.2)'
+        card: '0px 1px 10px 0px rgba(0,0,0,0.2)',
+        'card-bold': '0px 1px 10px 0px rgba(0,0,0,0.4)'
       }
     },
     screens: {

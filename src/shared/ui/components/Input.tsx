@@ -26,7 +26,7 @@ const Input = ({ name, placeholder, value, type, reset = false, disabled = false
     const { name, value } = event.target
 
     if (value.trim() === '') {
-      setError(`${name} is empty`)
+      setError(`El campo ${name} no puede estar vacío`)
     } else {
       setError('')
     }
@@ -39,7 +39,7 @@ const Input = ({ name, placeholder, value, type, reset = false, disabled = false
       <input
         className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none'
         disabled={disabled} type={type} name={name} placeholder={placeholder} value={value} onChange={handleChange} />
-      <p className='m-0 mt-1 lowercase text-red-dark'>{error}</p>
+      <p className='m-0 mt-1 text-red-dark'>{error}</p>
     </div>
   )
 }

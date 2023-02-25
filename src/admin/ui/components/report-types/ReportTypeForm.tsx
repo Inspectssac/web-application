@@ -68,11 +68,11 @@ const ReportTypeForm = ({ reportType, toastId, formAction, reset, onFinishSubmit
 
   return (
     <div>
-      <h2 className='font-bold uppercase'>{formAction === 'add' ? 'Añadir' : 'Editar'} Tipo de reporte</h2>
+      <h2 className='font-bold uppercase'>{formAction === 'add' ? 'Añadir' : 'Editar'} Tipo de checklist</h2>
       <form onSubmit={handleSubmit}>
         <Input
           value={inputValue.name}
-          name='name' placeholder='name' type='text'
+          name='name' placeholder='Nombre checklist' type='text'
           setValid={setIsValidInput}
           reset={resetInputs}
           setValue={(value) => setInputValue({ ...inputValue, name: value })}></Input>

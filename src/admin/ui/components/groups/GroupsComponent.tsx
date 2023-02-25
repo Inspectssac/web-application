@@ -101,8 +101,9 @@ const GroupsComponent = ({ reportType }: GroupsComponentProps): ReactElement => 
     <section>
       {reportType.id !== 0 &&
         (
-          <div className='flex justify-end'>
-            <Button color='primary' onClick={add} className='mb-2'>Agregar grupo</Button>
+          <div className='flex justify-between items-center mb-3'>
+            <h2 className='uppercase font-bold text-lg'>Secciones del <span className='text-red'>checklist {reportType.name}</span></h2>
+            <Button color='primary' onClick={add} className='mb-2'>Agregar sección</Button>
           </div>
         )
       }
@@ -126,10 +127,10 @@ const GroupsComponent = ({ reportType }: GroupsComponentProps): ReactElement => 
             </div>
             )
           : (
-            <p>{reportType.id !== 0 ? 'No hay campos asignados al tipo de reporte' : 'Seleccionar tipo de reporte'}</p>
+            <p>{reportType.id !== 0 ? 'El tipo de checklist no tiene ninguna sección creada' : 'Seleccionar tipo de checklist'}</p>
             )
       }
-      {showGroupModal && <GroupForm close={() => setShowGroupModal(!showGroupModal)} update={updateGroupList} reportTypeId={reportType.id} group={groupForm} formAction={formAction} reset={reset}/>}
+      {showGroupModal && <GroupForm close={() => setShowGroupModal(!showGroupModal)} update={updateGroupList} reportType={reportType} group={groupForm} formAction={formAction} reset={reset}/>}
       {showGroupDetail && <GroupDetail group={selectedGroup} close={() => setShowGroupDetail(!showGroupDetail)} />}
     </section>
   )

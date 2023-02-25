@@ -128,7 +128,7 @@ const FieldsView = (): ReactElement => {
                   </tbody>
                 </Table>
                 )
-              : (<p>No hay campos asignados</p>)
+              : (<p>Todavía no se han creado algún campo</p>)
           }
 
         </section>

@@ -1,17 +1,18 @@
 import { Group } from '@/reports/models/group.interface'
+import { ReportType } from '@/reports/models/report-type.interface'
 import { GroupsService } from '@/reports/services/group.service'
 import { ReportTypesService } from '@/reports/services/report-type.service'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
 import Modal from '@/shared/ui/components/Modal'
-import React, { ReactElement, useContext, useState } from 'react'
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { ToastContext } from '../../pages/VehiclesView'
 
 type FormAction = 'add' | 'update'
 
 interface CreateGroupProps {
-  reportTypeId: number
+  reportType: ReportType
   group: Group | null
   formAction: FormAction
   close: () => void
@@ -29,15 +30,20 @@ const getInitialState = (group: Group | null): Pick<Group, 'name'> => {
   return groupDto
 }
 
-const GroupForm = ({ group, reportTypeId, formAction, close, update, reset }: CreateGroupProps): ReactElement => {
+const GroupForm = ({ group, reportType, formAction, close, update, reset }: CreateGroupProps): ReactElement => {
   const toastContext = useContext(ToastContext)
   const reportTypesService = new ReportTypesService()
   const groupsService = new GroupsService()
 
   const [inputValue, setInputValue] = useState<Pick<Group, 'name'>>(getInitialState(group))
+  const [canSubmit, setCanSubmit] = useState<boolean>(false)
   const [validInputs, setValidInputs] = useState({
     name: false
   })
+
+  useEffect(() => {
+    setCanSubmit(Object.values(validInputs).every(v => v))
+  }, [validInputs])
 
   const setIsValidInput = (name: string, valid: boolean): void => {
     // setCanSubmit(valid)
@@ -58,7 +64,7 @@ const GroupForm = ({ group, reportTypeId, formAction, close, update, reset }: Cr
     event.preventDefault()
 
     const action = formAction === 'update' ? groupsService.update : reportTypesService.createGroup
-    const actionId = formAction === 'update' ? group?.id ?? 0 : reportTypeId
+    const actionId = formAction === 'update' ? group?.id ?? 0 : reportType.id
 
     void action(actionId, inputValue)
       .then((response) => {
@@ -78,21 +84,22 @@ const GroupForm = ({ group, reportTypeId, formAction, close, update, reset }: Cr
   return (
     <Modal>
       <div className='w-full min-w-[300px] sm:min-w-[600px] p-3'>
-      <form onSubmit={handleSubmit}>
-      <div className='mt-2'>
-          <label className='font-medium' htmlFor='name'>Nombre</label>
-          <Input
-            value={inputValue.name}
-            name='nombre' placeholder='Nombre' type='text'
-            setValid={(valid) => setIsValidInput('name', valid)}
-            setValue={(value) => setValueInputValue('name', value)}></Input>
-        </div>
+        <h2 className='uppercase font-bold text-xl'>{formAction === 'add' ? 'Agregar sección al' : 'Editar sección del'} <span className='text-red'>checklist {reportType.name}</span></h2>
+        <form onSubmit={handleSubmit}>
+          <div className='mt-2'>
+            <label className='font-medium' htmlFor='name'>Nombre de la sección</label>
+            <Input
+              value={inputValue.name}
+              name='nombre' placeholder='Nombre' type='text'
+              setValid={(valid) => setIsValidInput('name', valid)}
+              setValue={(value) => setValueInputValue('name', value)}></Input>
+          </div>
 
-        <div className='mt-5 flex justify-center gap-3 items-center'>
-          <Button color='primary' type='submit'>Añadir</Button>
-          <Button color='secondary' onClick={close}>Cerrar</Button>
-        </div>
-      </form>
+          <div className='mt-5 flex justify-center gap-3 items-center'>
+            <Button color='primary' type='submit' disabled={!canSubmit}>Añadir</Button>
+            <Button color='secondary' onClick={close}>Cerrar</Button>
+          </div>
+        </form>
       </div>
     </Modal>
 

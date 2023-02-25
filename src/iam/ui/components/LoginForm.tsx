@@ -6,6 +6,7 @@ import { LoginData } from '@/iam/models/interfaces/login.interface'
 import { login } from '@/shared/config/store/features/auth-slice'
 import { STATUS } from '@/shared/config/store/types'
 import Button from '@/shared/ui/components/Button'
+import Spinner from '@/shared/ui/components/Spinner'
 
 interface FormState {
   loginData: LoginData
@@ -73,42 +74,46 @@ const LoginForm = (): ReactElement => {
     })
   }
 
-  const inputClass = 'block w-full h-10 px-2 border-b border-solid border-gray-900 outline-none'
+  const inputClass = 'block w-full h-10 px-2 border border-gray-300 rounded-xl outline-none px-4'
 
   return isLoading
     ? (
-    <p>Loading</p>
+      <Spinner />
       )
     : (
+      <div className='w-full max-w-[430px] shadow-card p-6 rounded-lg'>
+        <form onSubmit={handleSubmit}>
+          <div className='mb-4'>
+            <input
+              className={inputClass}
+              onChange={handleChange}
+              type="text" value={loginData.username}
+              name='username'
+              placeholder='Usuario' />
+            <p className='text-red font-bold'>{errors.username}</p>
+          </div>
 
-    <form onSubmit={handleSubmit}>
-      <div className='mb-4'>
-        <input
-          className={`${inputClass}`}
-          onChange={handleChange}
-          type="text" value={loginData.username}
-          name='username'
-          placeholder='Usuario' />
-        <p className='text-red font-bold'>{errors.username}</p>
+          <div className='mb-4'>
+            <input
+              className={inputClass}
+              onChange={handleChange}
+              type="password"
+              value={loginData.password}
+              name='password'
+              placeholder='Contraseña' />
+            <p className='text-red font-bold'>{errors.password}</p>
+          </div>
+
+          <p className='text-center text-red font-bold mb-4'>{hasFailed ? errorMessage : ''}</p>
+
+          <div className='flex justify-start'>
+            <Button color='primary' type='submit' className='px-9'>
+              Ingresar
+            </Button>
+          </div>
+        </form>
       </div>
 
-      <div className='mb-4'>
-        <input
-          className={`${inputClass}`}
-          onChange={handleChange}
-          type="password"
-          value={loginData.password}
-          name='password'
-          placeholder='Contraseña' />
-        <p className='text-red font-bold'>{errors.password}</p>
-      </div>
-
-      <p className='text-center text-red font-bold mb-4'>{ hasFailed ? errorMessage : ''}</p>
-
-      <Button color='primary' type='submit' className='w-full block'>
-        Login
-      </Button>
-    </form>
       )
 }
 
