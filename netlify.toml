@@ -10,4 +10,4 @@
   status = 200
 
 [build]
-  command = "sed -i \"s|SERVER_URL|${SERVER_URL}|g\" netlify.toml && npm build"
+  command = "sed -i \"s|SERVER_URL|${SERVER_URL}|g\" netlify.toml && npm run build"
