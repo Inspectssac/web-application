@@ -9,5 +9,5 @@
   to = "/"
   status = 200
 
-[[build]]
+[build]
   command = "sed -i \"s|SERVER_URL|${SERVER_URL}|g\" netlify.toml && npm build"
