@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/api/v1/*"
-  to = "http://209.45.52.252:4000/api/v1/:splat"
+  to = "SERVER_URL/api/v1/:splat"
   status = 200
   force = true
 
@@ -8,3 +8,6 @@
   from = "/*"
   to = "/"
   status = 200
+
+[[build]]
+  command = "sed -i \"s|SERVER_URL|${SERVER_URL}|g\" netlify.toml && npm build"
