@@ -3,6 +3,7 @@ import { UserRole } from '@/admin/models/role.enum'
 import { AreasService } from '@/admin/services/areas.service'
 import { UsersService } from '@/admin/services/users.service'
 import { Area, User } from '@/iam/models/user.model'
+import { ProfileDto } from '@/profiles/models/profile.entity'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
@@ -14,14 +15,16 @@ interface AddUserModalProps {
   toastId: string
 }
 
-interface UserFormErrors {
-  username: string
-  password: string
-}
-
-const ERROR_INITIAL_STATE: UserFormErrors = {
-  username: '',
-  password: ''
+const PROFILE_INIT_STATE: ProfileDto = {
+  dni: '',
+  company: '',
+  email: '',
+  name: '',
+  lastName: '',
+  license: '',
+  licenseCategory: '',
+  phone1: '',
+  phone2: ''
 }
 
 const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProps): ReactElement => {
@@ -36,10 +39,25 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
     role: UserRole.USER
   })
 
+  const [newProfile, setNewProfile] = useState<ProfileDto>(PROFILE_INIT_STATE)
+
   const [areas, setAreas] = useState<Area[]>([])
-  const [errors, setErrors] = useState<UserFormErrors>(ERROR_INITIAL_STATE)
 
   const areaRef = useRef<HTMLSelectElement>(null)
+
+  const [validInputs, setValidInputs] = useState({
+    username: false,
+    password: false,
+    dni: false,
+    company: false,
+    email: false,
+    name: false,
+    lastName: false,
+    license: false,
+    licenseCategory: false,
+    phone1: false,
+    phone2: false
+  })
 
   useEffect(() => {
     void areasService.findAll()
@@ -47,28 +65,11 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
   }, [])
 
   useEffect(() => {
-    setCanSubmit(
-      (errors.username === '' && newUser.username !== '') &&
-      (errors.password === '' && newUser.password !== '')
-    )
-  }, [errors, newUser])
+    setCanSubmit(Object.values(validInputs).every(v => v))
+  }, [validInputs])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
-    const { name, value, tagName } = event.target
-
-    if (tagName === 'INPUT') {
-      if (value.trim() === '') {
-        setErrors({
-          ...errors,
-          [name]: `${name} está vacío`
-        })
-      } else {
-        setErrors({
-          ...errors,
-          [name]: ''
-        })
-      }
-    }
+    const { name, value } = event.target
 
     setNewUser({
       ...newUser,
@@ -88,7 +89,14 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
             const { message } = error.data
             toast(message, { toastId, type: 'error' })
           })
-        toast('User created correctly', { toastId, type: 'success' })
+
+        void usersService.createProfile(response.id, newProfile)
+          .catch(error => {
+            const { message } = error.data
+            toast(message, { toastId, type: 'error' })
+          })
+
+        toast('Usuario creado correctamente', { toastId, type: 'success' })
       })
       .catch(error => {
         const { message } = error.data
@@ -99,15 +107,25 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
       })
   }
 
-  const setValueInputValue = (name: string, value: string): void => {
+  const setValueUser = (name: string, value: string): void => {
     setNewUser({
       ...newUser,
       [name]: value
     })
   }
 
-  const setIsValidInput = (valid: boolean): void => {
-    setCanSubmit(valid)
+  const setValueProfile = (name: string, value: string): void => {
+    setNewProfile({
+      ...newProfile,
+      [name]: value
+    })
+  }
+
+  const setIsValidInput = (name: string, valid: boolean): void => {
+    setValidInputs({
+      ...validInputs,
+      [name]: valid
+    })
   }
 
   const inputClass = 'block w-full h-10 px-2 border-b border-solid border-purple-900 outline-none'
@@ -119,13 +137,13 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
         <Input
           value={newUser.username}
           name='username' placeholder='Username' type='text'
-          setValid={setIsValidInput}
-          setValue={(value) => setValueInputValue('username', value)}></Input>
+          setValid={(valid) => setIsValidInput('username', valid)}
+          setValue={(value) => setValueUser('username', value)}></Input>
         <Input
           value={newUser.password}
           name='password' placeholder='Contraseña' type='password'
-          setValid={setIsValidInput}
-          setValue={(value) => setValueInputValue('password', value)}></Input>
+          setValid={(valid) => setIsValidInput('password', valid)}
+          setValue={(value) => setValueUser('password', value)}></Input>
 
         <select name="role" className={`${inputClass}`} onChange={handleChange}>
           <option value={`${UserRole.USER}`}>{UserRole.USER.toUpperCase()}</option>
@@ -142,6 +160,62 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
             })
           }
         </select>
+
+        <p>Información personal</p>
+        <Input
+          value={newProfile.name}
+          name='name' placeholder='Nombres completos' type='text'
+          setValid={(valid) => setIsValidInput('name', valid)}
+          setValue={(value) => setValueProfile('name', value)}></Input>
+
+        <Input
+          value={newProfile.lastName}
+          name='lastName' placeholder='Apellidos completos' type='text'
+          setValid={(valid) => setIsValidInput('lastName', valid)}
+          setValue={(value) => setValueProfile('lastName', value)}></Input>
+
+        <Input
+          value={newProfile.dni}
+          name='dni' placeholder='DNI' type='text'
+          setValid={(valid) => setIsValidInput('dni', valid)}
+          setValue={(value) => setValueProfile('dni', value)}></Input>
+
+        <Input
+          value={newProfile.company}
+          name='company' placeholder='Empresa' type='text'
+          setValid={(valid) => setIsValidInput('company', valid)}
+          setValue={(value) => setValueProfile('company', value)}></Input>
+
+        <Input
+          value={newProfile.email}
+          name='email' placeholder='Correo electrónico' type='email'
+          setValid={(valid) => setIsValidInput('email', valid)}
+          setValue={(value) => setValueProfile('email', value)}></Input>
+
+        <Input
+          value={newProfile.license}
+          name='license' placeholder='Licencia' type='text'
+          setValid={(valid) => setIsValidInput('license', valid)}
+          setValue={(value) => setValueProfile('license', value)}></Input>
+
+        <Input
+          value={newProfile.licenseCategory}
+          name='licenseCategory' placeholder='Categoría de la licencia' type='text'
+          setValid={(valid) => setIsValidInput('licenseCategory', valid)}
+          setValue={(value) => setValueProfile('licenseCategory', value)}></Input>
+
+        <Input
+          value={newProfile.phone1}
+          name='phone1' placeholder='Telefóno 1' type='tel'
+          setValid={(valid) => setIsValidInput('phone1', valid)}
+          setValue={(value) => setValueProfile('phone1', value)}></Input>
+
+        <Input
+          value={newProfile.phone2}
+          name='phone2' placeholder='Teléfono 2' type='tel'
+          setValid={(valid) => setIsValidInput('phone2', valid)}
+          setValue={(value) => setValueProfile('phone2', value)}></Input>
+
         <div className='flex justify-center gap-5'>
           <Button color='secondary' onClick={closeModal}>Cerrar</Button>
           <Button color='primary' type='submit' disabled={!canSubmit}>Añadir Usuario</Button>

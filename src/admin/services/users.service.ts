@@ -1,5 +1,5 @@
 import { User } from '@/iam/models/user.model'
-import { Profile } from '@/profiles/models/profile.entity'
+import { Profile, ProfileDto } from '@/profiles/models/profile.entity'
 import { AppServices } from '@/shared/service/app-api.service'
 import { AddUser } from '../models/add-user.interface'
 import { ChangeRole } from '../models/change-role.interface'
@@ -29,8 +29,8 @@ export class UsersService extends AppServices {
       .then(response => response.data)
   }
 
-  createProfile = async (profile: Omit<Profile, 'id'>): Promise<Profile> => {
-    return await this.post<Profile>('', profile)
+  createProfile = async (userId: string, profile: ProfileDto): Promise<Profile> => {
+    return await this.post<Profile>(`/${userId}/profile`, profile)
       .then(response => response.data)
   }
 

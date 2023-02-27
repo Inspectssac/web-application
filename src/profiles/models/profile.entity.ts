@@ -13,3 +13,5 @@ export interface Profile {
   licenseCategory: string
   fullName: string
 }
+
+export type ProfileDto = Omit<Profile, 'id' | 'createdAt' | 'updatedAt' | 'fullName'>
