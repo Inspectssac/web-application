@@ -53,7 +53,7 @@ const VehicleTypeForm = ({ vehicleType, formAction, onFinishSubmit, reset }: Veh
         .then(response => {
           resetForm()
           onFinishSubmit(response)
-          toast('Vehicle updated correctly', { toastId: toastContext.id, type: 'success' })
+          toast('Tipo de vehículo editado correctamente', { toastId: toastContext.id, type: 'success' })
         })
         .catch((error) => {
           const { message } = error.data
@@ -66,7 +66,7 @@ const VehicleTypeForm = ({ vehicleType, formAction, onFinishSubmit, reset }: Veh
       .then(response => {
         resetForm()
         onFinishSubmit(response)
-        toast('Vehicle created correctly', { toastId: toastContext.id, type: 'success' })
+        toast('Tipo de vehículo creado correctamente', { toastId: toastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
@@ -91,7 +91,7 @@ const VehicleTypeForm = ({ vehicleType, formAction, onFinishSubmit, reset }: Veh
       <form onSubmit={handleSubmit}>
         <Input
           value={inputValue.name}
-          name='name' placeholder='Nombre' type='text'
+          name='name' placeholder='Nombre del tipo de vehículo' type='text'
           setValid={setIsValidInput}
           reset={resetInputs}
           setValue={(value) => setValueInputValue('name', value)}></Input>

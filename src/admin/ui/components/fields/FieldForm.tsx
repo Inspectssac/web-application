@@ -48,7 +48,7 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
         .then(response => {
           resetForm()
           onFinishSubmit(response)
-          toast('Field updated correctly', { toastId, type: 'success' })
+          toast('Campo actualizado correctamente', { toastId, type: 'success' })
         })
         .catch((error) => {
           const { message } = error.data
@@ -61,7 +61,7 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
       .then(response => {
         resetForm()
         onFinishSubmit(response)
-        toast('Field created correctly', { toastId, type: 'success' })
+        toast('Campo creado correctamente', { toastId, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
@@ -149,7 +149,7 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
         }
 
         <div className='mt-4 flex gap-3'>
-          <Button color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Editar'}</Button>
+          <Button color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Guardar'}</Button>
           <Button color='secondary' onClick={resetForm}>Cancelar</Button>
         </div>
 

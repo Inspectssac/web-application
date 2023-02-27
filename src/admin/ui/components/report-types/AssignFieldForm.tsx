@@ -78,7 +78,7 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit }: AssignFieldForm
     void groupsService.assignField(group.id, selectedField.id, inputValue)
       .then((response) => {
         onFinishSubmit(response)
-        toast('Field assigned correctly', { toastId: toastContext.id, type: 'success' })
+        toast('Campo asignado correctamente', { toastId: toastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data

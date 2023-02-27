@@ -51,7 +51,7 @@ const AreaForm = ({ area, formAction, toastId, onFinishSubmit, reset }: AreaForm
         .then(response => {
           resetForm()
           onFinishSubmit(response)
-          toast('Area updated correctly', { toastId, type: 'success' })
+          toast('Área guardada correctamente', { toastId, type: 'success' })
         })
         .catch((error) => {
           const { message } = error.data
@@ -65,7 +65,7 @@ const AreaForm = ({ area, formAction, toastId, onFinishSubmit, reset }: AreaForm
       .then(response => {
         resetForm()
         onFinishSubmit(response)
-        toast('Area created correctly', { toastId, type: 'success' })
+        toast('Área creada correctamente', { toastId, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
@@ -79,17 +79,17 @@ const AreaForm = ({ area, formAction, toastId, onFinishSubmit, reset }: AreaForm
 
   return (
     <div className='mt-3'>
-      <h2 className='uppercase font-bold'>{formAction === 'add' ? 'Añadir' : 'Editar'} Area</h2>
+      <h2 className='uppercase font-bold'>{formAction === 'add' ? 'Añadir' : 'Editar'} Área</h2>
       <form onSubmit={handleSubmit}>
         <Input
             value={inputValue.name}
-            name='name' placeholder='name' type='text'
+            name='name' placeholder='Nombre del área' type='text'
             setValid={setIsValidInput}
             reset={resetInputs}
             setValue={(value) => setInputValue({ ...inputValue, name: value })}></Input>
 
         <div className='mt-3 flex items-center gap-3'>
-          <Button className='py-1' color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Editar'}</Button>
+          <Button className='py-1' color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Guardar'}</Button>
           <Button className='py-1' color='secondary' onClick={resetForm}>Cancelar</Button>
         </div>
       </form>

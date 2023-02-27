@@ -18,15 +18,18 @@ const Login = (): ReactElement => {
 
   return (
     <div className='container-page h-screen flex justify-center items-center flex-col gap-8'>
-      <section className='w-full max-w-[450px]'>
+      <div className='absolute top-20 text-center'>
+        <p className='uppercase text-5xl italic font-semibold'>Plataforma de gestión de checklists</p>
+      </div>
+      <section className='w-full max-w-[500px]'>
         <img src="/logo.png" alt="ESSAC LOGO" />
       </section>
       <LoginForm />
       <section className='text-center'>
         <img className='w-full max-w-[300px] filter contrast-50' src="/brand.png" alt="ESSAC 40 años" />
-        <div className='text-sm mt-3'>
-          <p>ESSAC / InspectESSAC 1.0.0</p>
-          <p className='font-bold'>&copy; 2023</p>
+        <div className='text-sm mt-3 text-gray-400'>
+          <p>InspectESSAC 1.0.0</p>
+          <p className='font-bold'>&copy;ESSAC 2023</p>
         </div>
       </section>
     </div>

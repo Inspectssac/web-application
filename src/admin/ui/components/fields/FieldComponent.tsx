@@ -29,7 +29,7 @@ const FieldComponent = ({ field, toastId, updateList, update, toggleShowValues, 
     void fieldsService.remove(id)
       .then(response => {
         updateList(response, id, true)
-        toast('Field deleted correctly', { toastId, type: 'success' })
+        toast('Campo eliminado correctamente', { toastId, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
@@ -41,7 +41,7 @@ const FieldComponent = ({ field, toastId, updateList, update, toggleShowValues, 
     void fieldsService.toggleActive(fieldToToggle.id)
       .then(response => {
         updateList(response, response.id)
-        toast('Field updated correctly', { toastId, type: 'success' })
+        toast('Campo actualizado correctamente', { toastId, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data

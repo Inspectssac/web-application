@@ -32,14 +32,14 @@ const VehicleTypeComponent = (): ReactElement => {
   }
 
   const remove = (vehicleType: VehicleType): void => {
-    const result = confirm(`Are you sure you want to remove vehicle type ${vehicleType.name}`)
+    const result = confirm(`Estás seguro que quieres eliminar el tipo de vehículo: ${vehicleType.name}`)
     if (!result) return
 
     const id = vehicleType.id
     void vehicleTypesService.remove(id)
       .then(response => {
         updateFieldList(response, id, true)
-        toast('Vehicle type deleted correctly', { toastId: toastContext.id, type: 'success' })
+        toast('Tipo de vehículo eliminado correctamente', { toastId: toastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data

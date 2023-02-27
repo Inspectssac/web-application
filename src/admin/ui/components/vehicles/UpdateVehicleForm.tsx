@@ -56,7 +56,7 @@ const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicl
     void vehiclesService.update(inputValue.licensePlate, inputValue)
       .then((response) => {
         onFinishSubmit(response)
-        toast('Vehicle updated correctly', { toastId: toastContext.id, type: 'success' })
+        toast('Vehículo actualizado correctamente', { toastId: toastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
@@ -161,7 +161,7 @@ const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicl
           </div>
 
           <div className='flex justify-center gap-3 items-center'>
-            <Button color='primary' type='submit' disabled={!canSubmit}>Editar</Button>
+            <Button color='primary' type='submit' disabled={!canSubmit}>Guardar</Button>
             <Button color='secondary' onClick={closeModal}>Cerrar</Button>
           </div>
         </form>

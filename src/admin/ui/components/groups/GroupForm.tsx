@@ -69,7 +69,7 @@ const GroupForm = ({ group, reportType, formAction, close, update, reset }: Crea
     void action(actionId, inputValue)
       .then((response) => {
         update(response)
-        toast('Field assigned correctly', { toastId: toastContext.id, type: 'success' })
+        toast('Sección guardada correctamente', { toastId: toastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
@@ -96,7 +96,7 @@ const GroupForm = ({ group, reportType, formAction, close, update, reset }: Crea
           </div>
 
           <div className='mt-5 flex justify-center gap-3 items-center'>
-            <Button color='primary' type='submit' disabled={!canSubmit}>Añadir</Button>
+            <Button color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Guardar'}</Button>
             <Button color='secondary' onClick={close}>Cerrar</Button>
           </div>
         </form>

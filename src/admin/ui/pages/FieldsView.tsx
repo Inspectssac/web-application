@@ -87,7 +87,7 @@ const FieldsView = (): ReactElement => {
 
   return (
     <div className='container-page'>
-      <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-light-gray after:block after:mt-1'>Campos</h1>
+      <h1 className='text-3xl mb-4 after:h-px after:w-60 after:bg-gray-light after:block after:mt-1 uppercase font-semibold'>Tipo de Checklists - Campos</h1>
       <div className='md:grid md:grid-cols-table md:gap-4'>
         <div className='mb-5 md:mb-0'>
           <aside className='pr-28 mb-5 md:mb-0'>
@@ -128,7 +128,7 @@ const FieldsView = (): ReactElement => {
                   </tbody>
                 </Table>
                 )
-              : (<p>Todavía no se han creado algún campo</p>)
+              : (<p>Todavía no hay campos registrados</p>)
           }
 
         </section>

@@ -83,13 +83,13 @@ const GroupsComponent = ({ reportType }: GroupsComponentProps): ReactElement => 
   }
 
   const remove = (groupDeleted: Group): void => {
-    const result = confirm(`Estás seguro que quieres elimminar el grupo ${groupDeleted.name}`)
+    const result = confirm(`Estás seguro que quieres elimminar la sección ${groupDeleted.name}`)
     if (!result) return
 
     void groupsService.remove(groupDeleted.id)
       .then((response) => {
         setGroups(groups.filter(group => group.id !== groupDeleted.id))
-        toast('Field assigned correctly', { toastId: toastContext.id, type: 'success' })
+        toast('Sección eliminado correctamente', { toastId: toastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data

@@ -38,16 +38,16 @@ const ChangeRoleModal = ({ user, toastId, closeModal, refreshUser }: ChangeRoleM
 
     if (user?.role === userRole) {
       closeModal()
-      toast('User already has the role selected', { toastId, type: 'info' })
+      toast('El usuario ya cuenta con el rol inngresado', { toastId, type: 'info' })
     }
 
     void usersService.changeRole({ role: userRole }, user.id)
       .then((response) => {
         refreshUser(response)
-        toast("User's role changed correctly", { toastId, type: 'success' })
+        toast('Rol actuliazado correctamente', { toastId, type: 'success' })
       })
       .catch(() => {
-        toast('There was an error, try it later', { toastId, type: 'error' })
+        toast('Hubo un error, intente más tarde', { toastId, type: 'error' })
       })
       .finally(() => {
         closeModal()

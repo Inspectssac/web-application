@@ -55,7 +55,7 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
     void vehiclesService.create(vehicleTypeId, inputValue)
       .then((response) => {
         onFinishSubmit(response)
-        toast('Vehicle created correctly', { toastId: toastContext.id, type: 'success' })
+        toast('Vehículo creado correctamente', { toastId: toastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data

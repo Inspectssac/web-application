@@ -47,7 +47,7 @@ const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
     void groupsService.deleteField(group.id, groupField.fieldId)
       .then((response) => {
         updateGroupList(response, groupField.fieldId, true)
-        toast('Field assigned correctly', { toastId: toastContext.id, type: 'success' })
+        toast('Campo desasignado correctamente', { toastId: toastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data

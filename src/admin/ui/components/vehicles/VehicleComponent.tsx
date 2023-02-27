@@ -53,7 +53,7 @@ const VehicleComponent = (): ReactElement => {
   }
 
   const remove = (vehicle: Vehicle): void => {
-    const result = confirm(`Are you sure you want to delete car with license plate ${vehicle.licensePlate}`)
+    const result = confirm(`Estás seguro que quieres eliminar el vehículo con placa: ${vehicle.licensePlate}`)
 
     if (!result) return
 
@@ -61,7 +61,7 @@ const VehicleComponent = (): ReactElement => {
     void vehiclesService.remove(licensePlate)
       .then(response => {
         refreshList(response, licensePlate, true)
-        toast('Vehicle deleted correctly', { toastId: toastContext.id, type: 'success' })
+        toast('Vehículo eliminado correctamente', { toastId: toastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data

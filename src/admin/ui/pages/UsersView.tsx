@@ -146,7 +146,7 @@ const UsersView = (): ReactElement => {
       <div className='sm:flex sm:justify-between sm:items-center'>
         <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-gray-light after:block after:mt-1'>Usuarios</h1>
         <div className='flex flex-col sm:flex-row gap-2 sm:justify-center'>
-          <Button color='primary' onClick={handleImportExcel}>ImportExcel</Button>
+          <Button color='primary' onClick={handleImportExcel}>Importar Excel</Button>
           <Button color='secondary' onClick={handleRemove} disabled={!canRemove}>Eliminar</Button>
           <Button color='success' onClick={handleChangeRole}>Cambiar rol</Button>
           <Button color='primary' onClick={handleAddUser}>Añadir usuario</Button>

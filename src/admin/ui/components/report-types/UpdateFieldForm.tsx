@@ -46,7 +46,7 @@ const UpdateFieldForm = ({ group, groupField, closeModal, onFinishSubmit }: Upda
     void groupsService.updateField(group.id, fieldId, inputValue)
       .then((response) => {
         onFinishSubmit(response)
-        toast('Field updated correctly', { toastId: toastContext.id, type: 'success' })
+        toast('Campo actualizado correctamente', { toastId: toastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
