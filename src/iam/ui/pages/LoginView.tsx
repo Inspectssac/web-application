@@ -18,11 +18,11 @@ const Login = (): ReactElement => {
 
   return (
     <div className='container-page h-screen flex justify-center items-center flex-col gap-8'>
-      <div className='text-center pb-16'>
+      <div className='text-center pb-12'>
         <p className='uppercase text-5xl italic font-bold'>Plataforma de monitoreo de unidades</p>
       </div>
-      <section className='w-full max-w-[450px]'>
-        <img src="/logo.png" alt="ESSAC LOGO" />
+      <section className='w-full max-w-[500px]'>
+        <img className='w-full' src="/logo.png" alt="ESSAC LOGO" />
       </section>
       <LoginForm />
       <section className='text-center'>
