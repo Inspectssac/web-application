@@ -140,8 +140,8 @@ const RoutesView = (): ReactElement => {
     { Header: 'Fecha de Creación', id: 'createdAt', accessor: (row: Route) => formatDate(row.createdAt) },
     { Header: 'Ubicación de inicio', id: 'startLocation', accessor: 'startLocation' },
     { Header: 'Ubicación de Llegada', id: 'endLocation', accessor: (row: Route) => row.endLocation === null ? 'No terminada' : row.endLocation },
-    { Header: 'Checkpoints', id: 'checkpoints', accessor: (row: Route) => row.reports[0].checkpoints.length },
-    { Header: 'Doble licencia', id: 'doubleLicensePlate', accessor: (row: Route) => row.doubleLicensePlate ? 'Si' : 'No' },
+    { Header: 'Supervsión - Checkpoints', id: 'checkpoints', accessor: (row: Route) => row.reports[0].checkpoints.length },
+    { Header: 'Doble Placa', id: 'doubleLicensePlate', accessor: (row: Route) => row.doubleLicensePlate ? 'Si' : 'No' },
     { Header: '¿Va llena?', id: 'isFull', accessor: (row: Route) => row.isFull ? 'Si' : 'No' }
   ]
 

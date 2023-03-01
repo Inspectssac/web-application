@@ -5,10 +5,12 @@ export interface Vehicle {
   updatedAt: string
   licensePlate: string
   provider: string
-  carrier: string
+  company: string
   imei: string
   brand: string
   model: string
   lastMaintenance: string
+  soatExpiration: string
+  technicalReviewExpiration: string
   vehicleType: VehicleType
 }

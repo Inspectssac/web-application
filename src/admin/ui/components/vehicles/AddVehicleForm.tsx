@@ -15,14 +15,16 @@ interface AddVehicleFormProps {
   onFinishSubmit: (vehicle: Vehicle) => void
 }
 
-const INITIAL_STATE = {
+const INITIAL_STATE: VehicleDto = {
   licensePlate: '',
   provider: '',
-  carrier: '',
+  company: '',
   imei: '',
   model: '',
   brand: '',
-  lastMaintenance: new Date().toISOString()
+  lastMaintenance: new Date().toISOString(),
+  soatExpiration: new Date().toISOString(),
+  technicalReviewExpiration: new Date().toISOString()
 }
 const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): ReactElement => {
   const toastContext = useContext(ToastContext)
@@ -39,9 +41,13 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
   const [validInputs, setValidInputs] = useState({
     licensePlate: false,
     provider: false,
-    carrier: false,
+    company: false,
     imei: false,
-    lastMaintenance: false
+    model: false,
+    brand: false,
+    lastMaintenance: false,
+    soatExpiration: false,
+    technicalReviewExpiration: false
   })
 
   useEffect(() => {
@@ -67,6 +73,7 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
   }
 
   useEffect(() => {
+    console.log(validInputs)
     setCanSubmit(Object.values(validInputs).every(v => v))
   }, [validInputs])
 
@@ -118,12 +125,12 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           {/* <input onChange={handleChange} id='provider' value={inputValue.provider} type="text" name='provider' /> */}
         </div>
         <div className='mt-2'>
-          <label className='font-medium' htmlFor='carrier'>Transportista</label>
+          <label className='font-medium' htmlFor='company'>Empresa</label>
           <Input
-            value={inputValue.carrier}
-            name='carrier' placeholder='Transportista' type='text'
-            setValid={(valid) => setIsValidInput('carrier', valid)}
-            setValue={(value) => setValueInputValue('carrier', value)}></Input>
+            value={inputValue.company}
+            name='company' placeholder='Empresa' type='text'
+            setValid={(valid) => setIsValidInput('company', valid)}
+            setValue={(value) => setValueInputValue('company', value)}></Input>
           {/* <input onChange={handleChange} id='carrier' value={inputValue.carrier} type="text" name='carrier' /> */}
         </div>
         <div className='mt-2'>
@@ -154,13 +161,28 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           {/* <input onChange={handleChange} id='imei' value={inputValue.imei} type="text" name='imei' /> */}
         </div>
         <div className='mt-2'>
+          <label className='font-medium' htmlFor="soatExpiration">Fecha Vencimiento Soat</label>
+          <Input
+            value={new Date(inputValue.soatExpiration).toISOString().substring(0, 10)}
+            name='soatExpiration' placeholder='' type='date'
+            setValid={(valid) => setIsValidInput('soatExpiration', valid)}
+            setValue={(value) => setValueInputValue('soatExpiration', value)}></Input>
+        </div>
+        <div className='mt-2'>
+          <label className='font-medium' htmlFor="technicalReviewExpiration">Fecha Vencimiento Revisión Técnica</label>
+          <Input
+            value={new Date(inputValue.technicalReviewExpiration).toISOString().substring(0, 10)}
+            name='technicalReviewExpiration' placeholder='' type='date'
+            setValid={(valid) => setIsValidInput('technicalReviewExpiration', valid)}
+            setValue={(value) => setValueInputValue('technicalReviewExpiration', value)}></Input>
+        </div>
+        <div className='mt-2'>
           <label className='font-medium' htmlFor="lastMaintenance">Último Mantenimiento</label>
           <Input
             value={new Date(inputValue.lastMaintenance).toISOString().substring(0, 10)}
             name='lastMaintenance' placeholder='' type='date'
             setValid={(valid) => setIsValidInput('lastMaintenance', valid)}
             setValue={(value) => setValueInputValue('lastMaintenance', value)}></Input>
-          {/* <input onChange={handleChange} type="date" id='lastMaintenance' name='lastMaintenance' value={new Date(inputValue.lastMaintenance).toISOString().substring(0, 10)} /> */}
         </div>
 
         <div className='mt-4 flex justify-center gap-3 items-center'>

@@ -112,7 +112,7 @@ const GroupsComponent = ({ reportType }: GroupsComponentProps): ReactElement => 
           ? (
             <div className='flex gap-4 flex-wrap'>
               {
-                groups.map(group => (
+                groups.sort((a, b) => a.id - b.id).map(group => (
                   <div key={group.id} className='max-w-[220px] p-7 bg-black text-white rounded-lg flex flex-col justify-between gap-2'>
                     <p className='uppercase'>{group.name}</p>
 

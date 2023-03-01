@@ -93,9 +93,11 @@ const VehicleComponent = (): ReactElement => {
                 <tr>
                   <th scope='col' className={tableHeadStyle}>Placa</th>
                   <th scope='col' className={tableHeadStyle}>Proveedor</th>
-                  <th scope='col' className={tableHeadStyle}>Transportista</th>
+                  <th scope='col' className={tableHeadStyle}>Empresa</th>
                   <th scope='col' className={tableHeadStyle}>Imei</th>
                   <th scope='col' className={tableHeadStyle}>Último Mantenimiento</th>
+                  <th scope='col' className={tableHeadStyle}>F. Venc. Soat</th>
+                  <th scope='col' className={tableHeadStyle}>F. Venc. Revisión Técnica</th>
                   <th scope='col' className={tableHeadStyle}>Tipo de vehículo</th>
                   <th scope='col' className={tableHeadStyle}>Marca</th>
                   <th scope='col' className={tableHeadStyle}>Modelo</th>
@@ -108,9 +110,11 @@ const VehicleComponent = (): ReactElement => {
                     <tr key={vehicle.licensePlate} className='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'>
                       <td className={tableBodyStyle}>{vehicle.licensePlate}</td>
                       <td className={tableBodyStyle}>{vehicle.provider}</td>
-                      <td className={tableBodyStyle}>{vehicle.carrier}</td>
+                      <td className={tableBodyStyle}>{vehicle.company}</td>
                       <td className={tableBodyStyle}>{vehicle.imei}</td>
                       <td className={tableBodyStyle}>{new Date(vehicle.lastMaintenance).toDateString()}</td>
+                      <td className={tableBodyStyle}>{new Date(vehicle.soatExpiration).toDateString()}</td>
+                      <td className={tableBodyStyle}>{new Date(vehicle.technicalReviewExpiration).toDateString()}</td>
                       <td className={tableBodyStyle}>{vehicle.vehicleType.name}</td>
                       <td className={tableBodyStyle}>{vehicle.brand}</td>
                       <td className={tableBodyStyle}>{vehicle.model}</td>

@@ -8,6 +8,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import ShowImageEvidence from '../components/ShowImageEvidence'
 import { Route } from '../models/route.interface'
 import RoutesServices from '../services/route.services'
+import { ReportGroup } from '@/reports/models/group.interface'
 
 const ROUTE_INITIAL_STATE = {
   id: '',
@@ -56,7 +57,8 @@ const RouteDetail = (): ReactElement => {
   const [searchParams] = useSearchParams()
   const [route, setRoute] = useState<Route>(ROUTE_INITIAL_STATE)
   const [report, setReport] = useState<Report>(REPORT_INITIAL_STATE)
-  const [fieldReports, setFieldReports] = useState<Map<string, FieldReport[]>>(new Map<string, FieldReport[]>())
+  const [fieldReports, setFieldReports] = useState<Map<number, FieldReport[]>>(new Map<number, FieldReport[]>())
+  const [groups, setGroups] = useState<ReportGroup[]>([])
 
   const [fieldSelected, setFieldSelected] = useState<FieldSelected>({
     name: '',
@@ -78,18 +80,25 @@ const RouteDetail = (): ReactElement => {
   }, [])
 
   const groupFieldReports = (fieldReports: FieldReport[]): void => {
-    const fieldReportsMap = new Map<string, FieldReport[]>()
+    const fieldReportsMap = new Map<number, FieldReport[]>()
+    const reportGroups: ReportGroup[] = []
 
     fieldReports.forEach(fieldReport => {
-      const groupName = fieldReport.group.name
-      if (fieldReportsMap.has(groupName)) {
-        fieldReportsMap.get(groupName)?.push(fieldReport)
+      const groupId = fieldReport.group.id
+
+      const groupIndex = groups.findIndex(g => g.id === groupId)
+
+      if (groupIndex === -1) reportGroups.push({ id: groupId, name: fieldReport.group.name })
+
+      if (fieldReportsMap.has(groupId)) {
+        fieldReportsMap.get(groupId)?.push(fieldReport)
       } else {
-        fieldReportsMap.set(groupName, [fieldReport])
+        fieldReportsMap.set(groupId, [fieldReport])
       }
     })
 
     setFieldReports(fieldReportsMap)
+    setGroups(reportGroups)
   }
 
   const imageEvidenceOnClick = (url: string, name: string): void => {
@@ -210,13 +219,14 @@ const RouteDetail = (): ReactElement => {
 
       <div className='grid grid-cols-2 gap-6 uppercase'>
         {
-          Array.from(fieldReports.entries()).map(([key, value]) => {
+          Array.from(fieldReports.entries()).sort((a, b) => a[0] - b[0]).map(([key, value]) => {
+            const group = groups.find((g) => g.id === key)
             return (
               <div
                 key={key}
                 className='my-4'
               >
-                <p className='text-xl'>{key.toUpperCase()}</p>
+                <p className='text-xl'>{group?.name.toUpperCase()}</p>
                 <div className='w-[80%] border-b-2 my-2'></div>
                 <div>
                   {

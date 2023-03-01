@@ -18,11 +18,13 @@ interface AddUserModalProps {
 const PROFILE_INIT_STATE: ProfileDto = {
   dni: '',
   company: '',
+  companyWhoHires: '',
   email: '',
   name: '',
   lastName: '',
   license: '',
   licenseCategory: '',
+  licenseExpiration: new Date().toISOString(),
   phone1: '',
   phone2: ''
 }
@@ -181,8 +183,13 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
           setValue={(value) => setValueProfile('dni', value)}></Input>
 
         <Input
+          value={newProfile.companyWhoHires}
+          name='companyWhoHires' placeholder='Empresa quien contrata' type='text'
+          setValid={(valid) => setIsValidInput('companyWhoHires', valid)}
+          setValue={(value) => setValueProfile('companyWhoHires', value)}></Input>
+        <Input
           value={newProfile.company}
-          name='company' placeholder='Empresa' type='text'
+          name='company' placeholder='Empresa del transportista' type='text'
           setValid={(valid) => setIsValidInput('company', valid)}
           setValue={(value) => setValueProfile('company', value)}></Input>
 
@@ -203,6 +210,15 @@ const AddUserModal = ({ closeModal, refreshUserList, toastId }: AddUserModalProp
           name='licenseCategory' placeholder='Categoría de la licencia' type='text'
           setValid={(valid) => setIsValidInput('licenseCategory', valid)}
           setValue={(value) => setValueProfile('licenseCategory', value)}></Input>
+
+        <div className='my-2'>
+          <label className='font-medium' htmlFor="licenseExpiration">Fecha de vencimiento de la licencia</label>
+          <Input
+            value={new Date(newProfile.licenseExpiration).toISOString().substring(0, 10)}
+            name='licenseExpiration' placeholder='' type='date'
+            setValid={(valid) => setIsValidInput('licenseExpiration', valid)}
+            setValue={(value) => setValueProfile('licenseExpiration', value)}></Input>
+        </div>
 
         <Input
           value={newProfile.phone1}

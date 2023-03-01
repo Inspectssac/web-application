@@ -117,7 +117,7 @@ const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicl
           <div>
             <label htmlFor='carrier'>Transportista</label>
             <Input
-              value={inputValue.carrier}
+              value={inputValue.company}
               name='carrier' placeholder='Transportista' type='text'
               setValid={(valid) => setIsValidInput('carrier', valid)}
               setValue={(value) => setValueInputValue('carrier', value)}></Input>
