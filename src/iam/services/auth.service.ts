@@ -36,6 +36,7 @@ export class AuthServices extends AppServices {
   logout = (): void => {
     TokenService.removeToken()
     localStorage.removeItem('user')
+    localStorage.removeItem('routes-request')
   }
 
   currentUser = async (): Promise<User | null> => {

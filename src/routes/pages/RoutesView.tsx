@@ -10,7 +10,7 @@ import { Route } from '../models/route.interface'
 import { SortIconAsc, SortIconDesc } from '../assets/SortIcons'
 import { Column } from 'react-table'
 import { useNavigate } from 'react-router-dom'
-import { DateRange, DateRangeObject } from '@/shared/models/date-range'
+import { DateRange, DateRangeObject, LOCALE_OPTIONS } from '@/shared/models/date-range'
 
 const FILTER_COLUMNS = [
   { name: 'Placa', value: 'licensePlate' },
@@ -27,7 +27,7 @@ const RoutesView = (): ReactElement => {
   const routeStatus = useSelector(getStatus)
   const dateRangeStore = useSelector(getDateRange)
 
-  const [dateRange, setDateRange] = useState<DateRange>(dateRangeStore)
+  const [dateRange, setDateRange] = useState<DateRange>(new DateRange())
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [showFilter, setShowFilter] = useState<boolean>(false)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -124,13 +124,15 @@ const RoutesView = (): ReactElement => {
 
   const onChangeInputDate = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target
+    const date = new Date(value)
+    date.setHours(date.getHours() + 5)
 
     const aux: DateRangeObject = {
-      'date-start': dateRange.formattedDateStart(),
-      'date-end': dateRange.formattedDateEnd()
+      'date-start': new Date(dateRange._dateStart).toISOString(),
+      'date-end': new Date(dateRange._dateEnd).toISOString()
     }
 
-    aux[name as keyof DateRangeObject] = value
+    aux[name as keyof DateRangeObject] = date.toISOString()
 
     setDateRange(DateRange.fromJson(aux))
   }
@@ -180,7 +182,13 @@ const RoutesView = (): ReactElement => {
         <div className='flex gap-3 justify-end items-center w-2/5'>
           <div>
             <p className='font-bold'>Fecha de última búsqueda</p>
-            <p>{lastDateRequest !== null ? lastDateRequest.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h12' }) : ''}</p>
+            <p>{lastDateRequest !== null ? lastDateRequest.toLocaleDateString('es-PE', { ...LOCALE_OPTIONS, hour: '2-digit', minute: '2-digit', hourCycle: 'h12' }) : ''}</p>
+            <p className='font-bold'>Rango de fecha solicitada</p>
+            <div className='flex gap-2 font-semibold'>
+              <p>{dateRangeStore.isoFormattedStringDateStart()}</p>
+              <p>A</p>
+              <p>{dateRangeStore.isoFormattedStringDateEnd()}</p>
+            </div>
           </div>
           <Button color='secondary' onClick={findAll}>Buscar recorridos</Button>
         </div>
