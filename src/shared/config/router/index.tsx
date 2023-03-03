@@ -15,6 +15,7 @@ import RequiredAdmin from '@/admin/ui/pages/RequiredAdmin'
 import RouteDetail from '@/routes/pages/RouteDetail'
 import CheckpointsView from '@/routes/pages/CheckpointsView'
 import Redirect from '@/shared/ui/components/Redirect'
+import TermsAndConditions from '@/shared/ui/pages/TermsAndConditions'
 
 const authRequiredRoutes: RouteObject[] = [
   {
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <ErrorPage />,
     children: authRequiredRoutes
+  },
+  {
+    path: '/terminos-y-condiciones',
+    element: <TermsAndConditions />
   },
   {
     path: '*',

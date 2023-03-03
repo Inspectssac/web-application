@@ -16,6 +16,10 @@ const Login = (): ReactElement => {
     if (authenticated) navigate('/inicio')
   }, [])
 
+  const goToTermnsAndConditions = (): void => {
+    navigate('/terminos-y-condiciones')
+  }
+
   return (
     <div className='container-page h-screen flex justify-center items-center flex-col gap-8'>
       <div className='text-center pb-12'>
@@ -30,6 +34,7 @@ const Login = (): ReactElement => {
         <div className='text-sm mt-3 text-gray-400'>
           <p>ESSAC-Inspect 1.0.0</p>
           <p className='font-bold'>&copy;ESSAC 2023</p>
+          <p className='mt-2'><span className='cursor-pointer underline' onClick={goToTermnsAndConditions}>Términos y condiciones</span></p>
         </div>
       </section>
     </div>
