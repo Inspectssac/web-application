@@ -106,6 +106,15 @@ const RouteDetail = (): ReactElement => {
     setShowImage(true)
   }
 
+  const goToGoogleMapsPage = (locationString: string): void => {
+    const location = locationString.split(',')
+    const [latitude, longitude] = [location[0], location[1]]
+
+    const link = `http://maps.google.com/maps?z=12&t=m&q=loc:${latitude}+${longitude}`
+
+    window.open(link, '_blank', 'noopener,noreferrer')
+  }
+
   return (
     <div className='container-page'>
       <h1 className='uppercase text-3xl font-semibold'>Recorrido {route.name}</h1>
@@ -114,11 +123,15 @@ const RouteDetail = (): ReactElement => {
         <h2 className="font-semibold text-xl after:w-36 after:h-[2px] after:bg-gray-light after:block mb-2">Detalle Recorrido</h2>
         <div className='flex gap-6 mb-1'>
           <p className='font-semibold'>Ubicación de Inicio: </p>
-          <p>{route.startLocation}</p>
+          <p className='cursor-pointer hover:text-red' onClick={() => goToGoogleMapsPage(route.startLocation)}>{route.startLocation}</p>
         </div>
         <div className='flex gap-6 mb-1'>
           <p className='font-semibold'>Ubicación de Llegada: </p>
-          <p>{route.endLocation !== null ? route.endLocation : 'Ruta no terminada'}</p>
+          {route.endLocation !== null
+            ? (<p className='cursor-pointer hover:text-red' onClick={() => goToGoogleMapsPage(route.endLocation)}>{route.endLocation}</p>)
+            : (<p>Ruta no terminada</p>)
+          }
+
         </div>
         <div className='flex gap-6 mb-1'>
           <p className='font-semibold'>Fecha de creacion: </p>
@@ -199,7 +212,7 @@ const RouteDetail = (): ReactElement => {
 
       <div className='flex gap-3 justify-between items-center mt-6'>
         <h2 className='uppercase text-3xl font-semibold '>Checklist</h2>
-        { report.checkpoints.length > 0 ? <Button color='primary' onClick={() => { navigate(`/detalle-checkpoints?report-id=${report.id}&route-id=${route.id}`) }}>Ver Observaciones</Button> : <div></div>}
+        {report.checkpoints.length > 0 ? <Button color='primary' onClick={() => { navigate(`/detalle-checkpoints?report-id=${report.id}&route-id=${route.id}`) }}>Ver Observaciones</Button> : <div></div>}
       </div>
       <div className='w-full border-b-2 mt-2 mb-4'></div>
       <div className='uppercase'>
