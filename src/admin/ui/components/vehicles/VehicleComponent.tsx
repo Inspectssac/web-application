@@ -9,13 +9,16 @@ import UpdateVehicleForm from './UpdateVehicleForm'
 import { ToastContext } from '../../pages/VehiclesView'
 import { toast } from 'react-toastify'
 import Table from '@/shared/ui/components/Table'
+import ImportModal from '../ImportModal'
 
 const VehicleComponent = (): ReactElement => {
   const toastContext = useContext(ToastContext)
   const vehiclesService = new VehiclesService()
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
+
   const [showAddVehicleModal, setShowAddVehicleModal] = useState<boolean>(false)
   const [showUpdateVehicleModal, setShowUpdateVehicleModal] = useState<boolean>(false)
+  const [showImportModal, setShowImportModal] = useState<boolean>(false)
 
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null)
 
@@ -34,6 +37,10 @@ const VehicleComponent = (): ReactElement => {
 
   const onFinishSubmit = (vehicle: Vehicle): void => {
     refreshList(vehicle, vehicle.licensePlate)
+  }
+
+  const refreshImportedVehicles = (newVehicles: Vehicle[]): void => {
+    setVehicles(vehicles.concat(newVehicles))
   }
 
   const refreshList = (vehicle: Vehicle, licensePlate: string, remove: boolean = false): void => {
@@ -74,6 +81,10 @@ const VehicleComponent = (): ReactElement => {
     toggleUpdateModal()
   }
 
+  const handleImportExcel = (): void => {
+    setShowImportModal(true)
+  }
+
   const tableHeadStyle = 'text-sm font-medium text-white px-6 py-4 capitalize'
   const tableBodyStyle = 'text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'
 
@@ -81,9 +92,13 @@ const VehicleComponent = (): ReactElement => {
     <div className='max-w-[900px]'>
       {showAddVehicleModal && <AddVehicleForm closeModal={toggleAddModal} onFinishSubmit={onFinishSubmit} />}
       {showUpdateVehicleModal && <UpdateVehicleForm closeModal={toggleUpdateModal} vehicle={selectedVehicle} onFinishSubmit={onFinishSubmit} />}
+      {showImportModal && <ImportModal close={() => { setShowImportModal(false) }} refreshList={refreshImportedVehicles} toastId={toastContext.id} type='vehicle' />}
       <div className='flex justify-between items-center mb-5'>
         <h2 className='text-xl font-bold uppercase'>Vehículos</h2>
-        <Button color='primary' onClick={toggleAddModal}>Añadir vehículo</Button>
+        <div className='flex flex-col sm:flex-row gap-2 sm:justify-center'>
+          <Button color='primary' onClick={handleImportExcel}>Importar Excel</Button>
+          <Button color='primary' onClick={toggleAddModal}>Añadir vehículo</Button>
+        </div>
       </div>
       {
         vehicles.length > 0

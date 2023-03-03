@@ -171,7 +171,7 @@ const UsersView = (): ReactElement => {
         </div>
 
       </main>
-      { showImportModal && <ImportModal close={() => { setShowImportModal(false) }} refreshUserList={refreshImportedUsers} toastId={TOAST_ID} />}
+      { showImportModal && <ImportModal close={() => { setShowImportModal(false) }} refreshList={refreshImportedUsers} toastId={TOAST_ID} type='user' />}
       <Toast id={TOAST_ID}></Toast>
 
     </div>

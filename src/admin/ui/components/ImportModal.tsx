@@ -1,16 +1,18 @@
 import { AdminService } from '@/admin/services/admin.service'
-import { User } from '@/iam/models/user.model'
 import Modal from '@/shared/ui/components/Modal'
 import React, { ReactElement, useState } from 'react'
 import { toast } from 'react-toastify'
 
+type ImportObject = 'user' | 'vehicle'
+
 interface ImportExcelProps {
   close: () => void
-  refreshUserList: (user: User[]) => void
+  refreshList: (data: any) => void
+  type: ImportObject
   toastId: string
 }
 
-const ImportExcel = ({ close, refreshUserList, toastId }: ImportExcelProps): ReactElement => {
+const ImportExcel = ({ close, refreshList, toastId, type }: ImportExcelProps): ReactElement => {
   const adminService = new AdminService()
   const [file, setFile] = useState<File | null | undefined>(null)
   const [error, setError] = useState<string>('')
@@ -28,15 +30,18 @@ const ImportExcel = ({ close, refreshUserList, toastId }: ImportExcelProps): Rea
     setIsLoading(true)
     const formData = new FormData()
     formData.append('excel-file', file)
-    void adminService.importExcel(formData)
+
+    const importExcelFunction = type === 'user' ? adminService.importUserExcel : adminService.importVehicleExcel
+
+    void importExcelFunction(formData)
       .then(response => {
-        refreshUserList(response)
+        refreshList(response)
         setIsLoading(false)
         toast('La información se importó correctamente', { toastId, type: 'success' })
         close()
       })
       .catch(error => {
-        const { message } = error
+        const { message } = error.data
         setIsLoading(false)
         setError(message)
         toast(message, { toastId, type: 'error' })
@@ -75,7 +80,7 @@ const ImportExcel = ({ close, refreshUserList, toastId }: ImportExcelProps): Rea
         <form onSubmit={handleSubmit}>
           <div className='mt-5'>
             <input onChange={onChange} type="file" accept='.xlsx,.xlsm,.xls,.xlt,.xlsb' />
-            <p className='m-0 mt-1 text-red lowercase'>{error}</p>
+            <p className='m-0 mt-1 text-red'>{error}</p>
           </div>
 
           <div className='mt-5 flex gap-3 justify-center'>
