@@ -26,7 +26,7 @@ const Login = (): ReactElement => {
         <p className='uppercase text-5xl italic font-bold'>Plataforma de monitoreo de unidades</p>
       </div>
       <section className='w-full max-w-[500px]'>
-        <img className='w-full' src="/logo.png" alt="ESSAC LOGO" />
+        <img className='w-full' src="/logo-bg-v2.png" alt="ESSAC LOGO" />
       </section>
       <LoginForm />
       <section className='text-center'>
