@@ -8,7 +8,7 @@ import Modal from '@/shared/ui/components/Modal'
 import Table from '@/shared/ui/components/Table'
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { ToastContext } from '../../pages/VehiclesView'
+import { ReportToastContext } from '../../pages/ReportsView'
 import AssignFieldForm from '../report-types/AssignFieldForm'
 import UpdateFieldForm from '../report-types/UpdateFieldForm'
 
@@ -18,7 +18,7 @@ interface GroupDetailProps {
 }
 
 const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
-  const toastContext = useContext(ToastContext)
+  const reportToastContext = useContext(ReportToastContext)
   const groupsService = new GroupsService()
 
   const [groupFields, setGroupFields] = useState<GroupField[]>([])
@@ -47,11 +47,11 @@ const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
     void groupsService.deleteField(group.id, groupField.fieldId)
       .then((response) => {
         updateGroupList(response, groupField.fieldId, true)
-        toast('Campo desasignado correctamente', { toastId: toastContext.id, type: 'success' })
+        toast('Campo desasignado correctamente', { toastId: reportToastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
-        toast(message, { toastId: toastContext.id, type: 'error' })
+        toast(message, { toastId: reportToastContext.id, type: 'error' })
       })
       .finally(() => {
       })

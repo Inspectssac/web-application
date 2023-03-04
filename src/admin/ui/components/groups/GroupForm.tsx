@@ -7,7 +7,7 @@ import Input from '@/shared/ui/components/Input'
 import Modal from '@/shared/ui/components/Modal'
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { ToastContext } from '../../pages/VehiclesView'
+import { ReportToastContext } from '../../pages/ReportsView'
 
 type FormAction = 'add' | 'update'
 
@@ -31,7 +31,7 @@ const getInitialState = (group: Group | null): Pick<Group, 'name'> => {
 }
 
 const GroupForm = ({ group, reportType, formAction, close, update, reset }: CreateGroupProps): ReactElement => {
-  const toastContext = useContext(ToastContext)
+  const reportToastContext = useContext(ReportToastContext)
   const reportTypesService = new ReportTypesService()
   const groupsService = new GroupsService()
 
@@ -69,11 +69,11 @@ const GroupForm = ({ group, reportType, formAction, close, update, reset }: Crea
     void action(actionId, inputValue)
       .then((response) => {
         update(response)
-        toast('Sección guardada correctamente', { toastId: toastContext.id, type: 'success' })
+        toast('Sección guardada correctamente', { toastId: reportToastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
-        toast(message, { toastId: toastContext.id, type: 'error' })
+        toast(message, { toastId: reportToastContext.id, type: 'error' })
       })
       .finally(() => {
         reset()
