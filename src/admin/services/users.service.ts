@@ -24,6 +24,11 @@ export class UsersService extends AppServices {
       .then(response => response.data)
   }
 
+  toggleActiveUser = async (userId: string): Promise<User> => {
+    return await this.patch<User>(`/${userId}/toggle-active`)
+      .then(response => response.data)
+  }
+
   remove = async (id: string): Promise<User> => {
     return await this.delete<User>(`/${id}`)
       .then(response => response.data)
