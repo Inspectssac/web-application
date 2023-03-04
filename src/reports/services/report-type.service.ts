@@ -3,6 +3,7 @@ import { ReportTypeDto } from '../models/interfaces/report-type-dto.interface'
 import { ReportType } from '../models/report-type.interface'
 import { Group } from '../models/group.interface'
 import { GroupField } from '../models/group-field.interface'
+import { VehicleType } from '@/routes/models/vehicle-type.interface'
 
 export class ReportTypesService extends AppServices {
   constructor () {
@@ -24,6 +25,11 @@ export class ReportTypesService extends AppServices {
       .then(response => response.data)
   }
 
+  findAllVehicleTypes = async (id: number): Promise<VehicleType[]> => {
+    return await this.get<VehicleType[]>(`/${id}/vehicle-types`)
+      .then(response => response.data)
+  }
+
   create = async (reportType: ReportTypeDto): Promise<ReportType> => {
     return await this.post<ReportType>('', reportType)
       .then(response => response.data)
@@ -35,17 +41,17 @@ export class ReportTypesService extends AppServices {
   }
 
   createGroup = async (reportTypeId: number, group: Pick<Group, 'name'>): Promise<Group> => {
-    return await this.post<Group>(`/${reportTypeId}`, group)
+    return await this.post<Group>(`/${reportTypeId}/groups`, group)
       .then(response => response.data)
   }
 
-  // assignField = async (reportTypeId: number, fieldId: number, reportTypeFieldDto: GroupFieldDto): Promise<GroupField> => {
-  //   return await this.post<GroupField>(`/${reportTypeId}/fields/${fieldId}`, reportTypeFieldDto)
-  //     .then(response => response.data)
-  // }
+  assignVehicleType = async (reportTypeId: number, vehicleTypeId: number): Promise<ReportType> => {
+    return await this.post<ReportType>(`/${reportTypeId}/vehicle-types/${vehicleTypeId}`)
+      .then(response => response.data)
+  }
 
-  // updateField = async (reportTypeId: number, fieldId: number, reportTypeFieldDto: GroupFieldDto): Promise<GroupField> => {
-  //   return await this.patch<GroupField>(`/${reportTypeId}/fields/${fieldId}`, reportTypeFieldDto)
-  //     .then(response => response.data)
-  // }
+  removeVehicleType = async (reportTypeId: number, vehicleTypeId: number): Promise<ReportType> => {
+    return await this.delete<ReportType>(`/${reportTypeId}/vehicle-types/${vehicleTypeId}`)
+      .then(response => response.data)
+  }
 }

@@ -10,7 +10,7 @@ import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import EyeIcon from '@/shared/ui/assets/icons/EyeIcon'
 import { GroupsService } from '@/reports/services/group.service'
 import { toast } from 'react-toastify'
-import { ToastContext } from '../../pages/VehiclesView'
+import { ReportToastContext } from '../../pages/ReportsView'
 
 type FormAction = 'add' | 'update'
 
@@ -28,7 +28,7 @@ const GROUP_STATE: Group = {
 }
 
 const GroupsComponent = ({ reportType }: GroupsComponentProps): ReactElement => {
-  const toastContext = useContext(ToastContext)
+  const reportToastContext = useContext(ReportToastContext)
   const reportTypesService = new ReportTypesService()
   const groupsService = new GroupsService()
 
@@ -89,11 +89,11 @@ const GroupsComponent = ({ reportType }: GroupsComponentProps): ReactElement => 
     void groupsService.remove(groupDeleted.id)
       .then((response) => {
         setGroups(groups.filter(group => group.id !== groupDeleted.id))
-        toast('Sección eliminado correctamente', { toastId: toastContext.id, type: 'success' })
+        toast('Sección eliminado correctamente', { toastId: reportToastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
-        toast(message, { toastId: toastContext.id, type: 'error' })
+        toast(message, { toastId: reportToastContext.id, type: 'error' })
       })
   }
 

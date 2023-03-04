@@ -6,17 +6,21 @@ import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import ReportTypeForm from '../components/report-types/ReportTypeForm'
 import GroupsComponent from '../components/groups/GroupsComponent'
 import Toast from '@/shared/ui/components/Toast'
+import VehicleTypeList from '../components/report-types/VehicleTypeList'
 
-const INITIAL_STATE = {
+const INITIAL_STATE: ReportType = {
   createdAt: '',
   updatedAt: '',
   id: 0,
-  name: ''
+  name: '',
+  vehicleTypes: []
 }
 
 type FormAction = 'add' | 'update'
 
 const TOAST_ID = 'reports'
+
+export const ReportToastContext = React.createContext({ id: '' })
 
 const ReportsView = (): ReactElement => {
   const reportTypesService = new ReportTypesService()
@@ -28,7 +32,10 @@ const ReportsView = (): ReactElement => {
 
   useEffect(() => {
     void reportTypesService.findAll()
-      .then(setReportTypes)
+      .then(response => {
+        response.sort((a, b) => a.id - b.id)
+        setReportTypes(response)
+      })
   }, [])
 
   useEffect(() => {
@@ -71,46 +78,52 @@ const ReportsView = (): ReactElement => {
   }
 
   return (
-    <div className='container-page'>
-      <h1 className='text-3xl mb-4 after:h-px after:w-52 after:bg-light-gray after:block after:mt-1'>Tipo de Checklist</h1>
-      <div className='sm:grid sm:grid-cols-table sm:gap-12'>
-        <main className='mb-4'>
-          <div className='mb-4'>
-            <h2 className='uppercase font-bold mt-2'>Tipo de Checklist</h2>
-            {
-              reportTypes.length > 0
-                ? (
+    <ReportToastContext.Provider value={{ id: TOAST_ID }}>
+      <div className='container-page'>
+        <h1 className='text-3xl mb-4 after:h-px after:w-52 after:bg-light-gray after:block after:mt-1'>Tipo de Checklist</h1>
+        <div className='sm:grid sm:grid-cols-table sm:gap-12'>
+          <main className='mb-4'>
+            <div className='mb-4'>
+              <h2 className='uppercase font-bold mt-2'>Tipo de Checklist</h2>
+              {
+                reportTypes.length > 0
+                  ? (
 
-                    reportTypes.map(reportType =>
-                      (
-                    <div key={reportType.id}
-                      onClick={() => setSelectedReportType(reportType)}
-                      className={`w-full flex justify-between items-center py-2 rounded-r-xl cursor-pointer
+                      reportTypes.map(reportType =>
+                        (
+                      <div key={reportType.id}
+                        onClick={() => setSelectedReportType(reportType)}
+                        className={`w-full flex justify-between items-center py-2 rounded-r-xl cursor-pointer
                                       ${selectedReportType.id === reportType.id ? 'bg-blue text-white' : ''}`}>
-                      <p className='px-2'>{reportType.name}</p>
-                      <div className='flex gap-3 px-2'>
-                        <EditIcon className='cursor-pointer w-5 h-5' onClick={() => handleUpdate(reportType)} />
-                        <DeleteIcon className='cursor-pointer w-5 h-5 ' onClick={() => console.log('click')} />
+                        <p className='px-2'>{reportType.name}</p>
+                        <div className='flex gap-3 px-2'>
+                          <EditIcon className='cursor-pointer w-5 h-5' onClick={() => handleUpdate(reportType)} />
+                          <DeleteIcon className='cursor-pointer w-5 h-5 ' onClick={() => console.log('click')} />
+                        </div>
                       </div>
-                    </div>
-                      ))
+                        ))
 
-                  )
-                : (<p>No hay tipo de reportes</p>)
-            }
+                    )
+                  : (<p>No hay tipo de reportes</p>)
+              }
+            </div>
+            <div className='w-full border-t border-solid border-gray-light my-3'></div>
+            <ReportTypeForm reportType={reportTypeForm} reset={reset} formAction={formAction} onFinishSubmit={onFinishSubmit} />
+
+          </main>
+
+          <div className='w-full 1order-t border-solid border-gray-light my-3 sm:hidden'></div>
+          <div>
+            <GroupsComponent reportType={selectedReportType} />
+            <div className='mt-10'>
+              <VehicleTypeList reportType={selectedReportType} />
+            </div>
           </div>
-          <div className='w-full border-t border-solid border-gray-light my-3'></div>
-          <ReportTypeForm toastId={TOAST_ID} reportType={reportTypeForm} reset={reset} formAction={formAction} onFinishSubmit={onFinishSubmit} />
+        </div>
 
-        </main>
-
-        <div className='w-full 1order-t border-solid border-gray-light my-3 sm:hidden'></div>
-        <GroupsComponent reportType={selectedReportType} />
+        <Toast id={TOAST_ID}></Toast>
       </div>
-
-      <Toast id={TOAST_ID}></Toast>
-    </div>
-
+    </ReportToastContext.Provider>
   )
 }
 

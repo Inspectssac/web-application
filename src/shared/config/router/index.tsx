@@ -56,7 +56,7 @@ const authRequiredRoutes: RouteObject[] = [
         element: <FieldsView />
       },
       {
-        path: 'vehiculos',
+        path: 'tipo-vehiculos',
         element: <VehiclesView />
       }
     ]

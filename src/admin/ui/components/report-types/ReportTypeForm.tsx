@@ -2,20 +2,21 @@ import { ReportType } from '@/reports/models/report-type.interface'
 import { ReportTypesService } from '@/reports/services/report-type.service'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import { ReportToastContext } from '../../pages/ReportsView'
 
 type FormAction = 'add' | 'update'
 
 interface ReportTypeFormProps {
-  toastId: string
   reportType: ReportType
   formAction: FormAction
   reset: () => void
   onFinishSubmit: (reportType: ReportType) => void
 }
 
-const ReportTypeForm = ({ reportType, toastId, formAction, reset, onFinishSubmit }: ReportTypeFormProps): ReactElement => {
+const ReportTypeForm = ({ reportType, formAction, reset, onFinishSubmit }: ReportTypeFormProps): ReactElement => {
+  const reportToastContext = useContext(ReportToastContext)
   const reportTypesService = new ReportTypesService()
   const [inputValue, setInputValue] = useState<ReportType>(reportType)
 
@@ -28,18 +29,18 @@ const ReportTypeForm = ({ reportType, toastId, formAction, reset, onFinishSubmit
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    const { id, createdAt, updatedAt, ...newField } = inputValue
+    const { id, createdAt, updatedAt, vehicleTypes, ...newField } = inputValue
 
     if (formAction === 'update') {
       void reportTypesService.update(id, newField)
         .then(response => {
           resetForm()
           onFinishSubmit(response)
-          toast('Tipo de checklist actualizado correctamente', { toastId, type: 'success' })
+          toast('Tipo de checklist actualizado correctamente', { toastId: reportToastContext.id, type: 'success' })
         })
         .catch((error) => {
           const { message } = error.data
-          toast(message, { toastId, type: 'error' })
+          toast(message, { toastId: reportToastContext.id, type: 'error' })
         })
       return
     }
@@ -48,11 +49,11 @@ const ReportTypeForm = ({ reportType, toastId, formAction, reset, onFinishSubmit
       .then(response => {
         resetForm()
         onFinishSubmit(response)
-        toast('Tipo de checklist creado correctamente', { toastId, type: 'success' })
+        toast('Tipo de checklist creado correctamente', { toastId: reportToastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
-        toast(message, { toastId, type: 'error' })
+        toast(message, { toastId: reportToastContext.id, type: 'error' })
       })
   }
 
