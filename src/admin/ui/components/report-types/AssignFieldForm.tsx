@@ -8,9 +8,9 @@ import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { GroupsService } from '@/reports/services/group.service'
-import { ToastContext } from '../../pages/VehiclesView'
 import { Group } from '@/reports/models/group.interface'
 import { ReportTypesService } from '@/reports/services/report-type.service'
+import { ReportToastContext } from '../../pages/ReportsView'
 
 interface AssignFieldFormProps {
   group: Group
@@ -34,7 +34,7 @@ const GROUP_FIELD_INITIAL_STATE = {
 }
 
 const AssignFieldForm = ({ group, groupFields, onFinishSubmit }: AssignFieldFormProps): ReactElement => {
-  const toastContext = useContext(ToastContext)
+  const reportToastContext = useContext(ReportToastContext)
   const groupsService = new GroupsService()
   const navigate = useNavigate()
 
@@ -78,11 +78,11 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit }: AssignFieldForm
     void groupsService.assignField(group.id, selectedField.id, inputValue)
       .then((response) => {
         onFinishSubmit(response)
-        toast('Campo asignado correctamente', { toastId: toastContext.id, type: 'success' })
+        toast('Campo asignado correctamente', { toastId: reportToastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
-        toast(message, { toastId: toastContext.id, type: 'error' })
+        toast(message, { toastId: reportToastContext.id, type: 'error' })
       })
       .finally(() => {
       })

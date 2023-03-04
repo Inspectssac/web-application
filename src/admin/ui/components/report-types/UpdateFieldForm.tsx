@@ -3,9 +3,9 @@ import { GroupField } from '@/reports/models/group-field.interface'
 import Button from '@/shared/ui/components/Button'
 import React, { ReactElement, useContext, useState } from 'react'
 import { toast } from 'react-toastify'
-import { ToastContext } from '../../pages/VehiclesView'
 import { GroupsService } from '@/reports/services/group.service'
 import { Group } from '@/reports/models/group.interface'
+import { ReportToastContext } from '../../pages/ReportsView'
 
 interface UpdateFieldFormProps {
   group: Group
@@ -27,7 +27,7 @@ const getInitialState = (groupField: GroupField | null): GroupFieldDto => {
 }
 
 const UpdateFieldForm = ({ group, groupField, closeModal, onFinishSubmit }: UpdateFieldFormProps): ReactElement => {
-  const toastContext = useContext(ToastContext)
+  const reportToastContext = useContext(ReportToastContext)
   const groupsService = new GroupsService()
 
   const [inputValue, setInputValue] = useState<GroupFieldDto>(getInitialState(groupField))
@@ -46,11 +46,11 @@ const UpdateFieldForm = ({ group, groupField, closeModal, onFinishSubmit }: Upda
     void groupsService.updateField(group.id, fieldId, inputValue)
       .then((response) => {
         onFinishSubmit(response)
-        toast('Campo actualizado correctamente', { toastId: toastContext.id, type: 'success' })
+        toast('Campo actualizado correctamente', { toastId: reportToastContext.id, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
-        toast(message, { toastId: toastContext.id, type: 'error' })
+        toast(message, { toastId: reportToastContext.id, type: 'error' })
       })
       .finally(() => {
         closeModal()
