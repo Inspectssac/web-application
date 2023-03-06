@@ -3,7 +3,7 @@ import { Field } from '@/reports/models/field.entity'
 import { FieldsService } from '@/reports/services/field.service'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
-import React, { ReactElement, useEffect, useRef, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 type FormAction = 'add' | 'update'
@@ -22,8 +22,6 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
 
   const fieldTypes = Object.values(FieldType)
 
-  const inputNameRef = useRef<HTMLInputElement>(null)
-
   const [canSubmit, setCanSubmit] = useState<boolean>(false)
   const [validInputs, setValidInputs] = useState({
     name: false,
@@ -32,11 +30,11 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
   const [resetInputs, setResetInputs] = useState<boolean>(false)
 
   useEffect(() => {
-    if (formAction === 'update') inputNameRef.current?.focus()
-  }, [formAction])
-
-  useEffect(() => {
     setInputValue(field)
+    setValidInputs({
+      ...validInputs,
+      placeholder: field.type !== FieldType.TEXT
+    })
   }, [field])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {

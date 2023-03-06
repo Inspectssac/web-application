@@ -68,7 +68,7 @@ const FieldComponent = ({ field, toastId, updateList, update, toggleShowValues, 
       <td className='py-3'>{field.placeholder ? field.placeholder : '-'}</td>
       <td className='py-3'>{field.active ? 'Activo' : 'No activo'}</td>
       <td className='py-3'>{field.type}</td>
-      <td className='flex justify-center items-center gap-2 py-3'>
+      <td className=''>
         {/* {field.type === FieldType.SELECT &&
           (
             <div className='cursor-pointer' onClick={() => toggleShowValues(field)}>
@@ -76,11 +76,14 @@ const FieldComponent = ({ field, toastId, updateList, update, toggleShowValues, 
             </div>
           )
         } */}
-        <DeleteIcon className='w-6 h-6 cursor-pointer text-red' onClick={() => handleRemove(field)} />
-        <EditIcon className='w-6 h-6 cursor-pointer' onClick={() => update(field)} />
-        <div className='cursor-pointer' onClick={() => handleToggle(field)}>
-          {activeIcon()}
+        <div className='flex justify-center items-center gap-2 py-3'>
+          <DeleteIcon className='w-6 h-6 cursor-pointer text-red' onClick={() => handleRemove(field)} />
+          <EditIcon className='w-6 h-6 cursor-pointer' onClick={() => update(field)} />
+          <div className='cursor-pointer' onClick={() => handleToggle(field)}>
+            {activeIcon()}
+          </div>
         </div>
+
       </td>
     </tr>
 

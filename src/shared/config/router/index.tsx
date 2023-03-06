@@ -10,12 +10,14 @@ import UsersView from '@/admin/ui/pages/UsersView'
 import ReportsView from '@/admin/ui/pages/ReportsView'
 import FieldsView from '@/admin/ui/pages/FieldsView'
 import ProfileView from '@/profiles/ui/pages/ProfileView'
-import VehiclesView from '@/admin/ui/pages/VehiclesView'
+import VehicleTypesView from '@/admin/ui/pages/VehicleTypesView'
 import RequiredAdmin from '@/admin/ui/pages/RequiredAdmin'
 import RouteDetail from '@/routes/pages/RouteDetail'
 import CheckpointsView from '@/routes/pages/CheckpointsView'
 import Redirect from '@/shared/ui/components/Redirect'
 import TermsAndConditions from '@/shared/ui/pages/TermsAndConditions'
+import VehiclesView from '@/admin/ui/pages/VehiclesView'
+import MaterialsView from '@/admin/ui/pages/MaterialsView'
 
 const authRequiredRoutes: RouteObject[] = [
   {
@@ -57,7 +59,15 @@ const authRequiredRoutes: RouteObject[] = [
       },
       {
         path: 'tipo-vehiculos',
+        element: <VehicleTypesView />
+      },
+      {
+        path: 'vehiculos',
         element: <VehiclesView />
+      },
+      {
+        path: 'tipo-materiales',
+        element: <MaterialsView />
       }
     ]
   },

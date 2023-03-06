@@ -35,7 +35,10 @@ const FieldsView = (): ReactElement => {
 
   useEffect(() => {
     void fieldsService.findAll()
-      .then(setFields)
+      .then(response => {
+        response.sort((a, b) => a.id - b.id)
+        setFields(response)
+      })
   }, [])
 
   const toggleShowFieldValues = (field: Field): void => {

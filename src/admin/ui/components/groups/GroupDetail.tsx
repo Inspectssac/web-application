@@ -90,11 +90,11 @@ const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
   }
 
   const tableHeadStyle = 'text-sm font-medium text-white px-6 py-4 capitalize'
-  const tableBodyStyle = 'text-sm text-gray-900 font-light px-6 py-4'
+  const tableBodyStyle = 'text-sm text-gray-900 font-light px-6 py-4 w-auto h-full align-middle'
 
   return (
     <Modal>
-      <div className='w-full min-w-[300px] sm:min-w-[800px] p-3'>
+      <div className='w-full min-w-[600px] sm:min-w-[1000px] p-3'>
         <div className='flex justify-between items-center mb-4 gap-4'>
           <h2 className='text-center text-2xl uppercase'>{group.name}</h2>
 
@@ -105,7 +105,7 @@ const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
         </div>
         <div className='border-b-2 mb-3'></div>
         <div className='mb-4'>
-          {showAssignField && <AssignFieldForm group={group} groupFields={groupFields} onFinishSubmit={onFinishSubmit} />}
+          {showAssignField && <AssignFieldForm group={group} groupFields={groupFields} onFinishSubmit={onFinishSubmit} close={() => { setShowAssignField(false) }} />}
           {showUpdateField && <UpdateFieldForm group={group} groupField={selectedGroupField} onFinishSubmit={onFinishSubmit} closeModal={closeUpdateModal} />}
         </div>
 
@@ -115,7 +115,7 @@ const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
               <Table>
                 <thead className='border-b bg-black'>
                   <tr>
-                    <th scope='col' className={`w-[10px] ${tableHeadStyle} `}>Campo</th>
+                    <th scope='col' className={`${tableHeadStyle}  max-w-[100px]`}>Campo</th>
                     <th scope='col' className={`${tableHeadStyle}`}>Activo</th>
                     <th scope='col' className={`${tableHeadStyle}`}>Max caractéres</th>
                     <th scope='col' className={`${tableHeadStyle}`}>Crítico</th>
@@ -127,14 +127,16 @@ const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
                   {
                     groupFields.map(groupField => (
                       <tr key={groupField.fieldId} className='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'>
-                        <td className={`w-[10px] ${tableBodyStyle}`}>{groupField.field.name}</td>
+                        <td className={`${tableBodyStyle} max-w-[100px] `}>{groupField.field.name}</td>
                         <td className={tableBodyStyle}>{groupField.field.active ? 'activo' : 'no activo'}</td>
                         <td className={tableBodyStyle}>{groupField.maxLength}</td>
                         <td className={tableBodyStyle}>{groupField.isCritical ? 'Si' : 'No'}</td>
                         <td className={tableBodyStyle}>{groupField.needImage ? 'Si' : 'No'}</td>
-                        <td className={`${tableBodyStyle} flex gap-3 justify-center items-center`}>
-                          <EditIcon className='w-6 h-6 cursor-pointer' onClick={() => handleUpdate(groupField)} />
-                          <DeleteIcon className='w-6 h-6 cursor-pointer text-red' onClick={() => handleRemove(groupField)} />
+                        <td className={`${tableBodyStyle}`}>
+                          <div className='flex gap-3 justify-center items-center'>
+                            <EditIcon className='w-6 h-6 cursor-pointer' onClick={() => handleUpdate(groupField)} />
+                            <DeleteIcon className='w-6 h-6 cursor-pointer text-red' onClick={() => handleRemove(groupField)} />
+                          </div>
                         </td>
                       </tr>
                     ))

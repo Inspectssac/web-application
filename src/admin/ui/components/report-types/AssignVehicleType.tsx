@@ -16,11 +16,12 @@ interface AssingVehicleTypeProps {
   close: () => void
 }
 
-const REPORT_TYPE_INITIAL_STATE: VehicleType = {
+const VEHICLE_TYPE_INITIAL_STATE: VehicleType = {
   id: 0,
   name: '',
   createdAt: '',
-  updatedAt: ''
+  updatedAt: '',
+  materials: []
 }
 
 const AssingVehicleType = ({ reportType, reportTypeVehicleTypes, update, close }: AssingVehicleTypeProps): ReactElement => {
@@ -31,7 +32,7 @@ const AssingVehicleType = ({ reportType, reportTypeVehicleTypes, update, close }
   const navigate = useNavigate()
 
   const [vehicleTypes, setVehicleTypes] = useState<VehicleType[]>([])
-  const [selectedVehicleType, setSelectedVehicleType] = useState<VehicleType>(REPORT_TYPE_INITIAL_STATE)
+  const [selectedVehicleType, setSelectedVehicleType] = useState<VehicleType>(VEHICLE_TYPE_INITIAL_STATE)
 
   useEffect(() => {
     void vehicleTypeService.findAll()
@@ -48,7 +49,7 @@ const AssingVehicleType = ({ reportType, reportTypeVehicleTypes, update, close }
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const { value } = event.target
     const vehicleType = vehicleTypes.find(vehicleType => vehicleType.id === parseInt(value))
-    setSelectedVehicleType(vehicleType ?? REPORT_TYPE_INITIAL_STATE)
+    setSelectedVehicleType(vehicleType ?? VEHICLE_TYPE_INITIAL_STATE)
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {

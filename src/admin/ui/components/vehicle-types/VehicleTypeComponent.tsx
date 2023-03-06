@@ -4,13 +4,13 @@ import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { ToastContext } from '../../pages/VehiclesView'
+import { VehicleTypeContext } from '../../pages/VehicleTypesView'
 import VehicleTypeForm from './VehicleTypeForm'
 
 type FormAction = 'add' | 'update'
 
 const VehicleTypeComponent = (): ReactElement => {
-  const toastContext = useContext(ToastContext)
+  const vehicleTypeContext = useContext(VehicleTypeContext)
   const vehicleTypesService = new VehicleTypesService()
   const [vehicleTypes, setVehicleTypes] = useState<VehicleType[]>([])
   const [selectedVehicleType, setSelectedVehicleType] = useState<VehicleType | null>(null)
@@ -18,8 +18,15 @@ const VehicleTypeComponent = (): ReactElement => {
 
   useEffect(() => {
     void vehicleTypesService.findAll()
-      .then(setVehicleTypes)
+      .then(response => {
+        response.sort((a, b) => a.id - b.id)
+        setVehicleTypes(response)
+      })
   }, [])
+
+  useEffect(() => {
+    if (vehicleTypes.length > 0) vehicleTypeContext.setVehicleType(vehicleTypes[0])
+  }, [vehicleTypes])
 
   const reset = (): void => {
     setSelectedVehicleType(null)
@@ -39,11 +46,11 @@ const VehicleTypeComponent = (): ReactElement => {
     void vehicleTypesService.remove(id)
       .then(response => {
         updateFieldList(response, id, true)
-        toast('Tipo de vehículo eliminado correctamente', { toastId: toastContext.id, type: 'success' })
+        toast('Tipo de vehículo eliminado correctamente', { toastId: vehicleTypeContext.toastId, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
-        toast(message, { toastId: toastContext.id, type: 'error' })
+        toast(message, { toastId: vehicleTypeContext.toastId, type: 'error' })
       })
   }
 
@@ -75,7 +82,8 @@ const VehicleTypeComponent = (): ReactElement => {
         {
           vehicleTypes.map(vehicleType => (
             <div key={vehicleType.id}
-              className={'w-full flex justify-between items-center py-2 border-b-2'}>
+              onClick={() => { vehicleTypeContext.setVehicleType(vehicleType) }}
+              className={`cursor-pointer w-full flex justify-between items-center py-2 border-b-2  rounded-r-xl ${vehicleType.id === vehicleTypeContext.vehicleType?.id ? 'bg-blue text-white' : ''}`}>
               <p className='px-2'>{vehicleType.name}</p>
               <div className='flex gap-3 px-2'>
                 <EditIcon className='cursor-pointer w-5 h-5' onClick={() => update(vehicleType)} />

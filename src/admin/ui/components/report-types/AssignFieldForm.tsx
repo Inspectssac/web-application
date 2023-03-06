@@ -16,6 +16,7 @@ interface AssignFieldFormProps {
   group: Group
   groupFields: GroupField[]
   onFinishSubmit: (reportTypeField: GroupField) => void
+  close: () => void
 }
 
 const FIELD_INITIAL_STATE = {
@@ -33,7 +34,7 @@ const GROUP_FIELD_INITIAL_STATE = {
   needImage: false
 }
 
-const AssignFieldForm = ({ group, groupFields, onFinishSubmit }: AssignFieldFormProps): ReactElement => {
+const AssignFieldForm = ({ group, groupFields, onFinishSubmit, close }: AssignFieldFormProps): ReactElement => {
   const reportToastContext = useContext(ReportToastContext)
   const groupsService = new GroupsService()
   const navigate = useNavigate()
@@ -53,7 +54,9 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit }: AssignFieldForm
         void reportTypesService.findAllGroupFields(group.reportTypeId)
           .then(groupFields => {
             const existingGroupFields = groupFields.map(groupField => groupField.fieldId)
-            setFields(response.filter(field => (!actualFields.includes(field.id) && !existingGroupFields.includes(field.id)) && field.active))
+            const filteredFields = response.filter(field => (!actualFields.includes(field.id) && !existingGroupFields.includes(field.id)) && field.active)
+            filteredFields.sort((a, b) => a.id - b.id)
+            setFields(filteredFields)
           })
       })
   }, [])
@@ -132,6 +135,7 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit }: AssignFieldForm
 
         <div className='mt-5 flex justify-center gap-3 items-center'>
           <Button color='primary' type='submit'>Añadir</Button>
+          <Button color='secondary' onClick={close} >Cancelar</Button>
         </div>
       </form>
     </>

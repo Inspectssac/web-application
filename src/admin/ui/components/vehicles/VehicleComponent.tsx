@@ -6,13 +6,13 @@ import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import Button from '@/shared/ui/components/Button'
 import AddVehicleForm from './AddVehicleForm'
 import UpdateVehicleForm from './UpdateVehicleForm'
-import { ToastContext } from '../../pages/VehiclesView'
 import { toast } from 'react-toastify'
 import Table from '@/shared/ui/components/Table'
 import ImportModal from '../ImportModal'
+import { VehicleToastContext } from '../../pages/VehiclesView'
 
 const VehicleComponent = (): ReactElement => {
-  const toastContext = useContext(ToastContext)
+  const toastContext = useContext(VehicleToastContext)
   const vehiclesService = new VehiclesService()
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
 
@@ -89,12 +89,12 @@ const VehicleComponent = (): ReactElement => {
   const tableBodyStyle = 'text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'
 
   return (
-    <div className='max-w-[900px]'>
+    <div className=''>
       {showAddVehicleModal && <AddVehicleForm closeModal={toggleAddModal} onFinishSubmit={onFinishSubmit} />}
       {showUpdateVehicleModal && <UpdateVehicleForm closeModal={toggleUpdateModal} vehicle={selectedVehicle} onFinishSubmit={onFinishSubmit} />}
       {showImportModal && <ImportModal close={() => { setShowImportModal(false) }} refreshList={refreshImportedVehicles} toastId={toastContext.id} type='vehicle' />}
+
       <div className='flex justify-between items-center mb-5'>
-        <h2 className='text-xl font-bold uppercase'>Vehículos</h2>
         <div className='flex flex-col sm:flex-row gap-2 sm:justify-center'>
           <Button color='primary' onClick={handleImportExcel}>Importar Excel</Button>
           <Button color='primary' onClick={toggleAddModal}>Añadir vehículo</Button>

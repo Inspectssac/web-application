@@ -5,7 +5,7 @@ import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { ToastContext } from '../../pages/VehiclesView'
+import { VehicleTypeContext } from '../../pages/VehicleTypesView'
 
 type FormAction = 'add' | 'update'
 
@@ -22,12 +22,12 @@ const INITIAL_STATE = {
 
 const getInitialState = (vehicleType: VehicleType | null): VehicleTypeDto => {
   if (vehicleType === null) return INITIAL_STATE
-  const { id, createdAt, updatedAt, ...vehicleTypeDto } = vehicleType
+  const { id, createdAt, updatedAt, materials, ...vehicleTypeDto } = vehicleType
   return vehicleTypeDto
 }
 
 const VehicleTypeForm = ({ vehicleType, formAction, onFinishSubmit, reset }: VehicleTypeFormProps): ReactElement => {
-  const toastContext = useContext(ToastContext)
+  const vehicleTypeContext = useContext(VehicleTypeContext)
 
   const vehicleTypesService = new VehicleTypesService()
   const [inputValue, setInputValue] = useState<VehicleTypeDto>(getInitialState(vehicleType))
@@ -53,11 +53,11 @@ const VehicleTypeForm = ({ vehicleType, formAction, onFinishSubmit, reset }: Veh
         .then(response => {
           resetForm()
           onFinishSubmit(response)
-          toast('Tipo de vehículo editado correctamente', { toastId: toastContext.id, type: 'success' })
+          toast('Tipo de vehículo editado correctamente', { toastId: vehicleTypeContext.toastId, type: 'success' })
         })
         .catch((error) => {
           const { message } = error.data
-          toast(message, { toastId: toastContext.id, type: 'error' })
+          toast(message, { toastId: vehicleTypeContext.toastId, type: 'error' })
         })
       return
     }
@@ -66,11 +66,11 @@ const VehicleTypeForm = ({ vehicleType, formAction, onFinishSubmit, reset }: Veh
       .then(response => {
         resetForm()
         onFinishSubmit(response)
-        toast('Tipo de vehículo creado correctamente', { toastId: toastContext.id, type: 'success' })
+        toast('Tipo de vehículo creado correctamente', { toastId: vehicleTypeContext.toastId, type: 'success' })
       })
       .catch((error) => {
         const { message } = error.data
-        toast(message, { toastId: toastContext.id, type: 'error' })
+        toast(message, { toastId: vehicleTypeContext.toastId, type: 'error' })
       })
   }
 

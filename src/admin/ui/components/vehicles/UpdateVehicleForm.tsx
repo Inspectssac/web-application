@@ -4,9 +4,9 @@ import { Vehicle } from '@/routes/models/vehicles.interface'
 import { VehiclesService } from '@/routes/services/vehicle.service'
 import Modal from '@/shared/ui/components/Modal'
 import { toast } from 'react-toastify'
-import { ToastContext } from '../../pages/VehiclesView'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
+import { VehicleToastContext } from '../../pages/VehiclesView'
 
 interface UpdateVehicleFormProps {
   vehicle: Vehicle | null
@@ -34,7 +34,7 @@ const getInitialState = (vehicle: Vehicle | null): VehicleDto => {
 }
 
 const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicleFormProps): ReactElement => {
-  const toastContext = useContext(ToastContext)
+  const toastContext = useContext(VehicleToastContext)
   const vehiclesService = new VehiclesService()
 
   const [inputValue, setInputValue] = useState<VehicleDto>(getInitialState(vehicle))

@@ -8,7 +8,7 @@ import Input from '@/shared/ui/components/Input'
 import Modal from '@/shared/ui/components/Modal'
 import React, { ReactElement, useContext, useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
-import { ToastContext } from '../../pages/VehiclesView'
+import { VehicleToastContext } from '../../pages/VehiclesView'
 
 interface AddVehicleFormProps {
   closeModal: () => void
@@ -27,7 +27,7 @@ const INITIAL_STATE: VehicleDto = {
   technicalReviewExpiration: new Date().toISOString()
 }
 const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): ReactElement => {
-  const toastContext = useContext(ToastContext)
+  const toastContext = useContext(VehicleToastContext)
   const vehiclesService = new VehiclesService()
   const vehicleTypesService = new VehicleTypesService()
 
