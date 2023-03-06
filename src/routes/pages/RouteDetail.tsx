@@ -9,6 +9,7 @@ import ShowImageEvidence from '../components/ShowImageEvidence'
 import { Route } from '../models/route.interface'
 import RoutesServices from '../services/route.services'
 import { ReportGroup } from '@/reports/models/group.interface'
+import { ReportType } from '@/reports/models/report-type.interface'
 
 const ROUTE_INITIAL_STATE = {
   id: '',
@@ -26,14 +27,15 @@ const ROUTE_INITIAL_STATE = {
   routeProfiles: []
 }
 
-const REPORT_TYPE_INITIAL_STATE = {
+const REPORT_TYPE_INITIAL_STATE: ReportType = {
   createdAt: '',
   updatedAt: '',
   id: 0,
-  name: ''
+  name: '',
+  vehicleTypes: []
 }
 
-const REPORT_INITIAL_STATE = {
+const REPORT_INITIAL_STATE: Report = {
   createdAt: '',
   updatedAt: '',
   id: '',
