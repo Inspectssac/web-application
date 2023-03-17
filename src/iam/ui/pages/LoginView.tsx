@@ -26,13 +26,13 @@ const Login = (): ReactElement => {
         <p className='uppercase text-5xl italic font-bold'>Plataforma de monitoreo de unidades</p>
       </div>
       <section className='w-full max-w-[500px]'>
-        <img className='w-full' src="/logo-bg-v2.png" alt="ESSAC LOGO" />
+        <img className='w-full' src="/logo-bg.png" alt="ESSAC LOGO" />
       </section>
       <LoginForm />
       <section className='text-center'>
         <img className='w-full max-w-[300px] filter contrast-50' src="/brand.png" alt="ESSAC 40 años" />
         <div className='text-sm mt-3 text-gray-400'>
-          <p>ESSAC-Inspect 1.0.0</p>
+          <p>ESSAC-Inspect v1.0.8</p>
           <p className='font-bold'>&copy;ESSAC 2023</p>
           <p className='mt-2'><span className='cursor-pointer underline' onClick={goToTermnsAndConditions}>Términos y condiciones</span></p>
         </div>
