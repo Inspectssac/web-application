@@ -15,14 +15,14 @@ interface ImportExcelProps {
 const ImportExcel = ({ close, refreshList, toastId, type }: ImportExcelProps): ReactElement => {
   const adminService = new AdminService()
   const [file, setFile] = useState<File | null | undefined>(null)
-  const [error, setError] = useState<string>('')
+  const [errors, setErrors] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
 
     if (file === null || file === undefined) {
-      setError('No se ha subido nigún archivo')
+      setErrors(['No se ha subido nigún archivo'])
       toast('No se ha subido nigún archivo', { toastId, type: 'error' })
       return
     }
@@ -35,15 +35,23 @@ const ImportExcel = ({ close, refreshList, toastId, type }: ImportExcelProps): R
 
     void importExcelFunction(formData)
       .then(response => {
-        refreshList(response)
+        const { data, dataMissed } = response
+        refreshList(data)
         setIsLoading(false)
+
+        if (dataMissed.length > 0) {
+          setErrors(dataMissed)
+          toast('Hubo un error al guardar algunas filas', { toastId, type: 'error' })
+          return
+        }
+
         toast('La información se importó correctamente', { toastId, type: 'success' })
         close()
       })
       .catch(error => {
         const { message } = error.data
         setIsLoading(false)
-        setError(message)
+        setErrors([message])
         toast(message, { toastId, type: 'error' })
       })
   }
@@ -57,12 +65,12 @@ const ImportExcel = ({ close, refreshList, toastId, type }: ImportExcelProps): R
       const ext = name.substring(lastDot + 1)
 
       if (!['xlsx', 'xlsm', 'xls', 'xlt', 'xlsb'].includes(ext)) {
-        setError('El archivo no tiene la extension correcta')
+        setErrors(['El archivo no tiene la extension correcta'])
         toast('El archivo no tiene la extension correcta', { toastId, type: 'error' })
         event.target.value = ''
         return
       } else {
-        setError('')
+        setErrors([])
       }
     }
 
@@ -80,7 +88,12 @@ const ImportExcel = ({ close, refreshList, toastId, type }: ImportExcelProps): R
         <form onSubmit={handleSubmit}>
           <div className='mt-5'>
             <input onChange={onChange} type="file" accept='.xlsx,.xlsm,.xls,.xlt,.xlsb' />
-            <p className='m-0 mt-1 text-red'>{error}</p>
+            <div className='max-h-[150px] overflow-y-scroll mt-4'>
+              {
+                errors.map((error, index) => (<p className='m-0 mt-1 text-red max-w-[80%]' key={index}>{error}</p>))
+              }
+            </div>
+
           </div>
 
           <div className='mt-5 flex gap-3 justify-center'>
