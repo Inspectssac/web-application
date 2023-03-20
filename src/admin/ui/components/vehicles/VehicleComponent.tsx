@@ -127,7 +127,7 @@ const VehicleComponent = (): ReactElement => {
                       <td className={tableBodyStyle}>{vehicle.provider}</td>
                       <td className={tableBodyStyle}>{vehicle.company}</td>
                       <td className={tableBodyStyle}>{vehicle.imei}</td>
-                      <td className={tableBodyStyle}>{vehicle.lastMaintenance.trim().length > 0 ? new Date(vehicle.lastMaintenance).toDateString() : ''}</td>
+                      <td className={tableBodyStyle}>{vehicle.lastMaintenance ? vehicle.lastMaintenance.trim().length > 0 ? new Date(vehicle.lastMaintenance).toDateString() : '' : ''}</td>
                       <td className={tableBodyStyle}>{new Date(vehicle.soatExpiration).toDateString()}</td>
                       <td className={tableBodyStyle}>{new Date(vehicle.technicalReviewExpiration).toDateString()}</td>
                       <td className={tableBodyStyle}>{vehicle.vehicleType.name}</td>
