@@ -20,6 +20,7 @@ const ROUTE_INITIAL_STATE = {
   endLocation: '',
   materialType: '',
   name: '',
+  code: '',
   checked: false,
   doubleLicensePlate: false,
   isFull: false,

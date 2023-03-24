@@ -72,6 +72,13 @@ const RoutesView = (): ReactElement => {
 
   const ROUTE_COLUMNS: Array<Column<Route>> = [
     {
+      id: 'code',
+      columnName: 'Código',
+      filterFunc: (route) => route.code,
+      render: (route) => route.code,
+      sortFunc: (a, b) => a.code > b.code ? 1 : -1
+    },
+    {
       id: 'name',
       columnName: 'Placa',
       filterFunc: (route) => route.name,

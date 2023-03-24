@@ -10,6 +10,7 @@ export interface Route {
   endLocation: string
   materialType: string
   name: string
+  code: string
   checked: boolean
   doubleLicensePlate: boolean
   isFull: boolean
