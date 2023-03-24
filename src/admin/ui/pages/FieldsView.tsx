@@ -2,12 +2,14 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { FieldType } from '@/reports/models/enums/field-type.enum'
 import { Field } from '@/reports/models/field.entity'
 import { FieldsService } from '@/reports/services/field.service'
-import FieldComponent from '../components/fields/FieldComponent'
 import FieldForm from '../components/fields/FieldForm'
-import FieldValueComponent from '../components/field-values/FieldValueComponent'
-import { FieldValue } from '@/reports/models/field-value.interface'
 import Toast from '@/shared/ui/components/Toast'
-import Table from '@/shared/ui/components/Table'
+import Table, { Action, Column } from '@/shared/ui/components/table/Table'
+import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
+import { toast } from 'react-toastify'
+import EditIcon from '@/shared/ui/assets/icons/EditIcon'
+import ToggleOnIcon from '@/shared/ui/assets/icons/ToogleOnIcon'
+import ToggleOffIcon from '@/shared/ui/assets/icons/ToggleOfIcon'
 
 const INITIAL_STATE = {
   id: 0,
@@ -31,8 +33,6 @@ const FieldsView = (): ReactElement => {
   const [fieldForm, setFieldForm] = useState<Field>(INITIAL_STATE)
   const [formAction, setFormAction] = useState<FormAction>('add')
 
-  const [currentField, setCurrentField] = useState<Field>(INITIAL_STATE)
-
   useEffect(() => {
     void fieldsService.findAll()
       .then(response => {
@@ -40,10 +40,6 @@ const FieldsView = (): ReactElement => {
         setFields(response)
       })
   }, [])
-
-  const toggleShowFieldValues = (field: Field): void => {
-    if (currentField.id === field.id) { setCurrentField(INITIAL_STATE) } else { setCurrentField(field) }
-  }
 
   const reset = (): void => {
     setFieldForm(INITIAL_STATE)
@@ -75,18 +71,106 @@ const FieldsView = (): ReactElement => {
     setFields(fieldList)
   }
 
-  const addFieldValueToCurrent = (fieldValue: FieldValue): void => {
-    setFields(
-      fields.map(field => {
-        if (field.id === currentField.id) {
-          field.values.push(fieldValue)
-        }
-        return field
+  const handleRemove = (field: Field): void => {
+    const confirmRemove = confirm('Are you sure to delete field?')
+    if (!confirmRemove) return
+
+    const id = field.id
+    void fieldsService.remove(id)
+      .then(response => {
+        updateFieldList(response, id, true)
+        toast('Campo eliminado correctamente', { toastId: TOAST_ID, type: 'success' })
       })
-    )
+      .catch((error) => {
+        const { message } = error.data
+        toast(message, { toastId: TOAST_ID, type: 'error' })
+      })
   }
 
-  const tableColClassNames = 'text-sm font-medium text-white px-6 py-4 capitalize'
+  const handleToggle = (fieldToToggle: Field): void => {
+    void fieldsService.toggleActive(fieldToToggle.id)
+      .then(response => {
+        updateFieldList(response, response.id)
+        toast('Campo actualizado correctamente', { toastId: TOAST_ID, type: 'success' })
+      })
+      .catch((error) => {
+        const { message } = error.data
+        toast(message, { toastId: TOAST_ID, type: 'error' })
+      })
+  }
+
+  const FIELD_COLUMNS: Array<Column<Field>> = [
+    {
+      id: 'id',
+      columnName: 'Id',
+      filterFunc: (field) => field.id.toString(),
+      render: (field) => field.id.toString(),
+      sortFunc: (a, b) => a.id - b.id
+    },
+    {
+      id: 'name',
+      columnName: 'Nombre',
+      filterFunc: (field) => field.name,
+      render: (field) => field.name,
+      sortFunc: (a, b) => a.name > b.name ? 1 : -1
+    },
+    {
+      id: 'placeholder',
+      columnName: 'Placeholder',
+      filterFunc: (field) => field.placeholder ?? '-',
+      render: (field) => field.placeholder ?? '-',
+      sortFunc: (a, b) => {
+        const placeholderA = a.placeholder ?? '-'
+        const placeholderB = b.placeholder ?? '-'
+
+        return placeholderA > placeholderB ? 1 : -1
+      }
+    },
+    {
+      id: 'active',
+      columnName: 'Activo',
+      filterFunc: (field) => field.active ? 'Activo' : 'No activo',
+      render: (field) => field.active ? 'Activo' : 'No activo',
+      sortFunc: (a, b) => {
+        const activeA = a.active ? 'Activo' : 'No activo'
+        const activeB = b.active ? 'Activo' : 'No activo'
+
+        return activeA > activeB ? 1 : -1
+      }
+    },
+    {
+      id: 'fielType',
+      columnName: 'Tipo',
+      filterFunc: (field) => field.type,
+      render: (field) => field.type,
+      sortFunc: (a, b) => a.type > b.type ? 1 : -1
+    }
+  ]
+
+  const PAGINATION = [5, 10, 20]
+
+  const FIELD_ACTIONS: Array<Action<Field>> = [
+    {
+      icon: () => (<DeleteIcon className='w-6 h-6 cursor-pointer text-red' />),
+      actionFunc: handleRemove
+    },
+    {
+      icon: () => (<EditIcon className='w-6 h-6 cursor-pointer' />),
+      actionFunc: handleUpdate
+    },
+    {
+      icon: (field: Field) => (
+        <div className='cursor-pointer'>
+          {
+            field.active
+              ? (<ToggleOnIcon className='w-6 h-6 cursor-pointer text-success' />)
+              : (<ToggleOffIcon className='w-6 h-6 cursor-pointer' />)
+          }
+        </div>
+      ),
+      actionFunc: handleToggle
+    }
+  ]
 
   return (
     <div className='container-page'>
@@ -109,33 +193,12 @@ const FieldsView = (): ReactElement => {
           {
             fields.length > 0
               ? (
-                <Table>
-                  <thead className='border-b bg-black'>
-                    <tr>
-                      <th scope='col' className={`${tableColClassNames}`}>Id</th>
-                      <th scope='col' className={`${tableColClassNames}`}>Nombre</th>
-                      <th scope='col' className={`${tableColClassNames}`}>Placeholder</th>
-                      <th scope='col' className={`${tableColClassNames}`}>Activo</th>
-                      <th scope='col' className={`${tableColClassNames}`}>Tipo</th>
-                      <th scope='col' className={`${tableColClassNames}`}>Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      fields.map(field => {
-                        return (
-                          <FieldComponent toastId={TOAST_ID} key={field.id} field={field} update={handleUpdate} updateList={updateFieldList} toggleShowValues={toggleShowFieldValues} current={currentField.id === field.id} />
-                        )
-                      })
-                    }
-                  </tbody>
-                </Table>
+                <Table columns={FIELD_COLUMNS} data={fields} actions={FIELD_ACTIONS} pagination={PAGINATION}></Table>
                 )
               : (<p>Todavía no hay campos registrados</p>)
           }
 
         </section>
-        <FieldValueComponent toastId={TOAST_ID} field={currentField} addFieldValueToCurrent={addFieldValueToCurrent} />
       </div>
 
       <Toast id={TOAST_ID}></Toast>

@@ -25,16 +25,12 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
   const [canSubmit, setCanSubmit] = useState<boolean>(false)
   const [validInputs, setValidInputs] = useState({
     name: false,
-    placeholder: false
+    placeholder: true
   })
   const [resetInputs, setResetInputs] = useState<boolean>(false)
 
   useEffect(() => {
     setInputValue(field)
-    setValidInputs({
-      ...validInputs,
-      placeholder: field.type !== FieldType.TEXT
-    })
   }, [field])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -138,6 +134,7 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
             <div className='mt-2'>
               <Input
                 value={inputValue.placeholder}
+                required={false}
                 name='placeholder' placeholder='Descripción del campo' type='text'
                 setValid={(valid) => setIsValidInput('placeholder', valid)}
                 reset={resetInputs}

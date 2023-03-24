@@ -7,9 +7,10 @@ import Button from '@/shared/ui/components/Button'
 import AddVehicleForm from './AddVehicleForm'
 import UpdateVehicleForm from './UpdateVehicleForm'
 import { toast } from 'react-toastify'
-import Table from '@/shared/ui/components/Table'
+// import Table from '@/shared/ui/components/Table'
 import ImportModal from '../ImportModal'
 import { VehicleToastContext } from '../../pages/VehiclesView'
+import Table, { Action, Column } from '@/shared/ui/components/table/Table'
 
 const VehicleComponent = (): ReactElement => {
   const toastContext = useContext(VehicleToastContext)
@@ -85,8 +86,124 @@ const VehicleComponent = (): ReactElement => {
     setShowImportModal(true)
   }
 
-  const tableHeadStyle = 'text-sm font-medium text-white px-6 py-4 capitalize'
-  const tableBodyStyle = 'text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'
+  const VEHICLE_COLUMNS: Array<Column<Vehicle>> = [
+    {
+      id: 'licensePlate',
+      columnName: 'Placa',
+      filterFunc: (vehicle) => vehicle.licensePlate,
+      sortFunc: (a, b) => a.licensePlate > b.licensePlate ? 1 : -1,
+      render: (vehicle) => vehicle.licensePlate
+    },
+    {
+      id: 'provider',
+      columnName: 'Proveedor',
+      filterFunc: (vehicle) => vehicle.provider,
+      sortFunc: (a, b) => a.provider > b.provider ? 1 : -1,
+      render: (vehicle) => vehicle.provider
+    },
+    {
+      id: 'company',
+      columnName: 'Empresa',
+      filterFunc: (vehicle) => vehicle.company,
+      sortFunc: (a, b) => a.company > b.company ? 1 : -1,
+      render: (vehicle) => vehicle.company
+    },
+    {
+      id: 'imei',
+      columnName: 'Imei',
+      filterFunc: (vehicle) => vehicle.imei.length > 0 ? vehicle.imei : 'Imei registrado',
+      sortFunc: (a, b) => {
+        const imeiA = a.imei.length > 0 ? a.imei : 'Imei registrado'
+        const imeiB = b.imei.length > 0 ? b.imei : 'Imei registrado'
+        return imeiA > imeiB ? 1 : -1
+      },
+      render: (vehicle) => vehicle.imei.length > 0 ? vehicle.imei : 'Imei registrado'
+    },
+    {
+      id: 'lastMaintenance',
+      columnName: 'Último Mantenimiento',
+      filterFunc: (vehicle) => {
+        if (!vehicle.lastMaintenance) {
+          return 'No registrado'
+        }
+        return vehicle.lastMaintenance.trim().length > 0 ? new Date(vehicle.lastMaintenance).toDateString() : 'No registrado'
+      },
+      sortFunc: (a, b) => {
+        const aLastMaintenance = a.lastMaintenance ?? 'No registrado'
+        const bLastMaintenance = b.lastMaintenance ?? 'No registrado'
+
+        if (isNaN(Date.parse(aLastMaintenance)) && isNaN(Date.parse(bLastMaintenance))) {
+          return aLastMaintenance > bLastMaintenance ? 1 : -1
+        }
+
+        return new Date(aLastMaintenance).getTime() - new Date(bLastMaintenance).getTime()
+      },
+      render: (vehicle) => {
+        if (vehicle.lastMaintenance === null) {
+          return 'No registrado'
+        }
+
+        if (vehicle.lastMaintenance.length === 0) {
+          return 'No registrado'
+        }
+
+        return new Date(vehicle.lastMaintenance).toDateString()
+      }
+    },
+    {
+      id: 'soatExpiration',
+      columnName: 'F. Venc. Soat',
+      filterFunc: (vehicle) => new Date(vehicle.soatExpiration).toDateString(),
+      sortFunc: (a, b) => new Date(a.soatExpiration).getTime() - new Date(b.soatExpiration).getTime(),
+      render: (vehicle) => new Date(vehicle.soatExpiration).toDateString()
+    },
+    {
+      id: 'technicalReviewExpiration',
+      columnName: 'F. Venc. Revisión Técnica',
+      filterFunc: (vehicle) => new Date(vehicle.technicalReviewExpiration).toDateString(),
+      sortFunc: (a, b) => {
+        const aTime = new Date(a.technicalReviewExpiration).getTime()
+        const bTime = new Date(b.technicalReviewExpiration).getTime()
+
+        return aTime - bTime
+      },
+      render: (vehicle) => new Date(vehicle.technicalReviewExpiration).toDateString()
+    },
+    {
+      id: 'vehicleType',
+      columnName: 'Tipo de vehículo',
+      filterFunc: (vehicle) => vehicle.vehicleType.name,
+      sortFunc: (a, b) => a.vehicleType.name > b.vehicleType.name ? 1 : -1,
+      render: (vehicle) => vehicle.vehicleType.name
+    },
+    {
+      id: 'brand',
+      columnName: 'Marca',
+      filterFunc: (vehicle) => vehicle.brand,
+      sortFunc: (a, b) => a.brand > b.brand ? 1 : -1,
+      render: (vehicle) => vehicle.brand
+    },
+    {
+      id: 'model',
+      columnName: 'Modelo',
+      filterFunc: (vehicle) => vehicle.model,
+      sortFunc: (a, b) => a.model > b.model ? 1 : -1,
+      render: (vehicle) => vehicle.model
+    }
+  ]
+
+  const PAGINATION = [5, 10, 20]
+
+  const VEHICLE_ACTIONS: Array<Action<Vehicle>> = [
+    {
+      icon: () => (<EditIcon className='cursor-pointer w-5 h-5' />),
+      actionFunc: update
+    },
+    {
+      icon: () => (<DeleteIcon className='cursor-pointer w-5 h-5 text-red' />),
+      actionFunc: remove
+    }
+  ]
 
   return (
     <div className=''>
@@ -102,47 +219,7 @@ const VehicleComponent = (): ReactElement => {
       </div>
       {
         vehicles.length > 0
-          ? (
-            <Table>
-              <thead className='border-b bg-black'>
-                <tr>
-                  <th scope='col' className={tableHeadStyle}>Placa</th>
-                  <th scope='col' className={tableHeadStyle}>Proveedor</th>
-                  <th scope='col' className={tableHeadStyle}>Empresa</th>
-                  <th scope='col' className={tableHeadStyle}>Imei</th>
-                  <th scope='col' className={tableHeadStyle}>Último Mantenimiento</th>
-                  <th scope='col' className={tableHeadStyle}>F. Venc. Soat</th>
-                  <th scope='col' className={tableHeadStyle}>F. Venc. Revisión Técnica</th>
-                  <th scope='col' className={tableHeadStyle}>Tipo de vehículo</th>
-                  <th scope='col' className={tableHeadStyle}>Marca</th>
-                  <th scope='col' className={tableHeadStyle}>Modelo</th>
-                  <th scope='col' className={tableHeadStyle}>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  vehicles.map(vehicle => (
-                    <tr key={vehicle.licensePlate} className='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'>
-                      <td className={tableBodyStyle}>{vehicle.licensePlate}</td>
-                      <td className={tableBodyStyle}>{vehicle.provider}</td>
-                      <td className={tableBodyStyle}>{vehicle.company}</td>
-                      <td className={tableBodyStyle}>{vehicle.imei}</td>
-                      <td className={tableBodyStyle}>{vehicle.lastMaintenance ? vehicle.lastMaintenance.trim().length > 0 ? new Date(vehicle.lastMaintenance).toDateString() : '' : ''}</td>
-                      <td className={tableBodyStyle}>{new Date(vehicle.soatExpiration).toDateString()}</td>
-                      <td className={tableBodyStyle}>{new Date(vehicle.technicalReviewExpiration).toDateString()}</td>
-                      <td className={tableBodyStyle}>{vehicle.vehicleType.name}</td>
-                      <td className={tableBodyStyle}>{vehicle.brand}</td>
-                      <td className={tableBodyStyle}>{vehicle.model}</td>
-                      <td className={` ${tableBodyStyle} flex justify-center gap-3`}>
-                        <EditIcon className='cursor-pointer w-5 h-5' onClick={() => update(vehicle)} />
-                        <DeleteIcon className='cursor-pointer w-5 h-5 text-red' onClick={() => remove(vehicle)} />
-                      </td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </Table>
-            )
+          ? <Table columns={VEHICLE_COLUMNS} data={vehicles} showFilter={true} pagination={PAGINATION} actions={VEHICLE_ACTIONS} />
           : (<p>No hay vehiculos registrados</p>)
 
       }

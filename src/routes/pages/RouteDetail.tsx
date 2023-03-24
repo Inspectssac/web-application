@@ -10,6 +10,7 @@ import { Route } from '../models/route.interface'
 import RoutesServices from '../services/route.services'
 import { ReportGroup } from '@/reports/models/group.interface'
 import { ReportType } from '@/reports/models/report-type.interface'
+import { goToGoogleMapsPage } from '../utils/maps-utils'
 
 const ROUTE_INITIAL_STATE = {
   id: '',
@@ -106,15 +107,6 @@ const RouteDetail = (): ReactElement => {
   const imageEvidenceOnClick = (url: string, name: string): void => {
     setFieldSelected({ url, name })
     setShowImage(true)
-  }
-
-  const goToGoogleMapsPage = (locationString: string): void => {
-    const location = locationString.split(',')
-    const [latitude, longitude] = [location[0], location[1]]
-
-    const link = `http://maps.google.com/maps?z=12&t=m&q=loc:${latitude}+${longitude}`
-
-    window.open(link, '_blank', 'noopener,noreferrer')
   }
 
   return (

@@ -2,10 +2,10 @@ import React, { ReactElement } from 'react'
 
 interface IconProps {
   className: string
-  onClick: () => void
+  onClick?: () => void
 }
 
-const EditIcon = ({ className, onClick }: IconProps): ReactElement => {
+const EditIcon = ({ className, onClick = () => {} }: IconProps): ReactElement => {
   return (
     <svg
       onClick={onClick}

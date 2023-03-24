@@ -1,13 +1,13 @@
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import Table, { Action, Column } from '@/shared/ui/components/table/Table'
 import { Material } from '@/routes/models/material.interface'
 import { MaterialsService } from '@/routes/services/materials.service'
+import { MaterialToastContext } from '../../pages/MaterialsView'
 import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
 import Button from '@/shared/ui/components/Button'
-import Table from '@/shared/ui/components/Table'
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { MaterialToastContext } from '../../pages/MaterialsView'
 import MaterialForm from './MaterialForm'
+import { toast } from 'react-toastify'
 
 type FormAction = 'add' | 'update'
 
@@ -75,8 +75,35 @@ const MaterialsComponent = (): ReactElement => {
       })
   }
 
-  const tableHeadStyle = 'text-sm font-medium text-white px-6 py-4 capitalize'
-  const tableBodyStyle = 'text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'
+  const MATERIAL_COLUMNS: Array<Column<Material>> = [
+    {
+      id: 'name',
+      columnName: 'Nombre',
+      filterFunc: (material) => material.name,
+      render: (material) => material.name,
+      sortFunc: (a, b) => a.name > b.name ? 1 : -1
+    },
+    {
+      id: 'createdAt',
+      columnName: 'Fecha de Creación',
+      filterFunc: (material) => new Date(material.createdAt).toDateString(),
+      render: (material) => new Date(material.createdAt).toDateString(),
+      sortFunc: (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    }
+  ]
+
+  const PAGINATION = [5, 10, 20]
+
+  const MATERIAL_ACTIONS: Array<Action<Material>> = [
+    {
+      icon: () => (<EditIcon className='cursor-pointer w-5 h-5' />),
+      actionFunc: update
+    },
+    {
+      icon: () => (<DeleteIcon className='cursor-pointer w-5 h-5 text-red' />),
+      actionFunc: remove
+    }
+  ]
 
   return (
     <div className=''>
@@ -87,33 +114,8 @@ const MaterialsComponent = (): ReactElement => {
       </div>
       {
         materials.length > 0
-          ? (
-            <Table>
-              <thead className='border-b bg-black'>
-                <tr>
-                  <th scope='col' className={tableHeadStyle}>Nombre</th>
-                  <th scope='col' className={tableHeadStyle}>Fecha de creación</th>
-                  <th scope='col' className={tableHeadStyle}>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  materials.map(material => (
-                    <tr key={material.id} className='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'>
-                      <td className={tableBodyStyle}>{material.name}</td>
-                      <td className={tableBodyStyle}>{material.createdAt}</td>
-                      <td className={` ${tableBodyStyle} flex justify-center gap-3`}>
-                        <EditIcon className='cursor-pointer w-5 h-5' onClick={() => update(material) } />
-                        <DeleteIcon className='cursor-pointer w-5 h-5 text-red' onClick={() => remove(material)} />
-                      </td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </Table>
-            )
-          : (<p>No hay tipo de materiales registrados</p>)
-
+          ? <Table columns={MATERIAL_COLUMNS} data={materials} pagination={PAGINATION} actions={MATERIAL_ACTIONS} />
+          : (<p>No hay vehiculos registrados</p>)
       }
       { showFormModal && <MaterialForm close={() => { setShowFormModal(false) }} formAction={formAction} material={selectedMaterial} onFinishSubmit={onFinishSubmit}/>}
     </div>

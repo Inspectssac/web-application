@@ -7,15 +7,20 @@ interface InputProps {
   placeholder: string
   disabled?: boolean
   reset?: boolean
+  required?: boolean
   setValue: (value: string) => void
   setValid: (valid: boolean) => void
 }
 
-const Input = ({ name, placeholder, value, type, reset = false, disabled = false, setValue, setValid }: InputProps): ReactElement => {
+const Input = ({ name, placeholder, value, type, reset = false, disabled = false, required = true, setValue, setValid }: InputProps): ReactElement => {
   const [error, setError] = useState<string>('')
 
   useEffect(() => {
-    setValid(error === '' && value?.trim() !== '')
+    if (!required) {
+      setValid(true)
+    } else {
+      setValid(error === '' && value?.trim() !== '')
+    }
   }, [value])
 
   useEffect(() => {

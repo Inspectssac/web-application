@@ -5,7 +5,7 @@ import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
 import Button from '@/shared/ui/components/Button'
 import Modal from '@/shared/ui/components/Modal'
-import Table from '@/shared/ui/components/Table'
+import Table, { Action, Column } from '@/shared/ui/components/table/Table'
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { ReportToastContext } from '../../pages/ReportsView'
@@ -89,67 +89,96 @@ const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
     setSelectedGroupField(null)
   }
 
-  const tableHeadStyle = 'text-sm font-medium text-white px-6 py-4 capitalize'
-  const tableBodyStyle = 'text-sm text-gray-900 font-light px-6 py-4 w-auto h-full align-middle'
+  const GROUP_FIELDS_COLUMNS: Array<Column<GroupField>> = [
+    {
+      id: 'name',
+      columnName: 'Campo',
+      filterFunc: (groupField) => groupField.field.name,
+      render: (groupField) => groupField.field.name,
+      sortFunc: (a, b) => a.field.name > b.field.name ? 1 : -1
+    },
+    {
+      id: 'active',
+      columnName: 'Activo',
+      filterFunc: (groupField) => groupField.field.active ? 'activo' : 'no activo',
+      render: (groupField) => groupField.field.active ? 'activo' : 'no activo',
+      sortFunc: (a, b) => {
+        const activeA = a.field.active ? 'activo' : 'no activo'
+        const activeB = b.field.active ? 'activo' : 'no activo'
+
+        return activeA > activeB ? 1 : -1
+      }
+    },
+    {
+      id: 'maxLength',
+      columnName: 'Max caractéres',
+      filterFunc: (groupField) => groupField.maxLength.toString(),
+      render: (groupField) => groupField.maxLength.toString(),
+      sortFunc: (a, b) => a.maxLength - b.maxLength
+    },
+    {
+      id: 'isCritical',
+      columnName: 'Crítico',
+      filterFunc: (groupField) => groupField.isCritical ? 'Si' : 'No',
+      render: (groupField) => groupField.isCritical ? 'Si' : 'No',
+      sortFunc: (a, b) => {
+        const isCriticalA = a.isCritical ? 'Si' : 'No'
+        const isCriticalB = b.isCritical ? 'Si' : 'No'
+
+        return isCriticalA > isCriticalB ? 1 : -1
+      }
+    },
+    {
+      id: 'needImage',
+      columnName: 'Imagen',
+      filterFunc: (groupField) => groupField.needImage ? 'Si' : 'No',
+      render: (groupField) => groupField.needImage ? 'Si' : 'No',
+      sortFunc: (a, b) => {
+        const needImageA = a.needImage ? 'Si' : 'No'
+        const needImageB = b.needImage ? 'Si' : 'No'
+
+        return needImageA > needImageB ? 1 : -1
+      }
+    }
+  ]
+
+  const GROUP_FIELDS_ACTIONS: Array<Action<GroupField>> = [
+    {
+      icon: () => (<EditIcon className='w-6 h-6 cursor-pointer'/>),
+      actionFunc: handleUpdate
+    },
+    {
+      icon: () => (<DeleteIcon className = 'w-6 h-6 cursor-pointer text-red' />),
+      actionFunc: handleRemove
+    }
+  ]
 
   return (
-    <Modal>
-      <div className='w-full min-w-[600px] sm:min-w-[1000px] p-3'>
-        <div className='flex justify-between items-center mb-4 gap-4'>
-          <h2 className='text-center text-2xl uppercase'>{group.name}</h2>
+  <Modal>
+    <div className='w-full min-w-[600px] sm:min-w-[1000px] p-3'>
+      <div className='flex justify-between items-center mb-4 gap-4'>
+        <h2 className='text-center text-2xl uppercase'>{group.name}</h2>
 
-          <div className='flex gap-2'>
-            <Button color='secondary' onClick={close}>Cerrar</Button>
-            <Button color='primary' onClick={toggleAssignField}>Añadir Campo</Button>
-          </div>
+        <div className='flex gap-2'>
+          <Button color='secondary' onClick={close}>Cerrar</Button>
+          <Button color='primary' onClick={toggleAssignField}>Añadir Campo</Button>
         </div>
-        <div className='border-b-2 mb-3'></div>
-        <div className='mb-4'>
-          {showAssignField && <AssignFieldForm group={group} groupFields={groupFields} onFinishSubmit={onFinishSubmit} close={() => { setShowAssignField(false) }} />}
-          {showUpdateField && <UpdateFieldForm group={group} groupField={selectedGroupField} onFinishSubmit={onFinishSubmit} closeModal={closeUpdateModal} />}
-        </div>
-
-        {
-          groupFields.length > 0
-            ? (
-              <Table>
-                <thead className='border-b bg-black'>
-                  <tr>
-                    <th scope='col' className={`${tableHeadStyle}  max-w-[100px]`}>Campo</th>
-                    <th scope='col' className={`${tableHeadStyle}`}>Activo</th>
-                    <th scope='col' className={`${tableHeadStyle}`}>Max caractéres</th>
-                    <th scope='col' className={`${tableHeadStyle}`}>Crítico</th>
-                    <th scope='col' className={`${tableHeadStyle}`}>Imagen</th>
-                    <th scope='col' className={`${tableHeadStyle}`}>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    groupFields.map(groupField => (
-                      <tr key={groupField.fieldId} className='bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100'>
-                        <td className={`${tableBodyStyle} max-w-[100px] `}>{groupField.field.name}</td>
-                        <td className={tableBodyStyle}>{groupField.field.active ? 'activo' : 'no activo'}</td>
-                        <td className={tableBodyStyle}>{groupField.maxLength}</td>
-                        <td className={tableBodyStyle}>{groupField.isCritical ? 'Si' : 'No'}</td>
-                        <td className={tableBodyStyle}>{groupField.needImage ? 'Si' : 'No'}</td>
-                        <td className={`${tableBodyStyle}`}>
-                          <div className='flex gap-3 justify-center items-center'>
-                            <EditIcon className='w-6 h-6 cursor-pointer' onClick={() => handleUpdate(groupField)} />
-                            <DeleteIcon className='w-6 h-6 cursor-pointer text-red' onClick={() => handleRemove(groupField)} />
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  }
-                </tbody>
-              </Table>
-              )
-            : (
-              <p>{group.id !== 0 ? 'No hay campos asignados al tipo de reporte' : 'Seleccionar tipo de reporte'}</p>
-              )
-        }
       </div>
-    </Modal>
+      <div className='border-b-2 mb-3'></div>
+      <div className='mb-4'>
+        {showAssignField && <AssignFieldForm group={group} groupFields={groupFields} onFinishSubmit={onFinishSubmit} close={() => { setShowAssignField(false) }} />}
+        {showUpdateField && <UpdateFieldForm group={group} groupField={selectedGroupField} onFinishSubmit={onFinishSubmit} closeModal={closeUpdateModal} />}
+      </div>
+
+      {
+        groupFields.length > 0
+          ? (<Table columns={GROUP_FIELDS_COLUMNS} data={groupFields} actions={GROUP_FIELDS_ACTIONS} showFilter={false} />)
+          : (
+            <p>{group.id !== 0 ? 'No hay campos asignados al tipo de reporte' : 'Seleccionar tipo de reporte'}</p>
+            )
+      }
+    </div>
+  </Modal>
   )
 }
 

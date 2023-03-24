@@ -1,19 +1,17 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import Toast from '@/shared/ui/components/Toast'
-import { Column } from 'react-table'
 import { useSelector } from 'react-redux'
-import { SortIconAsc, SortIconDesc } from '@/routes/assets/SortIcons'
 import { RootState } from '@/shared/config/store'
 import { getCurrentUser } from '@/shared/config/store/features/auth-slice'
 import { UserStorage } from '@/iam/models/interfaces/user-storage.interface'
 import { UsersService } from '@/admin/services/users.service'
 import { User } from '@/iam/models/user.model'
 import Button from '@/shared/ui/components/Button'
-import EnhancedTable from '@/shared/ui/components/EnhancedTable'
 import AddUserModal from '../components/users/AddUserModal'
 import AreasComponent from '../components/areas/AreasComponent'
 import ImportModal from '../components/ImportModal'
 import UserDetailModal from '../components/users/UserDetailModal'
+import Table, { Column } from '@/shared/ui/components/table/Table'
 
 const TOAST_ID = 'users'
 
@@ -29,9 +27,6 @@ const UsersView = (): ReactElement => {
   const [showAddModal, setShowAddModal] = useState(false)
   const [showImportModal, setShowImportModal] = useState(false)
   const [showDetailModal, setShowDetailModal] = useState<boolean>(false)
-
-  const [sortColumn, setSortColumn] = useState<string>('username')
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
 
   useEffect(() => {
     void usersService.getAll()
@@ -66,9 +61,8 @@ const UsersView = (): ReactElement => {
     setShowAddModal(true)
   }
 
-  const onClickUser = (id: string): void => {
-    const user = users.find(user => user.id === id)
-    setSelectedUser(user ?? null)
+  const onClickUser = (user: User): void => {
+    setSelectedUser(user)
     setShowDetailModal(true)
   }
 
@@ -80,27 +74,43 @@ const UsersView = (): ReactElement => {
     setUsers(users.concat(newUsers))
   }
 
-  const COLUMN_HEADERS: Array<Column<User>> = [
-    { Header: 'Usuario', accessor: 'username' },
-    { Header: 'Rol', accessor: 'role' },
-    { Header: 'Estado', id: 'status', accessor: (row: User) => row.active ? 'Activo' : 'No activo' },
-    { Header: 'Area', id: 'area', accessor: (row: User) => row.areas ? row.areas[0] ? row.areas[0].name : 'area' : 'area' },
-    { Header: 'Nombre', id: 'name', accessor: (row: User) => `${row.profile.name} ${row.profile.lastName}` }
+  const USER_COLUMNS: Array<Column<User>> = [
+    {
+      id: 'username',
+      columnName: 'Usuario',
+      filterFunc: (user) => user.username,
+      render: (user) => user.username,
+      sortFunc: (a, b) => a.username > b.username ? 1 : -1
+    },
+    {
+      id: 'role',
+      columnName: 'Rol',
+      filterFunc: (user) => user.role,
+      render: (user) => user.role,
+      sortFunc: (a, b) => a.role > b.role ? 1 : -1
+    },
+    {
+      id: 'status',
+      columnName: 'Estado',
+      filterFunc: (user) => user.active ? 'Activo' : 'No activo',
+      render: (user) => user.active ? 'Activo' : 'No activo',
+      sortFunc: (a, b) => {
+        const statusA = a.active ? 'Activo' : 'No activo'
+        const statusB = b.active ? 'Activo' : 'No activo'
+
+        return statusA > statusB ? 1 : -1
+      }
+    },
+    {
+      id: 'name',
+      columnName: 'Nombre',
+      filterFunc: (user) => user.profile.fullName,
+      render: (user) => user.profile.fullName,
+      sortFunc: (a, b) => a.profile.fullName > b.profile.fullName ? 1 : -1
+    }
   ]
 
-  const getSortIcon = (column: string): React.ReactElement => {
-    if (sortColumn !== column) return (<span></span>)
-    const className = 'text-white w-6 h-6'
-    return sortDirection === 'asc' ? <SortIconAsc className={className} /> : <SortIconDesc className={className} />
-  }
-
-  const handleSortColumn = (column: string): void => {
-    if (sortColumn === column) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
-    }
-    console.log(column)
-    setSortColumn(column)
-  }
+  const PAGINATION = [5, 10, 15, 20]
 
   return (
     <ToastContext.Provider value={{ id: TOAST_ID }}>
@@ -118,8 +128,7 @@ const UsersView = (): ReactElement => {
             <AreasComponent toastId={TOAST_ID} />
           </div>
           <div className='w-full order-1 md:order-2 mt-3 md:mt-0'>
-            <EnhancedTable columns={COLUMN_HEADERS} data={users} sortIcon={getSortIcon} setSortColumn={handleSortColumn}
-              onRowClick={onClickUser} />
+            <Table columns={USER_COLUMNS} data={users} pagination={PAGINATION} showFilter={true} onRowClick={onClickUser} />
           </div>
         </main>
 
