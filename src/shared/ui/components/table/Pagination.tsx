@@ -24,7 +24,6 @@ const Pagination = ({ pagination }: PaginationProps): ReactElement => {
     setCanPreviousPage(page - 1 > -1)
     setCanNextPage(page + 1 < pageCount)
   }, [page, pageCount])
-
   const goToPage = (page: number): void => {
     setPage(page)
   }

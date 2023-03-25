@@ -83,20 +83,32 @@ const UsersView = (): ReactElement => {
       sortFunc: (a, b) => a.username > b.username ? 1 : -1
     },
     {
+      id: 'area',
+      columnName: 'Area',
+      filterFunc: (user) => user.areas[0] ? user.areas[0].name : '-',
+      render: (user) => user.areas[0] ? user.areas[0].name : '-',
+      sortFunc: (a, b) => {
+        const areaA = a.areas[0] ? a.areas[0].name : '-'
+        const areaB = b.areas[0] ? b.areas[0].name : '-'
+
+        return areaA > areaB ? 1 : -1
+      }
+    },
+    {
       id: 'role',
       columnName: 'Rol',
       filterFunc: (user) => user.role,
-      render: (user) => user.role,
+      render: (user) => user.role.toUpperCase(),
       sortFunc: (a, b) => a.role > b.role ? 1 : -1
     },
     {
       id: 'status',
       columnName: 'Estado',
-      filterFunc: (user) => user.active ? 'Activo' : 'No activo',
-      render: (user) => user.active ? 'Activo' : 'No activo',
+      filterFunc: (user) => user.active ? 'ACTIVO' : 'NO ACTIVO',
+      render: (user) => user.active ? 'ACTIVO' : 'NO ACTIVO',
       sortFunc: (a, b) => {
-        const statusA = a.active ? 'Activo' : 'No activo'
-        const statusB = b.active ? 'Activo' : 'No activo'
+        const statusA = a.active ? 'ACTIVO' : 'NO ACTIVO'
+        const statusB = b.active ? 'ACTIVO' : 'NO ACTIVO'
 
         return statusA > statusB ? 1 : -1
       }
@@ -105,7 +117,7 @@ const UsersView = (): ReactElement => {
       id: 'name',
       columnName: 'Nombre',
       filterFunc: (user) => user.profile.fullName,
-      render: (user) => user.profile.fullName,
+      render: (user) => user.profile.fullName.toUpperCase(),
       sortFunc: (a, b) => a.profile.fullName > b.profile.fullName ? 1 : -1
     }
   ]

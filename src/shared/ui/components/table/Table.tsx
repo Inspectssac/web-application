@@ -49,6 +49,7 @@ const Table = ({ data, columns, pagination, showFilter = true, actions, onRowCli
   }, [])
 
   useEffect(() => {
+    setPage(0)
     setPageCount(Math.ceil(data.length / pageSize))
   }, [pageSize])
 
@@ -88,22 +89,25 @@ const Table = ({ data, columns, pagination, showFilter = true, actions, onRowCli
 
   return (
 
-    <TableContext.Provider value={{ filterValue, setFilterValue, filterColumn, setFilterColumn, sortColumn, setSortColumn, sortDirection, setSortDirection, pageCount, page, setPage, pageSize, setPageSize }}>
-      {showFilter && <Filter columns={columns} />}
+    <div className='mb-6'>
+      <TableContext.Provider value={{ filterValue, setFilterValue, filterColumn, setFilterColumn, sortColumn, setSortColumn, sortDirection, setSortDirection, pageCount, page, setPage, pageSize, setPageSize }}>
+        {showFilter && <Filter columns={columns} />}
 
-      <div className='overflow-x-auto'>
-        <div className='inline-block min-w-full'>
-          <div className='overflow-hidden'>
-            <table className='min-w-full text-center'>
-              <TableHeader columns={columns} hasActions={actions !== undefined} />
-              <TableBody data={filteredData} columns={columns} actions={actions} onRowClick={onRowClick} />
-            </table>
+        <div className='overflow-x-auto'>
+          <div className='inline-block min-w-full'>
+            <div className='overflow-hidden'>
+              <table className='min-w-full text-center'>
+                <TableHeader columns={columns} hasActions={actions !== undefined} />
+                <TableBody data={filteredData} columns={columns} actions={actions} onRowClick={onRowClick} />
+              </table>
+            </div>
           </div>
         </div>
-      </div>
 
-      {pagination && <Pagination pagination={pageSizes} />}
-    </TableContext.Provider>
+        {pagination && <Pagination pagination={pageSizes} />}
+      </TableContext.Provider>
+    </div>
+
   )
 }
 

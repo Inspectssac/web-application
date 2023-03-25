@@ -117,6 +117,10 @@ const RouteDetail = (): ReactElement => {
       <div className='uppercase'>
         <h2 className="font-semibold text-xl after:w-36 after:h-[2px] after:bg-gray-light after:block mb-2">Detalle Recorrido</h2>
         <div className='flex gap-6 mb-1'>
+          <p className='font-semibold'>Código de checklist: </p>
+          <p className=''>{route.code}</p>
+        </div>
+        <div className='flex gap-6 mb-1'>
           <p className='font-semibold'>Ubicación de Inicio: </p>
           <p className='cursor-pointer hover:text-red' onClick={() => goToGoogleMapsPage(route.startLocation)}>{route.startLocation}</p>
         </div>

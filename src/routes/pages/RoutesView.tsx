@@ -73,7 +73,7 @@ const RoutesView = (): ReactElement => {
   const ROUTE_COLUMNS: Array<Column<Route>> = [
     {
       id: 'code',
-      columnName: 'Código',
+      columnName: 'Código Checklist',
       filterFunc: (route) => route.code,
       render: (route) => route.code,
       sortFunc: (a, b) => a.code > b.code ? 1 : -1
@@ -143,7 +143,7 @@ const RoutesView = (): ReactElement => {
       columnName: 'Supervisiones',
       filterFunc: (route) => route.reports[0].checkpoints.length.toString(),
       render: (route) => route.reports[0].checkpoints.length.toString(),
-      sortFunc: (a, b) => a.reports[0].checkpoints.length - b.reports[0].checkpoints.length
+      sortFunc: (a, b) => a.reports[0].checkpoints.length > b.reports[0].checkpoints.length ? 1 : -1
     },
     {
       id: 'supervisors',
