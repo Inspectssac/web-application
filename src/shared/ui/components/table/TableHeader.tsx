@@ -1,4 +1,4 @@
-import { SortIconAsc, SortIconDesc } from '@/routes/assets/SortIcons'
+import { SortIconAsc, SortIconDesc } from '@/shared/ui/components/table/SortIcons'
 import React, { ReactElement, useContext } from 'react'
 import { Column } from './Table'
 import TableContext from './TableContext'
