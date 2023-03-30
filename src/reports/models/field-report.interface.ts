@@ -6,6 +6,7 @@ export interface FieldReport {
   reportId: string
   value: string
   type: string
+  isCritical: boolean
   imageEvidence: string
   group: ReportGroup
   field: Field

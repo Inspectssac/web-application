@@ -127,7 +127,7 @@ const RouteDetail = (): ReactElement => {
       <div className='flex justify-between'>
         <h1 className='text-2xl uppercase font-semibold'>Checklist - {route.code}</h1>
         <div className='flex gap-2'>
-        {report.checkpoints.length > 0 && <Button color='primary' onClick={() => { navigate(`/detalle-checkpoints?report-id=${report.id}&route-id=${route.id}`) }}>Ver Observaciones</Button>}
+          {report.checkpoints.length > 0 && <Button color='primary' onClick={() => { navigate(`/detalle-checkpoints?report-id=${report.id}&route-id=${route.id}`) }}>Ver Observaciones</Button>}
           <Button color='primary'>Exportar PDF</Button>
         </div>
       </div>
@@ -252,7 +252,8 @@ const RouteDetail = (): ReactElement => {
                         <p>Normal</p>
                       </div>
                       <div className='w-[65%] grid items-center border-l-[1px] border-white'>
-                        <p className='px-2'>2.{index + 1}. {group?.name.toUpperCase()}</p>                      </div>
+                        <p className='px-2'>2.{index + 1}. {group?.name.toUpperCase()}</p>
+                      </div>
                       <div className='w-[15%] flex flex-col gap-2 border-l-[1px] border-white'>
                         <p className='text-center'>cumple</p>
                         <div className='flex text-center border-t-[1px] border-white'>
@@ -270,10 +271,10 @@ const RouteDetail = (): ReactElement => {
                           <div key={fieldReport.fieldId} className='flex'>
 
                             <div className='py-1 w-[10%] text-center grid items-center'>
-                              <p>critico</p>
+                              <p>{fieldReport.isCritical && 'X'}</p>
                             </div>
                             <div className='py-1 w-[10%] text-center grid items-center border-l-[1px] border-black'>
-                              <p>Normal</p>
+                              <p>{!fieldReport.isCritical && 'X'}</p>
                             </div>
                             <div className='py-1 w-[65%] grid items-center border-l-[1px] border-black'>
                               <div className='flex gap-3'>
