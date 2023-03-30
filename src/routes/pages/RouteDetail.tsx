@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useMemo, useState } from 'react'
 import { FieldReport } from '@/reports/models/field-report.interface'
 import { Report } from '@/reports/models/report.interface'
 import { ReportsService } from '@/reports/services/report.service'
@@ -71,6 +71,13 @@ const RouteDetail = (): ReactElement => {
   })
   const [showImage, setShowImage] = useState<boolean>(false)
 
+  //! loading
+  // Id -> context
+  // Route -> useMemo
+  // Report -> useMemo
+  // FieldReports -> useMemo
+  // Groups -> useMemo
+
   useEffect(() => {
     const id = searchParams.get('id') ?? 0
     if (id === 0) return
@@ -90,7 +97,6 @@ const RouteDetail = (): ReactElement => {
 
     fieldReports.forEach(fieldReport => {
       const groupId = fieldReport.group.id
-
       const groupIndex = groups.findIndex(g => g.id === groupId)
 
       if (groupIndex === -1) reportGroups.push({ id: groupId, name: fieldReport.group.name })
@@ -118,7 +124,15 @@ const RouteDetail = (): ReactElement => {
 
   return (
     <div className='container-page'>
-      <div className='border-[1px] border-black mx-auto h-full'>
+      <div className='flex justify-between'>
+        <h1 className='text-2xl uppercase font-semibold'>Checklist - {route.code}</h1>
+        <div className='flex gap-2'>
+        {report.checkpoints.length > 0 && <Button color='primary' onClick={() => { navigate(`/detalle-checkpoints?report-id=${report.id}&route-id=${route.id}`) }}>Ver Observaciones</Button>}
+          <Button color='primary'>Exportar PDF</Button>
+        </div>
+      </div>
+      <div className='h-[1px] bg-gray-400 w-full my-4'></div>
+      <div className='border-[1px] border-black border-b-0 mx-auto h-full mb-10'>
         <div className='flex justify-center  border-b-[1px] border-black'>
           <div className='w-[15%] grid place-items-center border-r-[1px] border-black'>
             <p>Logo</p>
@@ -146,7 +160,7 @@ const RouteDetail = (): ReactElement => {
           </div>
           <div className='w-[40%] flex flex-col border-r-[1px] border-black'>
             <div className='h-[65%] border-b-[1px] border-black grid place-items-center'>
-              <p className='text-center uppercase font-semibold'>Insepcción de tracto plataforma</p>
+              <p className='text-center uppercase font-semibold'>Insepcción de {report.reportType.name}</p>
             </div>
             <div className='h-[30%] grid place-items-center'>
               <p className=''>Área: Seguridad y Salud Ocupacional</p>
@@ -201,7 +215,7 @@ const RouteDetail = (): ReactElement => {
               <div className='p-2 flex gap-5'>
                 <p>4. Marca y modelo:</p>
                 <p>
-                  {route.vehicles[0] ? `${route.vehicles[0].brand} ${route.vehicles[0].model}` : '' }
+                  {route.vehicles[0] ? `${route.vehicles[0].brand} ${route.vehicles[0].model}` : ''}
                 </p>
               </div>
             </div>
@@ -209,157 +223,81 @@ const RouteDetail = (): ReactElement => {
           <div className='w-[10%]'></div>
           <div className='w-[45%]'></div>
         </div>
-      </div>
-      {/* <h1 className='uppercase text-3xl font-semibold'>Recorrido {route.name}</h1>
-      <div className='w-full border-b-2 mt-2 mb-5'></div>
-      <div className='uppercase'>
-        <h2 className="font-semibold text-xl after:w-36 after:h-[2px] after:bg-gray-light after:block mb-2">Detalle Recorrido</h2>
-        <div className='flex gap-6 mb-1'>
-          <p className='font-semibold'>Código de checklist: </p>
-          <p className=''>{route.code}</p>
-        </div>
-        <div className='flex gap-6 mb-1'>
-          <p className='font-semibold'>Ubicación de Inicio: </p>
-          <p className='cursor-pointer hover:text-red' onClick={() => goToGoogleMapsPage(route.startLocation)}>{route.startLocation}</p>
-        </div>
-        <div className='flex gap-6 mb-1'>
-          <p className='font-semibold'>Ubicación de Llegada: </p>
-          {route.endLocation !== null
-            ? (<p className='cursor-pointer hover:text-red' onClick={() => goToGoogleMapsPage(route.endLocation)}>{route.endLocation}</p>)
-            : (<p>Ruta no terminada</p>)
-          }
+        <div className='border-b-[1px] border-t-[1px] border-black'>
+          <div className='p-2 flex justify-evenly gap-4'>
+            <p><span className='font-bold'>NORMAL: </span> No impide continuar con la operación</p>
+            <p><span className='font-bold'>CRITICO: </span> Impide continuar con la operación</p>
+            <p><span className='font-bold'>NA: </span> No aplica</p>
+          </div>
 
         </div>
-        <div className='flex gap-6 mb-1'>
-          <p className='font-semibold'>Fecha de creacion: </p>
-          <p>{new Date(route.createdAt).toLocaleDateString('Es-es', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h12' })}</p>
+        <div className='py-3 border-black'>
+          <p className='px-4 font-bold uppercase'>2. Inspecciones a realizar</p>
         </div>
-        <div className='flex gap-6 mb-1'>
-          <p className='font-semibold'>Fue revisado: </p>
-          <p>{route.checked ? 'Revisado' : 'No revisado'}</p>
-        </div>
-      </div>
-      <div className='uppercase mt-3'>
-        <h2 className="font-semibold text-xl after:w-36 after:h-[2px] after:bg-gray-light after:block mb-2">Detalle Personal</h2>
-        <div className='grid grid-cols-3 gap-3'>
+        <div className='uppercase'>
           {
-            route.routeProfiles.map(routeProfile => {
-              const { profile } = routeProfile
+            Array.from(fieldReports.entries()).sort((a, b) => a[0] - b[0]).map(([key, value], index) => {
+              const group = groups.find((g) => g.id === key)
               return (
-                <div key={routeProfile.profileId}>
-                  <div className='flex gap-6'>
-                    <p className='font-semibold w-1/4'>Rol</p>
-                    <p>: {routeProfile.role}</p>
+                <div
+                  key={key}
+                  className='border-t-[1px] border-black'
+                >
+                  <div className='border-b-[1px] border-black bg-blue-dark text-white'>
+                    <div className='flex'>
+                      <div className='w-[10%] text-center grid items-center'>
+                        <p>critico</p>
+                      </div>
+                      <div className='w-[10%] text-center grid items-center border-l-[1px] border-white'>
+                        <p>Normal</p>
+                      </div>
+                      <div className='w-[65%] grid items-center border-l-[1px] border-white'>
+                        <p className='px-2'>2.{index + 1}. {group?.name.toUpperCase()}</p>                      </div>
+                      <div className='w-[15%] flex flex-col gap-2 border-l-[1px] border-white'>
+                        <p className='text-center'>cumple</p>
+                        <div className='flex text-center border-t-[1px] border-white'>
+                          <p className='w-[33.3%]'>si</p>
+                          <p className='w-[33.3%] border-l-[1px] border-white'>no</p>
+                          <p className='w-[33.3%] border-l-[1px] border-white'>na</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className='flex gap-6'>
-                    <p className='font-semibold w-1/4'>Nombre</p>
-                    <p>: {profile.fullName}</p>
-                  </div>
-                  <div className='flex gap-6'>
-                    <p className='font-semibold w-1/4'>Dni</p>
-                    <p>: {profile.dni}</p>
-                  </div>
-                  <div className='flex gap-6'>
-                    <p className='font-semibold w-1/4'>Empresa</p>
-                    <p>: {profile.company}</p>
-                  </div>
-                  <div className='flex gap-6'>
-                    <p className='font-semibold w-1/4'>Telefono 1</p>
-                    <p>: {profile.phone1}</p>
-                  </div>
-                  <div className='flex gap-6'>
-                    <p className='font-semibold w-1/4'>Telefono 2</p>
-                    <p>: {profile.phone2}</p>
+                  <div className='border-b-[1px] border-black'>
+                    {
+                      value.map(fieldReport => {
+                        return (
+                          <div key={fieldReport.fieldId} className='flex'>
+
+                            <div className='py-1 w-[10%] text-center grid items-center'>
+                              <p>critico</p>
+                            </div>
+                            <div className='py-1 w-[10%] text-center grid items-center border-l-[1px] border-black'>
+                              <p>Normal</p>
+                            </div>
+                            <div className='py-1 w-[65%] grid items-center border-l-[1px] border-black'>
+                              <div className='flex gap-3'>
+                                <p className='py-1 px-2 font-semibold w-1/3'>{fieldReport.field.name}</p>
+                                {fieldReport.imageEvidence !== '' && <EyeIcon className='w-6 h-6 cursor-pointer transition-all hover:text-red' onClick={() => { imageEvidenceOnClick(fieldReport.imageEvidence, fieldReport.field.name) }}></EyeIcon>}
+                              </div>
+                            </div>
+                            <div className='w-[15%] flex text-center border-l-[1px] border-black'>
+                              <p className='py-1 w-[33.3%]'>{fieldReport.value.toUpperCase() === 'SI' && 'x'}</p>
+                              <p className='py-1 w-[33.3%] border-l-[1px] border-black'>{fieldReport.value.toUpperCase() === 'NO' && 'x'}</p>
+                              <p className='py-1 w-[33.3%] border-l-[1px] border-black'>{fieldReport.value.toUpperCase() === 'NO APLICA' && 'x'}</p>
+                            </div>
+                          </div>
+                        )
+                      })
+                    }
                   </div>
                 </div>
               )
             })
           }
         </div>
-
-      </div>
-      <div className='uppercase mt-4'>
-        <h2 className="font-semibold text-xl after:w-36 after:h-[2px] after:bg-gray-light after:block mb-2">Detalle Vehículo</h2>
-        <div className=''>
-          {route.vehicles.map(vehicle => {
-            return (
-              <div key={vehicle.licensePlate}>
-                <div className='flex gap-6'>
-                  <p className='font-semibold w-1/6'>Placa</p>
-                  <p>: {vehicle.licensePlate}</p>
-                </div>
-                <div className='flex gap-6'>
-                  <p className='font-semibold w-1/6'>Tipo de Unidad</p>
-                  <p>: {vehicle.vehicleType.name}</p>
-                </div>
-                <div className='flex gap-6'>
-                  <p className='font-semibold w-1/6'>Imei</p>
-                  <p>: {vehicle.imei}</p>
-                </div>
-                <div className='flex gap-6'>
-                  <p className='font-semibold w-1/6'>Último Mantenimiento</p>
-                  <p>: {vehicle.lastMaintenance}</p>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-
-      </div> */}
-
-      <div className='flex gap-3 justify-between items-center mt-6'>
-        <h2 className='uppercase text-3xl font-semibold '>Checklist</h2>
-        {report.checkpoints.length > 0 ? <Button color='primary' onClick={() => { navigate(`/detalle-checkpoints?report-id=${report.id}&route-id=${route.id}`) }}>Ver Observaciones</Button> : <div></div>}
-      </div>
-      <div className='w-full border-b-2 mt-2 mb-4'></div>
-      <div className='uppercase'>
-        <div className='flex gap-6'>
-          <p className='font-semibold w-1/6'>Tipo de Reporte</p>
-          <p>: {report.reportType.name}</p>
-        </div>
-        <div className='flex gap-6'>
-          <p className='font-semibold w-1/6'>Ubicación</p>
-          <p className='cursor-pointer hover:text-red' onClick={() => goToGoogleMapsPage(report.location)}>: {report.location}</p>
-        </div>
-        <div className='flex gap-6'>
-          <p className='font-semibold w-1/6'>Checkpoints</p>
-          <p>: {report.checkpoints.length}</p>
-        </div>
       </div>
 
-      <div className='uppercase'>
-        {
-          Array.from(fieldReports.entries()).sort((a, b) => a[0] - b[0]).map(([key, value]) => {
-            const group = groups.find((g) => g.id === key)
-            return (
-              <div
-                key={key}
-                className='my-4'
-              >
-                <p className='text-xl'>{group?.name.toUpperCase()}</p>
-                <div className='w-[80%] border-b-2 my-2'></div>
-                <div>
-                  {
-                    value.map(fieldReport => {
-                      return (
-                        <div key={fieldReport.fieldId}>
-                          <div className='flex items-center gap-4 mb-2'>
-                            <p className='font-semibold w-1/3'>{fieldReport.field.name}</p>
-                            <div className='flex items-center gap-4'>
-                              <p>: {fieldReport.value}</p>
-                              {fieldReport.imageEvidence !== '' && <EyeIcon className='w-6 h-6 cursor-pointer transition-all hover:text-red' onClick={() => { imageEvidenceOnClick(fieldReport.imageEvidence, fieldReport.field.name) }}></EyeIcon>}
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    })
-                  }
-                </div>
-              </div>
-            )
-          })
-        }
-      </div>
       {showImage && <ShowImageEvidence imageUrl={fieldSelected.url} name={fieldSelected.name} close={() => { setShowImage(false) }} />}
     </div>
 
