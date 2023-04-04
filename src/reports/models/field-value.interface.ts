@@ -1,4 +1,4 @@
 export interface FieldValue {
-  id: number
+  id: string
   value: string
 }

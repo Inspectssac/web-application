@@ -12,7 +12,7 @@ export class VehiclesService extends AppServices {
       .then(response => response.data)
   }
 
-  create = async (vehicleTypeId: number, vehicleDto: VehicleDto): Promise<Vehicle> => {
+  create = async (vehicleTypeId: string, vehicleDto: VehicleDto): Promise<Vehicle> => {
     return await this.post<Vehicle>(`/${vehicleTypeId}`, vehicleDto)
       .then(response => response.data)
   }

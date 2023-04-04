@@ -1,5 +1,5 @@
 import { TokenService } from '@/iam/services/token.service'
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { type AxiosError, type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import { StatusCodes } from 'http-status-codes'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api/v1'
@@ -41,7 +41,7 @@ export abstract class AppServices {
       })
   }
 
-  async post <T>(url: string, data?: Object, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async post <T>(url: string, data?: Record<string, unknown>, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return await axios.post(this._fullBaseApiURL + url, data, config)
       .then((response: AxiosResponse) => {
         return response
@@ -54,7 +54,7 @@ export abstract class AppServices {
       })
   }
 
-  async patch <T>(url: string, data?: Object, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async patch <T>(url: string, data?: Record<string, unknown>, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return await axios.patch(this._fullBaseApiURL + url, data, config)
       .then((response: AxiosResponse) => {
         return response

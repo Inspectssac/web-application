@@ -20,7 +20,7 @@ interface AssignFieldFormProps {
 }
 
 const FIELD_INITIAL_STATE = {
-  id: 0,
+  id: '',
   name: '',
   placeholder: '',
   type: FieldType.TEXT,

@@ -16,7 +16,7 @@ export class FieldsService extends AppServices {
       .then(transformAllToFieldArrayEntity)
   }
 
-  remove = async (id: number): Promise<Field> => {
+  remove = async (id: string): Promise<Field> => {
     return await this.delete<Field>(`/${id}`)
       .then(response => response.data)
   }
@@ -27,24 +27,24 @@ export class FieldsService extends AppServices {
       .then(transformToFieldEntity)
   }
 
-  update = async (id: number, field: FieldDto): Promise<Field> => {
+  update = async (id: string, field: FieldDto): Promise<Field> => {
     return await this.patch<FieldApiResponse>(`/${id}`, field)
       .then(response => response.data)
       .then(transformToFieldEntity)
   }
 
-  toggleActive = async (id: number): Promise<Field> => {
+  toggleActive = async (id: string): Promise<Field> => {
     return await this.patch<FieldApiResponse>(`/${id}/toggle-active`)
       .then(response => response.data)
       .then(transformToFieldEntity)
   }
 
-  getAllValues = async (id: number): Promise<FieldValue[]> => {
+  getAllValues = async (id: string): Promise<FieldValue[]> => {
     return await this.get<FieldValue[]>(`/${id}/field-values`)
       .then(response => response.data)
   }
 
-  createValue = async (id: number, fieldValue: FieldValueDto): Promise<FieldValue> => {
+  createValue = async (id: string, fieldValue: FieldValueDto): Promise<FieldValue> => {
     return await this.post<FieldValue>(`/${id}/field-values`, fieldValue)
       .then(response => response.data)
   }

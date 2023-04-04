@@ -57,7 +57,7 @@ const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
       })
   }
 
-  const updateGroupList = (newGroupField: GroupField, fieldId: number, remove: boolean): void => {
+  const updateGroupList = (newGroupField: GroupField, fieldId: string, remove: boolean): void => {
     if (remove) {
       setGroupFields(groupFields.filter(groupField => groupField.fieldId !== fieldId))
       return

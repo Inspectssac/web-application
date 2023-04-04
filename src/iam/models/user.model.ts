@@ -14,7 +14,7 @@ export interface User {
 }
 
 export interface Area {
-  id: number
+  id: string
   name: string
   updatedAt: string
   createdAt: string

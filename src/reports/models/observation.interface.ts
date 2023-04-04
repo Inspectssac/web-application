@@ -1,7 +1,7 @@
 export interface Observation {
   createdAt: string
   updatedAt: string
-  id: number
+  id: string
   fieldName: string
   message: string
   imageEvidence: string

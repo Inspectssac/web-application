@@ -12,7 +12,7 @@ interface VehicleTypeContextInterface {
   setVehicleType: (vehicleType: VehicleType) => void
 }
 
-export const VehicleTypeContext = React.createContext<VehicleTypeContextInterface>({ toastId: '', vehicleType: null, setVehicleType: (vehicleType) => { console.log(vehicleType) } })
+export const VehicleTypeContext = React.createContext<VehicleTypeContextInterface>({ toastid: '', vehicleType: null, setVehicleType: (vehicleType) => { console.log(vehicleType) } })
 
 const VehicleTypesView = (): ReactElement => {
   const [selectedVehicleType, setSelectedVehicleType] = useState<VehicleType | null>(null)

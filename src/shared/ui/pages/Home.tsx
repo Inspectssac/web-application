@@ -1,10 +1,10 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { type ReactElement, useEffect, useState } from 'react'
 // import useMediaQuery from '@/shared/hooks/userMediaQuery'
-import { AppDispatch } from '@/shared/config/store'
+import { type AppDispatch } from '@/shared/config/store'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '../components/Button'
 import { findAllRoutes, getDateRange, getLastDateRequest, getReports } from '@/shared/config/store/features/routes-slice'
-import { DateRange, DateRangeObject, LOCALE_OPTIONS } from '@/shared/models/date-range'
+import { DateRange, type DateRangeObject, LOCALE_OPTIONS } from '@/shared/models/date-range'
 
 const Home = (): ReactElement => {
   // const isAboveSmallScreens = useMediaQuery('(min-width: 640px)')
@@ -20,7 +20,7 @@ const Home = (): ReactElement => {
   useEffect(() => {
     const reportsJson = localStorage.getItem('routes-request')
     if (!reportsJson) {
-      void dispatch(findAllRoutes({ dateRange: new DateRange(), profileId: 0 }))
+      void dispatch(findAllRoutes({ dateRange: new DateRange(), profileid: '' }))
     }
   }, [reports])
 
@@ -29,7 +29,7 @@ const Home = (): ReactElement => {
   }, [reports])
 
   const findAll = (): void => {
-    void dispatch(findAllRoutes({ dateRange, profileId: 0 }))
+    void dispatch(findAllRoutes({ dateRange, profileid: '' }))
   }
 
   const onChangeInputDate = (event: React.ChangeEvent<HTMLInputElement>): void => {

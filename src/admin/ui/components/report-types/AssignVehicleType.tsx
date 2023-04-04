@@ -17,7 +17,7 @@ interface AssingVehicleTypeProps {
 }
 
 const VEHICLE_TYPE_INITIAL_STATE: VehicleType = {
-  id: 0,
+  id: '',
   name: '',
   createdAt: '',
   updatedAt: '',

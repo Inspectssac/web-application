@@ -48,7 +48,7 @@ const AreasComponent = ({ toastId }: AreaComponentProps): ReactElement => {
     updateAreaList(area, area.id)
   }
 
-  const updateAreaList = (area: Area, id: number, remove: boolean = false): void => {
+  const updateAreaList = (area: Area, id: string, remove: boolean = false): void => {
     const index = areas.findIndex(area => area.id === id)
 
     if (index === -1) {

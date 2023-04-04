@@ -1,8 +1,8 @@
 import { Field } from './field.entity'
 
 export interface GroupField {
-  fieldId: number
-  groupId: number
+  fieldId: string
+  groupId: string
   field: Field
   maxLength: number
   isCritical: boolean

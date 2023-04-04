@@ -6,7 +6,7 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 const INITIAL_STATE = {
-  id: 0,
+  id: '',
   value: ''
 }
 

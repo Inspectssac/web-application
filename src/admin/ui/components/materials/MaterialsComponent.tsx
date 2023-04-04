@@ -30,7 +30,7 @@ const MaterialsComponent = (): ReactElement => {
     updateMaterialList(material, material.id)
   }
 
-  const updateMaterialList = (material: Material, id: number, remove: boolean = false): void => {
+  const updateMaterialList = (material: Material, id: string, remove: boolean = false): void => {
     const index = materials.findIndex(material => material.id === id)
 
     if (index === -1) {

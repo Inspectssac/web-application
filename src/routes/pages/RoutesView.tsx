@@ -1,16 +1,16 @@
-import React, { useState, useEffect, ReactElement } from 'react'
+import React, { useState, useEffect, type ReactElement } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { findAllRoutes, getDateRange, getLastDateRequest, getRoutes, getStatus } from '@/shared/config/store/features/routes-slice'
 import { STATUS } from '@/shared/config/store/types'
-import { AppDispatch } from '@/shared/config/store'
+import { type AppDispatch } from '@/shared/config/store'
 
-import { Route } from '../models/route.interface'
+import { type Route } from '../models/route.interface'
 
 import { useNavigate } from 'react-router-dom'
-import { DateRange, DateRangeObject, LOCALE_OPTIONS } from '@/shared/models/date-range'
+import { DateRange, type DateRangeObject, LOCALE_OPTIONS } from '@/shared/models/date-range'
 
-import Table, { Action, Column } from '@/shared/ui/components/table/Table'
+import Table, { type Action, type Column } from '@/shared/ui/components/table/Table'
 
 import Button from '@/shared/ui/components/Button'
 import { goToGoogleMapsPage } from '../utils/maps-utils'
@@ -35,7 +35,7 @@ const RoutesView = (): ReactElement => {
   useEffect(() => {
     const routesJson = localStorage.getItem('routes-request')
     if (!routesJson) {
-      void dispatch(findAllRoutes({ dateRange: new DateRange(), profileId: 0 }))
+      void dispatch(findAllRoutes({ dateRange: new DateRange(), profileid: '' }))
     }
   }, [])
 
@@ -44,7 +44,7 @@ const RoutesView = (): ReactElement => {
   }, [routeStatus])
 
   const findAll = (): void => {
-    void dispatch(findAllRoutes({ dateRange, profileId: 0 }))
+    void dispatch(findAllRoutes({ dateRange, profileid: '' }))
       .catch(error => {
         const { message } = error.data
         setErrorMessage(message.toUpperCase())

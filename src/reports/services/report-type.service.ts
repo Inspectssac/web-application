@@ -15,17 +15,17 @@ export class ReportTypesService extends AppServices {
       .then(response => response.data)
   }
 
-  findAllGroups = async (id: number): Promise<Group[]> => {
+  findAllGroups = async (id: string): Promise<Group[]> => {
     return await this.get<Group[]>(`/${id}/groups`)
       .then(response => response.data)
   }
 
-  findAllGroupFields = async (id: number): Promise<GroupField[]> => {
+  findAllGroupFields = async (id: string): Promise<GroupField[]> => {
     return await this.get<GroupField[]>(`/${id}/groups/fields`)
       .then(response => response.data)
   }
 
-  findAllVehicleTypes = async (id: number): Promise<VehicleType[]> => {
+  findAllVehicleTypes = async (id: string): Promise<VehicleType[]> => {
     return await this.get<VehicleType[]>(`/${id}/vehicle-types`)
       .then(response => response.data)
   }
@@ -35,22 +35,22 @@ export class ReportTypesService extends AppServices {
       .then(response => response.data)
   }
 
-  update = async (id: number, reportType: ReportTypeDto): Promise<ReportType> => {
+  update = async (id: string, reportType: ReportTypeDto): Promise<ReportType> => {
     return await this.patch<ReportType>(`/${id}`, reportType)
       .then(response => response.data)
   }
 
-  createGroup = async (reportTypeId: number, group: Pick<Group, 'name'>): Promise<Group> => {
+  createGroup = async (reportTypeId: string, group: Pick<Group, 'name'>): Promise<Group> => {
     return await this.post<Group>(`/${reportTypeId}/groups`, group)
       .then(response => response.data)
   }
 
-  assignVehicleType = async (reportTypeId: number, vehicleTypeId: number): Promise<ReportType> => {
+  assignVehicleType = async (reportTypeId: string, vehicleTypeId: string): Promise<ReportType> => {
     return await this.post<ReportType>(`/${reportTypeId}/vehicle-types/${vehicleTypeId}`)
       .then(response => response.data)
   }
 
-  removeVehicleType = async (reportTypeId: number, vehicleTypeId: number): Promise<ReportType> => {
+  removeVehicleType = async (reportTypeId: string, vehicleTypeId: string): Promise<ReportType> => {
     return await this.delete<ReportType>(`/${reportTypeId}/vehicle-types/${vehicleTypeId}`)
       .then(response => response.data)
   }

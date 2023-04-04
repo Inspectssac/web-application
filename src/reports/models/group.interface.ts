@@ -1,13 +1,13 @@
 export interface Group {
-  id: number
+  id: string
   name: string
   createdAt: string
   updatedAt: string
-  reportTypeId: number
+  reportTypeId: string
   fieldsGroups: []
 }
 
 export interface ReportGroup {
-  id: number
+  id: string
   name: string
 }

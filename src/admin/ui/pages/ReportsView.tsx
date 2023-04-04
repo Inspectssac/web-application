@@ -11,7 +11,7 @@ import VehicleTypeList from '../components/report-types/VehicleTypeList'
 const INITIAL_STATE: ReportType = {
   createdAt: '',
   updatedAt: '',
-  id: 0,
+  id: '',
   name: '',
   vehicleTypes: []
 }
@@ -61,7 +61,7 @@ const ReportsView = (): ReactElement => {
     updateReportTypeList(newReportType, newReportType.id)
   }
 
-  const updateReportTypeList = (newReportType: ReportType, id: number, remove: boolean = false): void => {
+  const updateReportTypeList = (newReportType: ReportType, id: string, remove: boolean = false): void => {
     const index = reportTypes.findIndex(reportType => reportType.id === id)
 
     if (index === -1) {

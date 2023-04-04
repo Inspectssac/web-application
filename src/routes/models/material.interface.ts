@@ -1,5 +1,5 @@
 export interface Material {
-  id: number
+  id: string
   name: string
   createdAt: string
   updatedAt: string

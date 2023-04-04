@@ -16,12 +16,12 @@ export class MaterialsService extends AppServices {
       .then(response => response.data)
   }
 
-  update = async (id: number, material: MaterialDto): Promise<Material> => {
+  update = async (id: string, material: MaterialDto): Promise<Material> => {
     return await this.patch<Material>(`/${id}`, material)
       .then(response => response.data)
   }
 
-  remove = async (id: number): Promise<Material> => {
+  remove = async (id: string): Promise<Material> => {
     return await this.delete<Material>(`/${id}`)
       .then(response => response.data)
   }

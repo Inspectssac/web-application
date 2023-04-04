@@ -1,7 +1,7 @@
 import { Profile } from './profile.entity'
 
 export interface RouteProfile {
-  profileId: number
+  profileId: string
   routeId: string
   role: string
   supervisor: boolean

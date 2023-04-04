@@ -5,7 +5,7 @@ import { Route } from '../models/route.interface'
 
 export interface FindAllOptions {
   dateRange: DateRange
-  profileId: number
+  profileId: string
 }
 
 export default class RoutesServices extends AppServices {
@@ -28,6 +28,29 @@ export default class RoutesServices extends AppServices {
   findById = async (id: string): Promise<Route> => {
     return await this.get<Route>(`/${id}`)
       .then(response => response.data)
+  }
+}
+export class RoutePDFServices extends AppServices {
+  constructor () {
+    super({ baseUrl: 'routes', contentType: 'application/pdf' })
+  }
+
+  exportPdf = async (code: string): Promise<void> => {
+    await this.get<any>(`/${code}/generate-pdf`, {
+      responseType: 'blob'
+    })
+      .then(response => {
+        console.log('dwadwawd')
+        const blob = new Blob([response.data], { type: 'application/pdf' })
+        const downloadUrl = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+
+        link.href = downloadUrl
+        link.download = `${code}.pdf`
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      })
   }
 }
 

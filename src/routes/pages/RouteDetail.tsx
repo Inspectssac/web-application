@@ -7,7 +7,7 @@ import EyeIcon from '@/shared/ui/assets/icons/EyeIcon'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import ShowImageEvidence from '../components/ShowImageEvidence'
 import { Route } from '../models/route.interface'
-import RoutesServices from '../services/route.services'
+import RoutesServices, { RoutePDFServices } from '../services/route.services'
 import { ReportGroup } from '@/reports/models/group.interface'
 import { ReportType } from '@/reports/models/report-type.interface'
 import Button from '@/shared/ui/components/Button'
@@ -33,7 +33,7 @@ const ROUTE_INITIAL_STATE = {
 const REPORT_TYPE_INITIAL_STATE: ReportType = {
   createdAt: '',
   updatedAt: '',
-  id: 0,
+  id: '',
   name: '',
   vehicleTypes: []
 }
@@ -62,7 +62,7 @@ const RouteDetail = (): ReactElement => {
   const [searchParams] = useSearchParams()
   const [route, setRoute] = useState<Route>(ROUTE_INITIAL_STATE)
   const [report, setReport] = useState<Report>(REPORT_INITIAL_STATE)
-  const [fieldReports, setFieldReports] = useState<Map<number, FieldReport[]>>(new Map<number, FieldReport[]>())
+  const [fieldReports, setFieldReports] = useState<Map<string, FieldReport[]>>(new Map<string, FieldReport[]>())
   const [groups, setGroups] = useState<ReportGroup[]>([])
 
   const [fieldSelected, setFieldSelected] = useState<FieldSelected>({
@@ -92,7 +92,7 @@ const RouteDetail = (): ReactElement => {
   }, [])
 
   const groupFieldReports = (fieldReports: FieldReport[]): void => {
-    const fieldReportsMap = new Map<number, FieldReport[]>()
+    const fieldReportsMap = new Map<string, FieldReport[]>()
     const reportGroups: ReportGroup[] = []
 
     fieldReports.forEach(fieldReport => {
@@ -122,13 +122,18 @@ const RouteDetail = (): ReactElement => {
     return driver?.profile.fullName ?? 'No hay conductor'
   }
 
+  const exportPdf = (): void => {
+    const routePDFService = new RoutePDFServices()
+    void routePDFService.exportPdf(route.code)
+  }
+
   return (
     <div className='container-page'>
       <div className='flex justify-between'>
         <h1 className='text-2xl uppercase font-semibold'>Checklist - {route.code}</h1>
         <div className='flex gap-2'>
           {report.checkpoints.length > 0 && <Button color='primary' onClick={() => { navigate(`/detalle-checkpoints?report-id=${report.id}&route-id=${route.id}`) }}>Ver Observaciones</Button>}
-          <Button color='primary'>Exportar PDF</Button>
+          <Button color='primary' onClick={exportPdf}>Exportar PDF</Button>
         </div>
       </div>
       <div className='h-[1px] bg-gray-400 w-full my-4'></div>
@@ -236,7 +241,7 @@ const RouteDetail = (): ReactElement => {
         </div>
         <div className='uppercase'>
           {
-            Array.from(fieldReports.entries()).sort((a, b) => a[0] - b[0]).map(([key, value], index) => {
+            Array.from(fieldReports.entries()).sort((a, b) => a[0] > b[0] ? 1 : -1).map(([key, value], index) => {
               const group = groups.find((g) => g.id === key)
               return (
                 <div

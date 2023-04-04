@@ -17,7 +17,7 @@ interface AssingMaterialProps {
 }
 
 const MATERIAL_INITIAL_STATE: Material = {
-  id: 0,
+  id: '',
   name: '',
   createdAt: '',
   updatedAt: ''

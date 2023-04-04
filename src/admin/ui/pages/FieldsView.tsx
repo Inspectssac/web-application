@@ -12,7 +12,7 @@ import ToggleOnIcon from '@/shared/ui/assets/icons/ToogleOnIcon'
 import ToggleOffIcon from '@/shared/ui/assets/icons/ToggleOfIcon'
 
 const INITIAL_STATE = {
-  id: 0,
+  id: '',
   name: '',
   placeholder: '',
   type: FieldType.TEXT,
@@ -55,7 +55,7 @@ const FieldsView = (): ReactElement => {
     reset()
     updateFieldList(newField, newField.id)
   }
-  const updateFieldList = (newField: Field, id: number, remove: boolean = false): void => {
+  const updateFieldList = (newField: Field, id: string, remove: boolean = false): void => {
     const index = fields.findIndex(field => field.id === id)
 
     if (index === -1) {

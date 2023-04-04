@@ -1,10 +1,10 @@
-import { Report } from '@/reports/models/report.interface'
-import { Route } from '@/routes/models/route.interface'
-import RoutesServices, { FindAllOptions } from '@/routes/services/route.services'
+import { type Report } from '@/reports/models/report.interface'
+import { type Route } from '@/routes/models/route.interface'
+import RoutesServices, { type FindAllOptions } from '@/routes/services/route.services'
 import { DateRange } from '@/shared/models/date-range'
-import { createAsyncThunk, createSlice, SliceCaseReducers } from '@reduxjs/toolkit'
-import { RootState } from '..'
-import { ROUTES_STATE, STATUS } from '../types'
+import { createAsyncThunk, createSlice, type SliceCaseReducers } from '@reduxjs/toolkit'
+import { type RootState } from '..'
+import { type ROUTES_STATE, STATUS } from '../types'
 
 const DEFAULT_STATE: ROUTES_STATE = {
   routes: [],

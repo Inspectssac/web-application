@@ -12,7 +12,7 @@ export class AreasService extends AppServices {
       .then(response => response.data)
   }
 
-  assignUser = async (areaId: number, userId: string): Promise<User> => {
+  assignUser = async (areaId: string, userId: string): Promise<User> => {
     return await this.post<User>(`/${areaId.toString()}/users/${userId}`)
       .then(response => response.data)
   }
@@ -22,7 +22,7 @@ export class AreasService extends AppServices {
       .then(response => response.data)
   }
 
-  update = async (id: number, areaDto: AreaDto): Promise<Area> => {
+  update = async (id: string, areaDto: AreaDto): Promise<Area> => {
     return await this.patch<Area>(`/${id}`, areaDto)
       .then(response => response.data)
   }

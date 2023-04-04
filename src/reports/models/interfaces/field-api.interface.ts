@@ -5,7 +5,7 @@ import { Field } from '../field.entity'
 export interface FieldApiResponse {
   createdAt: string
   updatedAt: string
-  id: number
+  id: string
   name: string
   value: string
   placeholder?: string

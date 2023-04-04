@@ -59,7 +59,7 @@ const VehicleTypeComponent = (): ReactElement => {
     updateFieldList(vehicleType, vehicleType.id)
   }
 
-  const updateFieldList = (vehicleType: VehicleType, id: number, remove: boolean = false): void => {
+  const updateFieldList = (vehicleType: VehicleType, id: string, remove: boolean = false): void => {
     const index = vehicleTypes.findIndex(vehicleType => vehicleType.id === id)
 
     if (index === -1) {
