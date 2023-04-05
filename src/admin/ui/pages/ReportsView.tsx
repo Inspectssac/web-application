@@ -1,5 +1,5 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import { ReportType } from '@/reports/models/report-type.interface'
+import React, { type ReactElement, useEffect, useState } from 'react'
+import { type ReportType } from '@/reports/models/report-type.interface'
 import { ReportTypesService } from '@/reports/services/report-type.service'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
 import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
@@ -33,7 +33,7 @@ const ReportsView = (): ReactElement => {
   useEffect(() => {
     void reportTypesService.findAll()
       .then(response => {
-        response.sort((a, b) => a.id - b.id)
+        response.sort((a, b) => a.id > b.id ? 1 : -1)
         setReportTypes(response)
       })
   }, [])
@@ -92,13 +92,13 @@ const ReportsView = (): ReactElement => {
                       reportTypes.map(reportType =>
                         (
                       <div key={reportType.id}
-                        onClick={() => setSelectedReportType(reportType)}
+                        onClick={() => { setSelectedReportType(reportType) }}
                         className={`w-full flex justify-between items-center py-2 rounded-r-xl cursor-pointer
                                       ${selectedReportType.id === reportType.id ? 'bg-blue text-white' : ''}`}>
                         <p className='px-2'>{reportType.name}</p>
                         <div className='flex gap-3 px-2'>
-                          <EditIcon className='cursor-pointer w-5 h-5' onClick={() => handleUpdate(reportType)} />
-                          <DeleteIcon className='cursor-pointer w-5 h-5 ' onClick={() => console.log('click')} />
+                          <EditIcon className='cursor-pointer w-5 h-5' onClick={() => { handleUpdate(reportType) }} />
+                          <DeleteIcon className='cursor-pointer w-5 h-5 ' onClick={() => { console.log('click') }} />
                         </div>
                       </div>
                         ))

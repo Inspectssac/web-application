@@ -1,8 +1,8 @@
-import { ReportType } from '@/reports/models/report-type.interface'
+import { type ReportType } from '@/reports/models/report-type.interface'
 import { ReportTypesService } from '@/reports/services/report-type.service'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import React, { type ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { ReportToastContext } from '../../pages/ReportsView'
 
@@ -76,7 +76,7 @@ const ReportTypeForm = ({ reportType, formAction, reset, onFinishSubmit }: Repor
           name='name' placeholder='Nombre checklist' type='text'
           setValid={setIsValidInput}
           reset={resetInputs}
-          setValue={(value) => setInputValue({ ...inputValue, name: value })}></Input>
+          setValue={(value) => { setInputValue({ ...inputValue, name: value }) }}></Input>
 
         <div className='mt-3 flex items-center gap-3'>
           <Button className='py-1' color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Guardar'}</Button>

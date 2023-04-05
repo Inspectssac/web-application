@@ -1,4 +1,4 @@
-import { Material } from './material.interface'
+import { type Material } from './material.interface'
 
 export interface VehicleType {
   createdAt: string

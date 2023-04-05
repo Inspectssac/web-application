@@ -1,6 +1,6 @@
-import { VehicleType } from '@/routes/models/vehicle-type.interface'
+import { type VehicleType } from '@/routes/models/vehicle-type.interface'
 import Toast from '@/shared/ui/components/Toast'
-import React, { ReactElement, useState } from 'react'
+import React, { type ReactElement, useState } from 'react'
 import VehicleTypeComponent from '../components/vehicle-types/VehicleTypeComponent'
 import VehicleTypeMaterialsComponent from '../components/vehicle-types/VehicleTypeMaterialsComponent'
 
@@ -12,7 +12,7 @@ interface VehicleTypeContextInterface {
   setVehicleType: (vehicleType: VehicleType) => void
 }
 
-export const VehicleTypeContext = React.createContext<VehicleTypeContextInterface>({ toastid: '', vehicleType: null, setVehicleType: (vehicleType) => { console.log(vehicleType) } })
+export const VehicleTypeContext = React.createContext<VehicleTypeContextInterface>({ toastId: '', vehicleType: null, setVehicleType: (vehicleType) => { console.log(vehicleType) } })
 
 const VehicleTypesView = (): ReactElement => {
   const [selectedVehicleType, setSelectedVehicleType] = useState<VehicleType | null>(null)

@@ -1,9 +1,9 @@
-import { VehicleTypeDto } from '@/routes/models/interface/vehicle-type-dto.interface'
-import { VehicleType } from '@/routes/models/vehicle-type.interface'
+import { type VehicleTypeDto } from '@/routes/models/interface/vehicle-type-dto.interface'
+import { type VehicleType } from '@/routes/models/vehicle-type.interface'
 import { VehicleTypesService } from '@/routes/services/vehicle-type.service'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import React, { type ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { VehicleTypeContext } from '../../pages/VehicleTypesView'
 
@@ -48,7 +48,7 @@ const VehicleTypeForm = ({ vehicleType, formAction, onFinishSubmit, reset }: Veh
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     if (formAction === 'update') {
-      const id = vehicleType ? vehicleType.id : 0
+      const id = vehicleType ? vehicleType.id : ''
       void vehicleTypesService.update(id, inputValue)
         .then(response => {
           resetForm()
@@ -94,7 +94,7 @@ const VehicleTypeForm = ({ vehicleType, formAction, onFinishSubmit, reset }: Veh
           name='name' placeholder='Nombre del tipo de vehículo' type='text'
           setValid={setIsValidInput}
           reset={resetInputs}
-          setValue={(value) => setValueInputValue('name', value)}></Input>
+          setValue={(value) => { setValueInputValue('name', value) }}></Input>
         <div className='mt-5 flex gap-2'>
           <Button color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Editar'}</Button>
           <Button color='secondary' onClick={resetForm}>Cancelar</Button>

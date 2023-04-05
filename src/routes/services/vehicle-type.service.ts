@@ -1,7 +1,7 @@
 import { AppServices } from '@/shared/service/app-api.service'
-import { VehicleTypeDto } from '../models/interface/vehicle-type-dto.interface'
-import { Material } from '../models/material.interface'
-import { VehicleType } from '../models/vehicle-type.interface'
+import { type VehicleTypeDto } from '../models/interface/vehicle-type-dto.interface'
+import { type Material } from '../models/material.interface'
+import { type VehicleType } from '../models/vehicle-type.interface'
 
 export class VehicleTypesService extends AppServices {
   constructor () {

@@ -41,7 +41,7 @@ export abstract class AppServices {
       })
   }
 
-  async post <T>(url: string, data?: Record<string, unknown>, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async post <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return await axios.post(this._fullBaseApiURL + url, data, config)
       .then((response: AxiosResponse) => {
         return response
@@ -54,7 +54,7 @@ export abstract class AppServices {
       })
   }
 
-  async patch <T>(url: string, data?: Record<string, unknown>, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async patch <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return await axios.patch(this._fullBaseApiURL + url, data, config)
       .then((response: AxiosResponse) => {
         return response

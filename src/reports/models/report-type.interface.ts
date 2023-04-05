@@ -1,4 +1,4 @@
-import { VehicleType } from '@/routes/models/vehicle-type.interface'
+import { type VehicleType } from '@/routes/models/vehicle-type.interface'
 
 export interface ReportType {
   createdAt: string

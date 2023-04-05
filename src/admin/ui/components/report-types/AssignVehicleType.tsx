@@ -1,11 +1,11 @@
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
-import { VehicleType } from '@/routes/models/vehicle-type.interface'
+import React, { type ReactElement, useContext, useEffect, useState } from 'react'
+import { type VehicleType } from '@/routes/models/vehicle-type.interface'
 import { VehicleTypesService } from '@/routes/services/vehicle-type.service'
 import Modal from '@/shared/ui/components/Modal'
 import Button from '@/shared/ui/components/Button'
 import { useNavigate } from 'react-router-dom'
 import { ReportTypesService } from '@/reports/services/report-type.service'
-import { ReportType } from '@/reports/models/report-type.interface'
+import { type ReportType } from '@/reports/models/report-type.interface'
 import { toast } from 'react-toastify'
 import { ReportToastContext } from '../../pages/ReportsView'
 
@@ -48,7 +48,7 @@ const AssingVehicleType = ({ reportType, reportTypeVehicleTypes, update, close }
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const { value } = event.target
-    const vehicleType = vehicleTypes.find(vehicleType => vehicleType.id === parseInt(value))
+    const vehicleType = vehicleTypes.find(vehicleType => vehicleType.id === value)
     setSelectedVehicleType(vehicleType ?? VEHICLE_TYPE_INITIAL_STATE)
   }
 
@@ -91,7 +91,7 @@ const AssingVehicleType = ({ reportType, reportTypeVehicleTypes, update, close }
         <p className='text-center mb-3 text-lg'>Todos los tipos de vehículo están asignados, crea algún tipo de vehículo si deseas asignar más</p>
 
         <div className='flex justify-center gap-3 items-center'>
-          <Button color='primary' onClick={() => navigate('/admin/tipo-vehiculos')}>Añadir tipo de vehículos</Button>
+          <Button color='primary' onClick={() => { navigate('/admin/tipo-vehiculos') }}>Añadir tipo de vehículos</Button>
         </div>
       </div>
     )

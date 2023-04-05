@@ -1,7 +1,7 @@
 import { AppServices } from '@/shared/service/app-api.service'
-import { Checkpoint } from '../models/checkpoint.interface'
-import { FieldReport } from '../models/field-report.interface'
-import { Report } from '../models/report.interface'
+import { type Checkpoint } from '../models/checkpoint.interface'
+import { type FieldReport } from '../models/field-report.interface'
+import { type Report } from '../models/report.interface'
 
 export interface FindAllReportsOptions {
   dateStart: string

@@ -1,10 +1,10 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { type ReactElement, useEffect, useState } from 'react'
 import { FieldType } from '@/reports/models/enums/field-type.enum'
-import { Field } from '@/reports/models/field.entity'
+import { type Field } from '@/reports/models/field.entity'
 import { FieldsService } from '@/reports/services/field.service'
 import FieldForm from '../components/fields/FieldForm'
 import Toast from '@/shared/ui/components/Toast'
-import Table, { Action, Column } from '@/shared/ui/components/table/Table'
+import Table, { type Action, type Column } from '@/shared/ui/components/table/Table'
 import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import { toast } from 'react-toastify'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
@@ -36,7 +36,7 @@ const FieldsView = (): ReactElement => {
   useEffect(() => {
     void fieldsService.findAll()
       .then(response => {
-        response.sort((a, b) => a.id - b.id)
+        response.sort((a, b) => a.id > b.id ? 1 : -1)
         setFields(response)
       })
   }, [])
@@ -101,13 +101,6 @@ const FieldsView = (): ReactElement => {
 
   const FIELD_COLUMNS: Array<Column<Field>> = [
     {
-      id: 'id',
-      columnName: 'Id',
-      filterFunc: (field) => field.id.toString(),
-      render: (field) => field.id.toString(),
-      sortFunc: (a, b) => a.id - b.id
-    },
-    {
       id: 'name',
       columnName: 'Nombre',
       filterFunc: (field) => field.name,
@@ -117,11 +110,11 @@ const FieldsView = (): ReactElement => {
     {
       id: 'placeholder',
       columnName: 'Placeholder',
-      filterFunc: (field) => field.placeholder ?? '-',
-      render: (field) => field.placeholder ?? '-',
+      filterFunc: (field) => field.placeholder ? field.placeholder.trim().length > 0 ? field.placeholder : '-' : '-',
+      render: (field) => field.placeholder ? field.placeholder.trim().length > 0 ? field.placeholder : '-' : '-',
       sortFunc: (a, b) => {
-        const placeholderA = a.placeholder ?? '-'
-        const placeholderB = b.placeholder ?? '-'
+        const placeholderA = a.placeholder ? a.placeholder.trim().length > 0 ? a.placeholder : '-' : '-'
+        const placeholderB = b.placeholder ? b.placeholder.trim().length > 0 ? b.placeholder : '-' : '-'
 
         return placeholderA > placeholderB ? 1 : -1
       }

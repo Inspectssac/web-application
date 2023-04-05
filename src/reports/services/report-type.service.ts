@@ -1,9 +1,9 @@
 import { AppServices } from '@/shared/service/app-api.service'
-import { ReportTypeDto } from '../models/interfaces/report-type-dto.interface'
-import { ReportType } from '../models/report-type.interface'
-import { Group } from '../models/group.interface'
-import { GroupField } from '../models/group-field.interface'
-import { VehicleType } from '@/routes/models/vehicle-type.interface'
+import { type ReportTypeDto } from '../models/interfaces/report-type-dto.interface'
+import { type ReportType } from '../models/report-type.interface'
+import { type Group } from '../models/group.interface'
+import { type GroupField } from '../models/group-field.interface'
+import { type VehicleType } from '@/routes/models/vehicle-type.interface'
 
 export class ReportTypesService extends AppServices {
   constructor () {
@@ -26,6 +26,7 @@ export class ReportTypesService extends AppServices {
   }
 
   findAllVehicleTypes = async (id: string): Promise<VehicleType[]> => {
+    console.log(id)
     return await this.get<VehicleType[]>(`/${id}/vehicle-types`)
       .then(response => response.data)
   }

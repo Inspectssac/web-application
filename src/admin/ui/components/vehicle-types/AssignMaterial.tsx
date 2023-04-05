@@ -1,10 +1,10 @@
-import { Material } from '@/routes/models/material.interface'
-import { VehicleType } from '@/routes/models/vehicle-type.interface'
+import { type Material } from '@/routes/models/material.interface'
+import { type VehicleType } from '@/routes/models/vehicle-type.interface'
 import { MaterialsService } from '@/routes/services/materials.service'
 import { VehicleTypesService } from '@/routes/services/vehicle-type.service'
 import Button from '@/shared/ui/components/Button'
 import Modal from '@/shared/ui/components/Modal'
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import React, { type ReactElement, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { VehicleTypeContext } from '../../pages/VehicleTypesView'
@@ -47,14 +47,14 @@ const AssignMaterial = ({ vehicleTypeMaterials, vehicleType, update, close }: As
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const { value } = event.target
-    const material = materials.find(material => material.id === parseInt(value))
+    const material = materials.find(material => material.id === value)
     setSelectedMaterial(material ?? MATERIAL_INITIAL_STATE)
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
 
-    void vehicleTypeService.assignMaterial(vehicleType?.id ?? 0, selectedMaterial.id)
+    void vehicleTypeService.assignMaterial(vehicleType?.id ?? '', selectedMaterial.id)
       .then(response => {
         update(response.materials)
         close()
@@ -90,7 +90,7 @@ const AssignMaterial = ({ vehicleTypeMaterials, vehicleType, update, close }: As
         <p className='text-center mb-3 text-lg'>Todos los tipos de materiales están asignados, crea algún tipo de material si deseas asignar más</p>
 
         <div className='flex justify-center gap-3 items-center'>
-          <Button color='primary' onClick={() => navigate('/admin/materials')}>Añadir tipo de material</Button>
+          <Button color='primary' onClick={() => { navigate('/admin/materials') }}>Añadir tipo de material</Button>
         </div>
       </div>
     )

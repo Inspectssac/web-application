@@ -1,8 +1,8 @@
-import { VehicleType } from '@/routes/models/vehicle-type.interface'
+import { type VehicleType } from '@/routes/models/vehicle-type.interface'
 import { VehicleTypesService } from '@/routes/services/vehicle-type.service'
 import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import React, { type ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { VehicleTypeContext } from '../../pages/VehicleTypesView'
 import VehicleTypeForm from './VehicleTypeForm'
@@ -19,7 +19,7 @@ const VehicleTypeComponent = (): ReactElement => {
   useEffect(() => {
     void vehicleTypesService.findAll()
       .then(response => {
-        response.sort((a, b) => a.id - b.id)
+        response.sort((a, b) => a.id > b.id ? 1 : -1)
         setVehicleTypes(response)
       })
   }, [])
@@ -86,8 +86,8 @@ const VehicleTypeComponent = (): ReactElement => {
               className={`cursor-pointer w-full flex justify-between items-center py-2 border-b-2  rounded-r-xl ${vehicleType.id === vehicleTypeContext.vehicleType?.id ? 'bg-blue text-white' : ''}`}>
               <p className='px-2'>{vehicleType.name}</p>
               <div className='flex gap-3 px-2'>
-                <EditIcon className='cursor-pointer w-5 h-5' onClick={() => update(vehicleType)} />
-                <DeleteIcon className='cursor-pointer w-5 h-5 ' onClick={() => remove(vehicleType)} />
+                <EditIcon className='cursor-pointer w-5 h-5' onClick={() => { update(vehicleType) }} />
+                <DeleteIcon className='cursor-pointer w-5 h-5 ' onClick={() => { remove(vehicleType) }} />
               </div>
             </div>
           ))
