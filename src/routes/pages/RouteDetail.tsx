@@ -273,7 +273,7 @@ const RouteDetail = (): ReactElement => {
                     {
                       value.map(fieldReport => {
                         return (
-                          <div key={fieldReport.fieldId} className='flex'>
+                          <div key={fieldReport.id} className='flex'>
 
                             <div className='py-1 w-[10%] text-center grid items-center'>
                               <p>{fieldReport.isCritical && 'X'}</p>

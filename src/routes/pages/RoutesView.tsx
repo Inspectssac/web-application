@@ -35,7 +35,7 @@ const RoutesView = (): ReactElement => {
   useEffect(() => {
     const routesJson = localStorage.getItem('routes-request')
     if (!routesJson) {
-      void dispatch(findAllRoutes({ dateRange: new DateRange(), profileid: '' }))
+      void dispatch(findAllRoutes({ dateRange: new DateRange(), profileId: '' }))
     }
   }, [])
 
@@ -44,7 +44,7 @@ const RoutesView = (): ReactElement => {
   }, [routeStatus])
 
   const findAll = (): void => {
-    void dispatch(findAllRoutes({ dateRange, profileid: '' }))
+    void dispatch(findAllRoutes({ dateRange, profileId: '' }))
       .catch(error => {
         const { message } = error.data
         setErrorMessage(message.toUpperCase())
