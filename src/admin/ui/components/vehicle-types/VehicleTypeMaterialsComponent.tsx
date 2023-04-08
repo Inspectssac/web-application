@@ -36,7 +36,7 @@ const VehicleTypeMaterialsComponent = (): ReactElement => {
     const result = confirm(`Estás seguro que quieres desasingar el tipo de material ${materialDeleted.name}`)
     if (!result) return
 
-    void vehicleTypesService.removeMaterial(vehicleType?.id ?? 0, materialDeleted.id)
+    void vehicleTypesService.removeMaterial(vehicleType?.id ?? '', materialDeleted.id)
       .then((response) => {
         setMaterials(response.materials)
         toast('Tipo de material desasignado correctamente', { toastId: vehicleTypeContext.toastId, type: 'success' })

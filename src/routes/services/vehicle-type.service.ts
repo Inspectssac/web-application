@@ -28,6 +28,11 @@ export class VehicleTypesService extends AppServices {
       .then(response => response.data)
   }
 
+  assingParent = async (id: string, parentId: string): Promise<VehicleType> => {
+    return await this.patch<VehicleType>(`/${id}/assign-parent/${parentId}`)
+      .then(response => response.data)
+  }
+
   findAllMaterials = async (id: string): Promise<Material[]> => {
     return await this.get<Material[]>(`/${id}/materials`)
       .then(response => response.data)

@@ -6,4 +6,16 @@ export interface VehicleType {
   id: string
   name: string
   materials: Material[]
+  parent: VehicleType | null
+  children: VehicleType[]
+}
+
+export const VEHICLE_TYPE_INITIAL_STATE: VehicleType = {
+  createdAt: '',
+  updatedAt: '',
+  id: '',
+  name: '',
+  parent: null,
+  materials: [],
+  children: []
 }
