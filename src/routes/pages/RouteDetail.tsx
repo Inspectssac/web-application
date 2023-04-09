@@ -1,17 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { ReactElement, useEffect, useMemo, useState } from 'react'
-import { FieldReport } from '@/reports/models/field-report.interface'
-import { Report } from '@/reports/models/report.interface'
+import React, { type ReactElement, useEffect, useState } from 'react'
+import { type FieldReport } from '@/reports/models/field-report.interface'
+import { type Report } from '@/reports/models/report.interface'
 import { ReportsService } from '@/reports/services/report.service'
 import EyeIcon from '@/shared/ui/assets/icons/EyeIcon'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import ShowImageEvidence from '../components/ShowImageEvidence'
-import { Route } from '../models/route.interface'
+import { type Route } from '../models/route.interface'
 import RoutesServices, { RoutePDFServices } from '../services/route.services'
-import { ReportGroup } from '@/reports/models/group.interface'
-import { ReportType } from '@/reports/models/report-type.interface'
+import { type ReportGroup } from '@/reports/models/group.interface'
+import { type ReportType } from '@/reports/models/report-type.interface'
 import Button from '@/shared/ui/components/Button'
-import { goToGoogleMapsPage } from '../utils/maps-utils'
 
 const ROUTE_INITIAL_STATE = {
   id: '',
@@ -64,6 +62,8 @@ const RouteDetail = (): ReactElement => {
   const [report, setReport] = useState<Report>(REPORT_INITIAL_STATE)
   const [fieldReports, setFieldReports] = useState<Map<string, FieldReport[]>>(new Map<string, FieldReport[]>())
   const [groups, setGroups] = useState<ReportGroup[]>([])
+
+  const [isPdfLoading, setIsPdfLoading] = useState<boolean>(false)
 
   const [fieldSelected, setFieldSelected] = useState<FieldSelected>({
     name: '',
@@ -123,8 +123,12 @@ const RouteDetail = (): ReactElement => {
   }
 
   const exportPdf = (): void => {
+    setIsPdfLoading(true)
     const routePDFService = new RoutePDFServices()
     void routePDFService.exportPdf(route.code)
+      .then(() => {
+        setIsPdfLoading(false)
+      })
   }
 
   return (
@@ -133,7 +137,7 @@ const RouteDetail = (): ReactElement => {
         <h1 className='text-2xl uppercase font-semibold'>Checklist - {route.code}</h1>
         <div className='flex gap-2'>
           {report.checkpoints.length > 0 && <Button color='primary' onClick={() => { navigate(`/detalle-checkpoints?report-id=${report.id}&route-id=${route.id}`) }}>Ver Observaciones</Button>}
-          <Button color='primary' onClick={exportPdf}>Exportar PDF</Button>
+          <Button color='primary' onClick={exportPdf} isLoading={isPdfLoading}>Exportar PDF</Button>
         </div>
       </div>
       <div className='h-[1px] bg-gray-400 w-full my-4'></div>
@@ -194,7 +198,7 @@ const RouteDetail = (): ReactElement => {
           <p className='px-4 font-bold uppercase'>1. Información General de la Unidad de Transporte</p>
         </div>
         <div className='flex'>
-          <div className='w-[45%] border-r-[1px] border-black'>
+          <div className='w-[100%] border-r-[1px] border-black'>
             <div className='border-b-[1px] border-black bg-blue-dark text-white'>
               <p className='p-2 uppercase'>1.1 Datos de la Unidad de transporte</p>
             </div>
@@ -207,26 +211,24 @@ const RouteDetail = (): ReactElement => {
             <div className='border-b-[1px] border-black'>
               <div className='p-2 flex gap-5'>
                 <p>2. Placa de Camión / Tracto:</p>
-                <p>{route.vehicles[0] ? route.vehicles[0].licensePlate : ''}</p>
+                <p>{route.doubleLicensePlate ? (route.vehicles[1] ? route.vehicles[1].licensePlate : '') : (route.vehicles[0] ? route.vehicles[0].licensePlate : '')}</p>
               </div>
             </div>
             <div className='border-b-[1px] border-black'>
               <div className='p-2 flex gap-5'>
                 <p>3. Placa de Remolque / Semirremolque:</p>
-                <p>{route.doubleLicensePlate ? 'Si' : 'No'}</p>
+                <p>{route.doubleLicensePlate ? (route.vehicles[0] ? route.vehicles[0].licensePlate : '') : 'NO APLICA'}</p>
               </div>
             </div>
             <div className=''>
               <div className='p-2 flex gap-5'>
                 <p>4. Marca y modelo:</p>
                 <p>
-                  {route.vehicles[0] ? `${route.vehicles[0].brand} ${route.vehicles[0].model}` : ''}
+                  {route.doubleLicensePlate ? route.vehicles[1] ? `${route.vehicles[1].brand} ${route.vehicles[1].model}` : '' : route.vehicles[0] ? `${route.vehicles[0].brand} ${route.vehicles[0].model}` : ''}
                 </p>
               </div>
             </div>
           </div>
-          <div className='w-[10%]'></div>
-          <div className='w-[45%]'></div>
         </div>
         <div className='border-b-[1px] border-t-[1px] border-black'>
           <div className='p-2 flex justify-evenly gap-4'>
@@ -273,7 +275,7 @@ const RouteDetail = (): ReactElement => {
                     {
                       value.map(fieldReport => {
                         return (
-                          <div key={fieldReport.id} className='flex'>
+                          <div key={fieldReport.fieldId} className='flex'>
 
                             <div className='py-1 w-[10%] text-center grid items-center'>
                               <p>{fieldReport.isCritical && 'X'}</p>
