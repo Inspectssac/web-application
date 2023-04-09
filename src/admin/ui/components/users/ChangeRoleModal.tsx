@@ -1,8 +1,8 @@
-import React, { ReactElement, useContext, useState } from 'react'
+import React, { type ReactElement, useContext, useState } from 'react'
 import Button from '@/shared/ui/components/Button'
 import { UserRole } from '@/admin/models/role.enum'
 import { UsersService } from '@/admin/services/users.service'
-import { User } from '@/iam/models/user.model'
+import { type User } from '@/iam/models/user.model'
 import { toast } from 'react-toastify'
 import { ToastContext } from '../../pages/UsersView'
 

@@ -1,6 +1,6 @@
 import { AdminService } from '@/admin/services/admin.service'
 import Modal from '@/shared/ui/components/Modal'
-import React, { ReactElement, useState } from 'react'
+import React, { type ReactElement, useState } from 'react'
 import { toast } from 'react-toastify'
 
 type ImportObject = 'user' | 'vehicle'

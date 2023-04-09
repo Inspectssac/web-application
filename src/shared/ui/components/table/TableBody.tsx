@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
-import { Action, Column } from './Table'
+import React, { type ReactElement } from 'react'
+import { type Action, type Column } from './Table'
 
 interface TableBodyProps {
   data: any[]
@@ -34,7 +34,7 @@ const TableBody = ({ data, columns, actions, onRowClick }: TableBodyProps): Reac
                   <div className='flex justify-center items-center gap-2 py-3'>
                     {
                       actions?.map((action, index) => (
-                        <div key={index} onClick={() => action.actionFunc(value)}>
+                        <div key={index} onClick={() => { action.actionFunc(value) }}>
                           {
                             action.icon(value)
                           }

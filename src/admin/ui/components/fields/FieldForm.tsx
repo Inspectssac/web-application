@@ -1,9 +1,9 @@
 import { FieldType } from '@/reports/models/enums/field-type.enum'
-import { Field } from '@/reports/models/field.entity'
+import { type Field } from '@/reports/models/field.entity'
 import { FieldsService } from '@/reports/services/field.service'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { type ReactElement, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 type FormAction = 'add' | 'update'
@@ -109,9 +109,9 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
         <Input
           value={inputValue.name}
           name='field name' placeholder='Nombre del campo' type='text'
-          setValid={(valid) => setIsValidInput('name', valid)}
+          setValid={(valid) => { setIsValidInput('name', valid) }}
           reset={resetInputs}
-          setValue={(value) => setValueInputValue('name', value)}></Input>
+          setValue={(value) => { setValueInputValue('name', value) }}></Input>
 
         <div className='mt-2'>
           <p className='font-bold text-sm'>Selecciona el tipo de campo</p>
@@ -136,9 +136,9 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
                 value={inputValue.placeholder}
                 required={false}
                 name='placeholder' placeholder='Descripción del campo' type='text'
-                setValid={(valid) => setIsValidInput('placeholder', valid)}
+                setValid={(valid) => { setIsValidInput('placeholder', valid) }}
                 reset={resetInputs}
-                setValue={(value) => setValueInputValue('placeholder', value)}></Input>
+                setValue={(value) => { setValueInputValue('placeholder', value) }}></Input>
             </div>
           )
         }

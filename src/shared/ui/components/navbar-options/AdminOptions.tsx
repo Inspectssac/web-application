@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { type ReactElement } from 'react'
 import FieldIcon from '../../assets/icons/FieldIcon'
 import MaterialIcon from '../../assets/icons/MaterialIcon'
 import ReportIcon from '../../assets/icons/ReportIcon'

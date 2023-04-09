@@ -1,8 +1,8 @@
-import React, { ReactElement, useEffect, useMemo, useState } from 'react'
+import React, { type ReactElement, useEffect, useMemo, useState } from 'react'
 import Filter from './TableFilter'
 import Pagination from './Pagination'
 import TableBody from './TableBody'
-import TableContext, { SortDirection } from './TableContext'
+import TableContext, { type SortDirection } from './TableContext'
 import TableHeader from './TableHeader'
 
 export interface Column<T> {

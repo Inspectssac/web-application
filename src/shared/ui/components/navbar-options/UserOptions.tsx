@@ -1,5 +1,5 @@
 
-import React, { Fragment, ReactElement } from 'react'
+import React, { Fragment, type ReactElement } from 'react'
 import { NavLink } from 'react-router-dom'
 import EyeIcon from '../../assets/icons/EyeIcon'
 import UserIcon from '../../assets/icons/UserIcon'

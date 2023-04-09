@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import React, { type ReactElement, useContext, useEffect, useState } from 'react'
 import { BackIcon, DoubleBackIcon, DoubleForwardIcon, ForwardIcon } from './PaginationIcons'
 import TableContext from './TableContext'
 

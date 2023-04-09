@@ -1,8 +1,8 @@
-import { FieldValue } from '@/reports/models/field-value.interface'
-import { Field } from '@/reports/models/field.entity'
+import { type FieldValue } from '@/reports/models/field-value.interface'
+import { type Field } from '@/reports/models/field.entity'
 import { FieldsService } from '@/reports/services/field.service'
 import Button from '@/shared/ui/components/Button'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { type ReactElement, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 const INITIAL_STATE = {
@@ -50,7 +50,7 @@ const FieldValueForm = ({ field, toastId, updateFieldValues }: FieldValueFormPro
   }
   return (
     <div className='mt-3'>
-      {currentField.id !== 0 && (
+      {currentField.id !== '' && (
         <>
           <h2 className='uppercase font-medium'>Insertar posible valor</h2>
           <form onSubmit={handleValueSubmit}>

@@ -1,7 +1,7 @@
-import { UserStorage } from '@/iam/models/interfaces/user-storage.interface'
-import { Report } from '@/reports/models/report.interface'
-import { Route } from '@/routes/models/route.interface'
-import { DateRange } from '@/shared/models/date-range'
+import { type UserStorage } from '@/iam/models/interfaces/user-storage.interface'
+import { type Report } from '@/reports/models/report.interface'
+import { type Route } from '@/routes/models/route.interface'
+import { type DateRange } from '@/shared/models/date-range'
 
 export enum STATUS {
   IDLE = 'idle',

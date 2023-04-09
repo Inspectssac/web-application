@@ -1,5 +1,5 @@
-import React, { ReactElement, useState } from 'react'
-import { Observation } from '@/reports/models/observation.interface'
+import React, { type ReactElement, useState } from 'react'
+import { type Observation } from '@/reports/models/observation.interface'
 import EyeIcon from '@/shared/ui/assets/icons/EyeIcon'
 import { Transition } from '@headlessui/react'
 import ShowImageEvidence from './ShowImageEvidence'

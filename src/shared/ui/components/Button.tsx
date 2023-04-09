@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { type ReactElement, useEffect, useState } from 'react'
 
 type ButtonType = 'button' | 'submit' | 'reset' | undefined
 

@@ -1,9 +1,9 @@
 import { AppServices } from '@/shared/service/app-api.service'
-import { FieldDto } from '../models/interfaces/field-dto.interface'
-import { FieldValue } from '../models/field-value.interface'
-import { Field } from '../models/field.entity'
-import { FieldApiResponse, transformAllToFieldArrayEntity, transformToFieldEntity } from '../models/interfaces/field-api.interface'
-import { FieldValueDto } from '../models/interfaces/field-value-dto.interface'
+import { type FieldDto } from '../models/interfaces/field-dto.interface'
+import { type FieldValue } from '../models/field-value.interface'
+import { type Field } from '../models/field.entity'
+import { type FieldApiResponse, transformAllToFieldArrayEntity, transformToFieldEntity } from '../models/interfaces/field-api.interface'
+import { type FieldValueDto } from '../models/interfaces/field-value-dto.interface'
 
 export class FieldsService extends AppServices {
   constructor () {

@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from 'react'
+import React, { type ReactElement, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { isAuthenticated } from '@/shared/config/store/features/auth-slice'
 import { useNavigate } from 'react-router-dom'

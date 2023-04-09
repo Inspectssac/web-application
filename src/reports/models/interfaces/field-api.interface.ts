@@ -1,6 +1,6 @@
-import { FieldType } from '../enums/field-type.enum'
-import { FieldValue } from '../field-value.interface'
-import { Field } from '../field.entity'
+import { type FieldType } from '../enums/field-type.enum'
+import { type FieldValue } from '../field-value.interface'
+import { type Field } from '../field.entity'
 
 export interface FieldApiResponse {
   createdAt: string

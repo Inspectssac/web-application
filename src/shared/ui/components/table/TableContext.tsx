@@ -1,5 +1,5 @@
 import React from 'react'
-import { Column } from './Table'
+import { type Column } from './Table'
 
 export type SortDirection = 'asc' | 'desc'
 

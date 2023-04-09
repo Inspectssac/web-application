@@ -1,4 +1,4 @@
-import { Profile } from './profile.entity'
+import { type Profile } from './profile.entity'
 
 export interface RouteProfile {
   profileId: string

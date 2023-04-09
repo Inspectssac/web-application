@@ -1,8 +1,9 @@
-import { Field } from './field.entity'
-import { ReportGroup } from './group.interface'
+import { type Field } from './field.entity'
+import { type ReportGroup } from './group.interface'
 
 export interface FieldReport {
-  id: string
+  fieldId: string
+  reportId: string
   value: string
   type: string
   isCritical: boolean

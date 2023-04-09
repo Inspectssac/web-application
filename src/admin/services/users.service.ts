@@ -1,8 +1,8 @@
-import { User } from '@/iam/models/user.model'
-import { Profile, ProfileDto } from '@/profiles/models/profile.entity'
+import { type User } from '@/iam/models/user.model'
+import { type Profile, type ProfileDto } from '@/profiles/models/profile.entity'
 import { AppServices } from '@/shared/service/app-api.service'
-import { AddUser } from '../models/add-user.interface'
-import { ChangeRole } from '../models/change-role.interface'
+import { type AddUser } from '../models/add-user.interface'
+import { type ChangeRole } from '../models/change-role.interface'
 
 export class UsersService extends AppServices {
   constructor () {

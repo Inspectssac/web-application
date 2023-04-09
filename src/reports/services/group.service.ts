@@ -1,7 +1,7 @@
 import { AppServices } from '@/shared/service/app-api.service'
-import { GroupField } from '../models/group-field.interface'
-import { Group } from '../models/group.interface'
-import { GroupFieldDto } from '../models/interfaces/group-field-dto.interface'
+import { type GroupField } from '../models/group-field.interface'
+import { type Group } from '../models/group.interface'
+import { type GroupFieldDto } from '../models/interfaces/group-field-dto.interface'
 
 export class GroupsService extends AppServices {
   constructor () {

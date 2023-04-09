@@ -1,11 +1,11 @@
-import { Group } from '@/reports/models/group.interface'
-import { ReportType } from '@/reports/models/report-type.interface'
+import { type Group } from '@/reports/models/group.interface'
+import { type ReportType } from '@/reports/models/report-type.interface'
 import { GroupsService } from '@/reports/services/group.service'
 import { ReportTypesService } from '@/reports/services/report-type.service'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
 import Modal from '@/shared/ui/components/Modal'
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import React, { type ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { ReportToastContext } from '../../pages/ReportsView'
 
@@ -64,7 +64,7 @@ const GroupForm = ({ group, reportType, formAction, close, update, reset }: Crea
     event.preventDefault()
 
     const action = formAction === 'update' ? groupsService.update : reportTypesService.createGroup
-    const actionId = formAction === 'update' ? group?.id ?? 0 : reportType.id
+    const actionId = formAction === 'update' ? group?.id ?? '' : reportType.id
 
     void action(actionId, inputValue)
       .then((response) => {
@@ -91,8 +91,8 @@ const GroupForm = ({ group, reportType, formAction, close, update, reset }: Crea
             <Input
               value={inputValue.name}
               name='nombre' placeholder='Nombre' type='text'
-              setValid={(valid) => setIsValidInput('name', valid)}
-              setValue={(value) => setValueInputValue('name', value)}></Input>
+              setValid={(valid) => { setIsValidInput('name', valid) }}
+              setValue={(value) => { setValueInputValue('name', value) }}></Input>
           </div>
 
           <div className='mt-5 flex justify-center gap-3 items-center'>

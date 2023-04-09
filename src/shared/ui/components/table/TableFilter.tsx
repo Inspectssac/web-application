@@ -1,5 +1,5 @@
-import React, { Fragment, ReactElement, useContext } from 'react'
-import { Column } from './Table'
+import React, { Fragment, type ReactElement, useContext } from 'react'
+import { type Column } from './Table'
 import TableContext from './TableContext'
 
 interface FilterProps {

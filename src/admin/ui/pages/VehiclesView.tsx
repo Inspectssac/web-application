@@ -1,5 +1,5 @@
 import Toast from '@/shared/ui/components/Toast'
-import React, { ReactElement } from 'react'
+import React, { type ReactElement } from 'react'
 import VehicleComponent from '../components/vehicles/VehicleComponent'
 
 const TOAST_ID = 'vehicle-types'

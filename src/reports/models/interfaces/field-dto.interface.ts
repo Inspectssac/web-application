@@ -1,4 +1,4 @@
-import { Field } from '../field.entity'
+import { type Field } from '../field.entity'
 
 export interface FieldDto extends Omit<Field, 'id' | 'values'> {
 }

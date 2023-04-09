@@ -1,5 +1,5 @@
-import { FieldType } from './enums/field-type.enum'
-import { FieldValue } from './field-value.interface'
+import { type FieldType } from './enums/field-type.enum'
+import { type FieldValue } from './field-value.interface'
 
 export interface Field {
   id: string

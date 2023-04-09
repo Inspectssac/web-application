@@ -1,7 +1,7 @@
-import { Report } from '@/reports/models/report.interface'
-import { DateRange } from '@/shared/models/date-range'
+import { type Report } from '@/reports/models/report.interface'
+import { type DateRange } from '@/shared/models/date-range'
 import { AppServices } from '@/shared/service/app-api.service'
-import { Route } from '../models/route.interface'
+import { type Route } from '../models/route.interface'
 
 export interface FindAllOptions {
   dateRange: DateRange

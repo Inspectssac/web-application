@@ -1,14 +1,14 @@
 import { FieldType } from '@/reports/models/enums/field-type.enum'
-import { Field } from '@/reports/models/field.entity'
-import { GroupFieldDto } from '@/reports/models/interfaces/group-field-dto.interface'
-import { GroupField } from '@/reports/models/group-field.interface'
+import { type Field } from '@/reports/models/field.entity'
+import { type GroupFieldDto } from '@/reports/models/interfaces/group-field-dto.interface'
+import { type GroupField } from '@/reports/models/group-field.interface'
 import { FieldsService } from '@/reports/services/field.service'
 import Button from '@/shared/ui/components/Button'
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import React, { type ReactElement, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { GroupsService } from '@/reports/services/group.service'
-import { Group } from '@/reports/models/group.interface'
+import { type Group } from '@/reports/models/group.interface'
 import { ReportTypesService } from '@/reports/services/report-type.service'
 import { ReportToastContext } from '../../pages/ReportsView'
 
@@ -55,7 +55,7 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit, close }: AssignFi
           .then(groupFields => {
             const existingGroupFields = groupFields.map(groupField => groupField.fieldId)
             const filteredFields = response.filter(field => (!actualFields.includes(field.id) && !existingGroupFields.includes(field.id)) && field.active)
-            filteredFields.sort((a, b) => a.id - b.id)
+            filteredFields.sort((a, b) => a.id > b.id ? 1 : -1)
             setFields(filteredFields)
           })
       })
@@ -72,7 +72,7 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit, close }: AssignFi
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const { value } = event.target
-    const field = fields.find(field => field.id === parseInt(value))
+    const field = fields.find(field => field.id === value)
     setSelectedField(field ?? FIELD_INITIAL_STATE)
   }
 
@@ -146,7 +146,7 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit, close }: AssignFi
       <p className='text-center mb-3 text-lg'>Todos los campos están asignados, crea o activa algún campo si es que quieres asignar más</p>
 
       <div className='flex justify-center gap-3 items-center'>
-        <Button color='primary' onClick={() => navigate('/admin/campos')}>Añadir campos</Button>
+        <Button color='primary' onClick={() => { navigate('/admin/campos') }}>Añadir campos</Button>
       </div>
     </>
   )

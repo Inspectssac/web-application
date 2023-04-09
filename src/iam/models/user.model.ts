@@ -1,5 +1,5 @@
-import { UserRole } from '@/admin/models/role.enum'
-import { Profile } from '@/profiles/models/profile.entity'
+import { type UserRole } from '@/admin/models/role.enum'
+import { type Profile } from '@/profiles/models/profile.entity'
 
 export interface User {
   updatedAt: string

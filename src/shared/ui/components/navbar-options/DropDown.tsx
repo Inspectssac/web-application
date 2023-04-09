@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
-import React, { Fragment, ReactElement } from 'react'
+import React, { Fragment, type ReactElement } from 'react'
 import { NavLink } from 'react-router-dom'
 import LogoutIcon from '../../assets/icons/LogoutIcon'
 

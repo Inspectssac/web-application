@@ -1,9 +1,9 @@
-import { AreaDto } from '@/admin/models/area-dto.interface'
+import { type AreaDto } from '@/admin/models/area-dto.interface'
 import { AreasService } from '@/admin/services/areas.service'
-import { Area } from '@/iam/models/user.model'
+import { type Area } from '@/iam/models/user.model'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { type ReactElement, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 type FormAction = 'add' | 'update'
@@ -46,7 +46,7 @@ const AreaForm = ({ area, formAction, toastId, onFinishSubmit, reset }: AreaForm
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     if (formAction === 'update') {
-      const id = area ? area.id : 0
+      const id = area ? area.id : ''
       void areasService.update(id, inputValue)
         .then(response => {
           resetForm()
@@ -86,7 +86,7 @@ const AreaForm = ({ area, formAction, toastId, onFinishSubmit, reset }: AreaForm
             name='name' placeholder='Nombre del área' type='text'
             setValid={setIsValidInput}
             reset={resetInputs}
-            setValue={(value) => setInputValue({ ...inputValue, name: value })}></Input>
+            setValue={(value) => { setInputValue({ ...inputValue, name: value }) }}></Input>
 
         <div className='mt-3 flex items-center gap-3'>
           <Button className='py-1' color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Guardar'}</Button>

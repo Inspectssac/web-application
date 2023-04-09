@@ -1,12 +1,12 @@
-import { VehicleDto } from '@/routes/models/interface/vehicle-dto.interface'
-import { VehicleType } from '@/routes/models/vehicle-type.interface'
-import { Vehicle } from '@/routes/models/vehicles.interface'
+import { type VehicleDto } from '@/routes/models/interface/vehicle-dto.interface'
+import { type VehicleType } from '@/routes/models/vehicle-type.interface'
+import { type Vehicle } from '@/routes/models/vehicles.interface'
 import { VehicleTypesService } from '@/routes/services/vehicle-type.service'
 import { VehiclesService } from '@/routes/services/vehicle.service'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
 import Modal from '@/shared/ui/components/Modal'
-import React, { ReactElement, useContext, useEffect, useRef, useState } from 'react'
+import React, { type ReactElement, useContext, useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { VehicleToastContext } from '../../pages/VehiclesView'
 
@@ -57,7 +57,7 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    const vehicleTypeId = parseInt(vehicleTypeRef.current?.value ?? '0')
+    const vehicleTypeId = vehicleTypeRef.current?.value ?? ''
     void vehiclesService.create(vehicleTypeId, inputValue)
       .then((response) => {
         onFinishSubmit(response)
@@ -111,8 +111,8 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           <Input
             value={inputValue.licensePlate}
             name='license plate' placeholder='Placa' type='text'
-            setValid={(valid) => setIsValidInput('licensePlate', valid)}
-            setValue={(value) => setValueInputValue('licensePlate', value)}></Input>
+            setValid={(valid) => { setIsValidInput('licensePlate', valid) }}
+            setValue={(value) => { setValueInputValue('licensePlate', value) }}></Input>
           {/* <input onChange={handleChange} id='licensePlate' value={inputValue.licensePlate} type="text" name='licensePlate' /> */}
         </div>
         <div className='mt-2'>
@@ -120,8 +120,8 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           <Input
             value={inputValue.provider}
             name='provider' placeholder='Proveedor' type='text'
-            setValid={(valid) => setIsValidInput('provider', valid)}
-            setValue={(value) => setValueInputValue('provider', value)}></Input>
+            setValid={(valid) => { setIsValidInput('provider', valid) }}
+            setValue={(value) => { setValueInputValue('provider', value) }}></Input>
           {/* <input onChange={handleChange} id='provider' value={inputValue.provider} type="text" name='provider' /> */}
         </div>
         <div className='mt-2'>
@@ -129,8 +129,8 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           <Input
             value={inputValue.company}
             name='company' placeholder='Empresa' type='text'
-            setValid={(valid) => setIsValidInput('company', valid)}
-            setValue={(value) => setValueInputValue('company', value)}></Input>
+            setValid={(valid) => { setIsValidInput('company', valid) }}
+            setValue={(value) => { setValueInputValue('company', value) }}></Input>
           {/* <input onChange={handleChange} id='carrier' value={inputValue.carrier} type="text" name='carrier' /> */}
         </div>
         <div className='mt-2'>
@@ -138,8 +138,8 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           <Input
             value={inputValue.imei}
             name='imei' placeholder='Imei' type='text'
-            setValid={(valid) => setIsValidInput('imei', valid)}
-            setValue={(value) => setValueInputValue('imei', value)}></Input>
+            setValid={(valid) => { setIsValidInput('imei', valid) }}
+            setValue={(value) => { setValueInputValue('imei', value) }}></Input>
           {/* <input onChange={handleChange} id='imei' value={inputValue.imei} type="text" name='imei' /> */}
         </div>
         <div className='mt-2'>
@@ -147,8 +147,8 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           <Input
             value={inputValue.model}
             name='model' placeholder='Modelo' type='text'
-            setValid={(valid) => setIsValidInput('model', valid)}
-            setValue={(value) => setValueInputValue('model', value)}></Input>
+            setValid={(valid) => { setIsValidInput('model', valid) }}
+            setValue={(value) => { setValueInputValue('model', value) }}></Input>
           {/* <input onChange={handleChange} id='imei' value={inputValue.imei} type="text" name='imei' /> */}
         </div>
         <div className='mt-2'>
@@ -156,8 +156,8 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           <Input
             value={inputValue.brand}
             name='brand' placeholder='Marca' type='text'
-            setValid={(valid) => setIsValidInput('brand', valid)}
-            setValue={(value) => setValueInputValue('brand', value)}></Input>
+            setValid={(valid) => { setIsValidInput('brand', valid) }}
+            setValue={(value) => { setValueInputValue('brand', value) }}></Input>
           {/* <input onChange={handleChange} id='imei' value={inputValue.imei} type="text" name='imei' /> */}
         </div>
         <div className='mt-2'>
@@ -165,24 +165,24 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           <Input
             value={new Date(inputValue.soatExpiration).toISOString().substring(0, 10)}
             name='soatExpiration' placeholder='' type='date'
-            setValid={(valid) => setIsValidInput('soatExpiration', valid)}
-            setValue={(value) => setValueInputValue('soatExpiration', value)}></Input>
+            setValid={(valid) => { setIsValidInput('soatExpiration', valid) }}
+            setValue={(value) => { setValueInputValue('soatExpiration', value) }}></Input>
         </div>
         <div className='mt-2'>
           <label className='font-medium' htmlFor="technicalReviewExpiration">Fecha Vencimiento Revisión Técnica</label>
           <Input
             value={new Date(inputValue.technicalReviewExpiration).toISOString().substring(0, 10)}
             name='technicalReviewExpiration' placeholder='' type='date'
-            setValid={(valid) => setIsValidInput('technicalReviewExpiration', valid)}
-            setValue={(value) => setValueInputValue('technicalReviewExpiration', value)}></Input>
+            setValid={(valid) => { setIsValidInput('technicalReviewExpiration', valid) }}
+            setValue={(value) => { setValueInputValue('technicalReviewExpiration', value) }}></Input>
         </div>
         <div className='mt-2'>
           <label className='font-medium' htmlFor="lastMaintenance">Último Mantenimiento</label>
           <Input
             value={new Date(inputValue.lastMaintenance).toISOString().substring(0, 10)}
             name='lastMaintenance' placeholder='' type='date'
-            setValid={(valid) => setIsValidInput('lastMaintenance', valid)}
-            setValue={(value) => setValueInputValue('lastMaintenance', value)}></Input>
+            setValid={(valid) => { setIsValidInput('lastMaintenance', valid) }}
+            setValue={(value) => { setValueInputValue('lastMaintenance', value) }}></Input>
         </div>
 
         <div className='mt-4 flex justify-center gap-3 items-center'>

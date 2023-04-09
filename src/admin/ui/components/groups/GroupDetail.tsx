@@ -1,12 +1,12 @@
-import { GroupField } from '@/reports/models/group-field.interface'
-import { Group } from '@/reports/models/group.interface'
+import { type GroupField } from '@/reports/models/group-field.interface'
+import { type Group } from '@/reports/models/group.interface'
 import { GroupsService } from '@/reports/services/group.service'
 import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
 import Button from '@/shared/ui/components/Button'
 import Modal from '@/shared/ui/components/Modal'
-import Table, { Action, Column } from '@/shared/ui/components/table/Table'
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import Table, { type Action, type Column } from '@/shared/ui/components/table/Table'
+import React, { type ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { ReportToastContext } from '../../pages/ReportsView'
 import AssignFieldForm from '../report-types/AssignFieldForm'
@@ -28,7 +28,7 @@ const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
   const [showUpdateField, setShowUpdateField] = useState<boolean>(false)
 
   useEffect(() => {
-    if (group.id !== 0) {
+    if (group.id !== '') {
       void groupsService.findAllFields(group.id)
         .then(setGroupFields)
     }
@@ -174,7 +174,7 @@ const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
         groupFields.length > 0
           ? (<Table columns={GROUP_FIELDS_COLUMNS} data={groupFields} actions={GROUP_FIELDS_ACTIONS} showFilter={false} />)
           : (
-            <p>{group.id !== 0 ? 'No hay campos asignados al tipo de reporte' : 'Seleccionar tipo de reporte'}</p>
+            <p>{group.id !== '' ? 'No hay campos asignados al tipo de reporte' : 'Seleccionar tipo de reporte'}</p>
             )
       }
     </div>

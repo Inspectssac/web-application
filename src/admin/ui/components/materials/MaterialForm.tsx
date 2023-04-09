@@ -1,6 +1,6 @@
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import React, { type ReactElement, useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { Material, MaterialDto } from '@/routes/models/material.interface'
+import { type Material, type MaterialDto } from '@/routes/models/material.interface'
 import { MaterialsService } from '@/routes/services/materials.service'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
@@ -40,7 +40,7 @@ const MaterialForm = ({ material, formAction, onFinishSubmit, close }: MaterialF
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     if (formAction === 'update') {
-      const id = material ? material.id : 0
+      const id = material ? material.id : ''
       void materialsService.update(id, inputValue)
         .then(response => {
           onFinishSubmit(response)
@@ -81,7 +81,7 @@ const MaterialForm = ({ material, formAction, onFinishSubmit, close }: MaterialF
               value={inputValue.name}
               name='name' placeholder='Nombre del área' type='text'
               setValid={setIsValidInput}
-              setValue={(value) => setInputValue({ ...inputValue, name: value })}></Input>
+              setValue={(value) => { setInputValue({ ...inputValue, name: value }) }}></Input>
 
             <div className='mt-3 flex items-center gap-3'>
               <Button className='py-1' color='primary' type='submit' disabled={!canSubmit}>{formAction === 'add' ? 'Añadir' : 'Guardar'}</Button>

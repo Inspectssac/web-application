@@ -1,13 +1,13 @@
-import { AddUser } from '@/admin/models/add-user.interface'
+import { type AddUser } from '@/admin/models/add-user.interface'
 import { UserRole } from '@/admin/models/role.enum'
 import { AreasService } from '@/admin/services/areas.service'
 import { UsersService } from '@/admin/services/users.service'
-import { Area, User } from '@/iam/models/user.model'
-import { ProfileDto } from '@/profiles/models/profile.entity'
+import { type Area, type User } from '@/iam/models/user.model'
+import { type ProfileDto } from '@/profiles/models/profile.entity'
 import Button from '@/shared/ui/components/Button'
 import Input from '@/shared/ui/components/Input'
 import Modal from '@/shared/ui/components/Modal'
-import React, { ReactElement, useContext, useEffect, useRef, useState } from 'react'
+import React, { type ReactElement, useContext, useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { ToastContext } from '../../pages/UsersView'
 
@@ -91,7 +91,7 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
         void usersService.createProfile(user.id, newProfile)
           .then(profile => {
             console.log('profile', profile)
-            void areasService.assignUser(parseInt(areaId), user.id)
+            void areasService.assignUser(areaId, user.id)
               .then(userWithArea => {
                 userWithArea.profile = profile
                 console.log('user wiht area', userWithArea)
@@ -148,13 +148,13 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
           <Input
             value={newUser.username}
             name='username' placeholder='Username' type='text'
-            setValid={(valid) => setIsValidInput('username', valid)}
-            setValue={(value) => setValueUser('username', value)}></Input>
+            setValid={(valid) => { setIsValidInput('username', valid) }}
+            setValue={(value) => { setValueUser('username', value) }}></Input>
           <Input
             value={newUser.password}
             name='password' placeholder='Contraseña' type='password'
-            setValid={(valid) => setIsValidInput('password', valid)}
-            setValue={(value) => setValueUser('password', value)}></Input>
+            setValid={(valid) => { setIsValidInput('password', valid) }}
+            setValue={(value) => { setValueUser('password', value) }}></Input>
 
           <select name="role" className={`${inputClass}`} onChange={handleChange}>
             <option value={`${UserRole.USER}`}>{UserRole.USER.toUpperCase()}</option>
@@ -176,70 +176,70 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
           <Input
             value={newProfile.name}
             name='name' placeholder='Nombres completos' type='text'
-            setValid={(valid) => setIsValidInput('name', valid)}
-            setValue={(value) => setValueProfile('name', value)}></Input>
+            setValid={(valid) => { setIsValidInput('name', valid) }}
+            setValue={(value) => { setValueProfile('name', value) }}></Input>
 
           <Input
             value={newProfile.lastName}
             name='lastName' placeholder='Apellidos completos' type='text'
-            setValid={(valid) => setIsValidInput('lastName', valid)}
-            setValue={(value) => setValueProfile('lastName', value)}></Input>
+            setValid={(valid) => { setIsValidInput('lastName', valid) }}
+            setValue={(value) => { setValueProfile('lastName', value) }}></Input>
 
           <Input
             value={newProfile.dni}
             name='dni' placeholder='DNI' type='text'
-            setValid={(valid) => setIsValidInput('dni', valid)}
-            setValue={(value) => setValueProfile('dni', value)}></Input>
+            setValid={(valid) => { setIsValidInput('dni', valid) }}
+            setValue={(value) => { setValueProfile('dni', value) }}></Input>
 
           <Input
             value={newProfile.companyWhoHires}
             name='companyWhoHires' placeholder='Empresa quien contrata' type='text'
-            setValid={(valid) => setIsValidInput('companyWhoHires', valid)}
-            setValue={(value) => setValueProfile('companyWhoHires', value)}></Input>
+            setValid={(valid) => { setIsValidInput('companyWhoHires', valid) }}
+            setValue={(value) => { setValueProfile('companyWhoHires', value) }}></Input>
           <Input
             value={newProfile.company}
             name='company' placeholder='Empresa del transportista' type='text'
-            setValid={(valid) => setIsValidInput('company', valid)}
-            setValue={(value) => setValueProfile('company', value)}></Input>
+            setValid={(valid) => { setIsValidInput('company', valid) }}
+            setValue={(value) => { setValueProfile('company', value) }}></Input>
 
           <Input
             value={newProfile.email}
             name='email' placeholder='Correo electrónico' type='email'
-            setValid={(valid) => setIsValidInput('email', valid)}
-            setValue={(value) => setValueProfile('email', value)}></Input>
+            setValid={(valid) => { setIsValidInput('email', valid) }}
+            setValue={(value) => { setValueProfile('email', value) }}></Input>
 
           <Input
             value={newProfile.license}
             name='license' placeholder='Licencia' type='text'
-            setValid={(valid) => setIsValidInput('license', valid)}
-            setValue={(value) => setValueProfile('license', value)}></Input>
+            setValid={(valid) => { setIsValidInput('license', valid) }}
+            setValue={(value) => { setValueProfile('license', value) }}></Input>
 
           <Input
             value={newProfile.licenseCategory}
             name='licenseCategory' placeholder='Categoría de la licencia' type='text'
-            setValid={(valid) => setIsValidInput('licenseCategory', valid)}
-            setValue={(value) => setValueProfile('licenseCategory', value)}></Input>
+            setValid={(valid) => { setIsValidInput('licenseCategory', valid) }}
+            setValue={(value) => { setValueProfile('licenseCategory', value) }}></Input>
 
           <div className='my-2'>
             <label className='font-medium' htmlFor="licenseExpiration">Fecha de vencimiento de la licencia</label>
             <Input
               value={new Date(newProfile.licenseExpiration).toISOString().substring(0, 10)}
               name='licenseExpiration' placeholder='' type='date'
-              setValid={(valid) => setIsValidInput('licenseExpiration', valid)}
-              setValue={(value) => setValueProfile('licenseExpiration', value)}></Input>
+              setValid={(valid) => { setIsValidInput('licenseExpiration', valid) }}
+              setValue={(value) => { setValueProfile('licenseExpiration', value) }}></Input>
           </div>
 
           <Input
             value={newProfile.phone1}
             name='phone1' placeholder='Telefóno 1' type='tel'
-            setValid={(valid) => setIsValidInput('phone1', valid)}
-            setValue={(value) => setValueProfile('phone1', value)}></Input>
+            setValid={(valid) => { setIsValidInput('phone1', valid) }}
+            setValue={(value) => { setValueProfile('phone1', value) }}></Input>
 
           <Input
             value={newProfile.phone2}
             name='phone2' placeholder='Teléfono 2' type='tel'
-            setValid={(valid) => setIsValidInput('phone2', valid)}
-            setValue={(value) => setValueProfile('phone2', value)}></Input>
+            setValid={(valid) => { setIsValidInput('phone2', valid) }}
+            setValue={(value) => { setValueProfile('phone2', value) }}></Input>
 
           <div className='flex justify-center gap-5'>
             <Button color='secondary' onClick={close}>Cerrar</Button>

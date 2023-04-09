@@ -1,5 +1,5 @@
 import { AppServices } from '@/shared/service/app-api.service'
-import { Profile } from '../models/profile.entity'
+import { type Profile } from '../models/profile.entity'
 
 export class ProfileService extends AppServices {
   constructor () {

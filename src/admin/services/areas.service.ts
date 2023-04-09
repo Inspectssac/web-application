@@ -1,6 +1,6 @@
-import { Area, User } from '@/iam/models/user.model'
+import { type Area, type User } from '@/iam/models/user.model'
 import { AppServices } from '@/shared/service/app-api.service'
-import { AreaDto } from '../models/area-dto.interface'
+import { type AreaDto } from '../models/area-dto.interface'
 
 export class AreasService extends AppServices {
   constructor () {

@@ -1,5 +1,5 @@
 import { AppServices } from '@/shared/service/app-api.service'
-import { ExcelResponse } from '../models/excel-response.interface'
+import { type ExcelResponse } from '../models/excel-response.interface'
 
 export class AdminService extends AppServices {
   constructor () {

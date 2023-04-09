@@ -18,7 +18,7 @@ export class VehicleTypesService extends AppServices {
       .then(response => response.data)
   }
 
-  update = async (id: string, vehicleTypeDto: VehicleTypeDto): Promise<VehicleType> => {
+  update = async (vehicleTypeDto: VehicleTypeDto, id: string): Promise<VehicleType> => {
     return await this.patch<VehicleType>(`/${id}`, vehicleTypeDto)
       .then(response => response.data)
   }
@@ -28,8 +28,8 @@ export class VehicleTypesService extends AppServices {
       .then(response => response.data)
   }
 
-  assingParent = async (id: string, parentId: string): Promise<VehicleType> => {
-    return await this.patch<VehicleType>(`/${id}/assign-parent/${parentId}`)
+  assingChild = async (id: string, childId: string): Promise<VehicleType> => {
+    return await this.patch<VehicleType>(`/${id}/assign-child/${childId}`)
       .then(response => response.data)
   }
 

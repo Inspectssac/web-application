@@ -1,9 +1,9 @@
 import { AppServices } from '@/shared/service/app-api.service'
 import { StatusCodes } from 'http-status-codes'
-import { LoginData } from '../models/interfaces/login.interface'
-import { UserApiResponse } from '../models/interfaces/user-api.interface'
-import { UserStorage } from '../models/interfaces/user-storage.interface'
-import { User } from '../models/user.model'
+import { type LoginData } from '../models/interfaces/login.interface'
+import { type UserApiResponse } from '../models/interfaces/user-api.interface'
+import { type UserStorage } from '../models/interfaces/user-storage.interface'
+import { type User } from '../models/user.model'
 import { TokenService } from './token.service'
 
 export class AuthServices extends AppServices {

@@ -21,7 +21,9 @@ const VEHICLE_TYPE_INITIAL_STATE: VehicleType = {
   name: '',
   createdAt: '',
   updatedAt: '',
-  materials: []
+  materials: [],
+  children: [],
+  parent: null
 }
 
 const AssingVehicleType = ({ reportType, reportTypeVehicleTypes, update, close }: AssingVehicleTypeProps): ReactElement => {

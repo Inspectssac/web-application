@@ -1,5 +1,5 @@
-import { Profile } from '@/profiles/models/profile.entity'
-import { Observation } from './observation.interface'
+import { type Profile } from '@/profiles/models/profile.entity'
+import { type Observation } from './observation.interface'
 
 export interface Checkpoint {
   id: string

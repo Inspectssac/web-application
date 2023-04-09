@@ -1,4 +1,4 @@
-import { VehicleType } from './vehicle-type.interface'
+import { type VehicleType } from './vehicle-type.interface'
 
 export interface Vehicle {
   createdAt: string

@@ -1,6 +1,6 @@
-import { FieldValue } from '@/reports/models/field-value.interface'
-import { Field } from '@/reports/models/field.entity'
-import React, { ReactElement, useEffect, useState } from 'react'
+import { type FieldValue } from '@/reports/models/field-value.interface'
+import { type Field } from '@/reports/models/field.entity'
+import React, { type ReactElement, useEffect, useState } from 'react'
 import FieldValueForm from './FieldValueForm'
 
 interface FieldValueProp {

@@ -1,5 +1,5 @@
 import { AppServices } from '@/shared/service/app-api.service'
-import { Material, MaterialDto } from '../models/material.interface'
+import { type Material, type MaterialDto } from '../models/material.interface'
 
 export class MaterialsService extends AppServices {
   constructor () {

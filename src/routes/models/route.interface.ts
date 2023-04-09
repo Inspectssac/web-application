@@ -1,6 +1,6 @@
-import { RouteProfile } from '@/profiles/models/route-profile.interface'
-import { Report } from '@/reports/models/report.interface'
-import { Vehicle } from './vehicles.interface'
+import { type RouteProfile } from '@/profiles/models/route-profile.interface'
+import { type Report } from '@/reports/models/report.interface'
+import { type Vehicle } from './vehicles.interface'
 
 export interface Route {
   id: string

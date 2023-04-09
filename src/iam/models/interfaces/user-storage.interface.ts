@@ -1,4 +1,4 @@
-import { Area } from '../user.model'
+import { type Area } from '../user.model'
 
 export interface UserStorage {
   id: string

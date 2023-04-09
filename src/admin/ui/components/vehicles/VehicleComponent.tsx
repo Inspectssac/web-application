@@ -1,5 +1,5 @@
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
-import { Vehicle } from '@/routes/models/vehicles.interface'
+import React, { type ReactElement, useContext, useEffect, useState } from 'react'
+import { type Vehicle } from '@/routes/models/vehicles.interface'
 import { VehiclesService } from '@/routes/services/vehicle.service'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
 import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
@@ -10,7 +10,7 @@ import { toast } from 'react-toastify'
 // import Table from '@/shared/ui/components/Table'
 import ImportModal from '../ImportModal'
 import { VehicleToastContext } from '../../pages/VehiclesView'
-import Table, { Action, Column } from '@/shared/ui/components/table/Table'
+import Table, { type Action, type Column } from '@/shared/ui/components/table/Table'
 
 const VehicleComponent = (): ReactElement => {
   const toastContext = useContext(VehicleToastContext)

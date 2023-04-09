@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { type ReactElement } from 'react'
 import { Outlet, Navigate, useLocation } from 'react-router-dom'
 import Header from './Header'
 import { useSelector } from 'react-redux'

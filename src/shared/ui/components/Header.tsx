@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { type ReactElement, useState } from 'react'
 
 import useMediaQuery from '../../hooks/userMediaQuery'
 import NavBar from './NavBar'
@@ -18,7 +18,7 @@ const Header = (): ReactElement => {
 
   const hamburgerMenu = (): ReactElement => (
     <button
-      onClick={() => setIsMenuToggled(!isMenuToggled)}
+      onClick={() => { setIsMenuToggled(!isMenuToggled) }}
     >
       <img
         className='w-full min-w-[35px]'
@@ -30,7 +30,7 @@ const Header = (): ReactElement => {
     <div className={'absolute bg-black top-0 left-0 w-full text-center transition'}>
       <NavBar handleClick={handleLinkClick} extraLinkClasses='block hover:bg-blue' />
       <button
-        onClick={() => setIsMenuToggled(!isMenuToggled)}
+        onClick={() => { setIsMenuToggled(!isMenuToggled) }}
         className='mt-3'
       >
         <img

@@ -1,5 +1,5 @@
-import { Checkpoint } from './checkpoint.interface'
-import { ReportType } from './report-type.interface'
+import { type Checkpoint } from './checkpoint.interface'
+import { type ReportType } from './report-type.interface'
 
 export interface Report {
   createdAt: string

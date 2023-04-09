@@ -1,8 +1,8 @@
-import { LoginData } from '@/iam/models/interfaces/login.interface'
+import { type LoginData } from '@/iam/models/interfaces/login.interface'
 import { AuthServices } from '@/iam/services/auth.service'
-import { createAsyncThunk, createSlice, SliceCaseReducers } from '@reduxjs/toolkit'
-import { STATUS, AUTH_STATE } from '@/shared/config/store/types'
-import { UserStorage } from '@/iam/models/interfaces/user-storage.interface'
+import { createAsyncThunk, createSlice, type SliceCaseReducers } from '@reduxjs/toolkit'
+import { STATUS, type AUTH_STATE } from '@/shared/config/store/types'
+import { type UserStorage } from '@/iam/models/interfaces/user-storage.interface'
 
 const getInitialState = (): AUTH_STATE => {
   const userJson = localStorage.getItem('user')

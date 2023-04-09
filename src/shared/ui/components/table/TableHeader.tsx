@@ -1,6 +1,6 @@
 import { SortIconAsc, SortIconDesc } from '@/shared/ui/components/table/SortIcons'
-import React, { ReactElement, useContext } from 'react'
-import { Column } from './Table'
+import React, { type ReactElement, useContext } from 'react'
+import { type Column } from './Table'
 import TableContext from './TableContext'
 
 interface TableHeaderProps {
@@ -36,7 +36,7 @@ const TableHeader = ({ columns, hasActions }: TableHeaderProps): ReactElement =>
       <tr>
         {
           columns?.map((column, index) => (
-            <th key={index} onClick={() => onClick(column)} className={`${tableHeadStyle} ${column.sortFunc !== undefined ? 'cursor-pointer' : ''}`}>
+            <th key={index} onClick={() => { onClick(column) }} className={`${tableHeadStyle} ${column.sortFunc !== undefined ? 'cursor-pointer' : ''}`}>
               <p className='flex items-center justify-center gap-4'>
                 {column.columnName.toUpperCase()}
                 {sortIcon(column)}

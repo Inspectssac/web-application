@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { type ReactElement } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import router from '@/shared/config/router'
 

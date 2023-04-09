@@ -1,4 +1,4 @@
-import { Field } from './field.entity'
+import { type Field } from './field.entity'
 
 export interface GroupField {
   fieldId: string

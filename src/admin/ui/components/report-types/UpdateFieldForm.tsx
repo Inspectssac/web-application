@@ -1,10 +1,10 @@
-import { GroupFieldDto } from '@/reports/models/interfaces/group-field-dto.interface'
-import { GroupField } from '@/reports/models/group-field.interface'
+import { type GroupFieldDto } from '@/reports/models/interfaces/group-field-dto.interface'
+import { type GroupField } from '@/reports/models/group-field.interface'
 import Button from '@/shared/ui/components/Button'
-import React, { ReactElement, useContext, useState } from 'react'
+import React, { type ReactElement, useContext, useState } from 'react'
 import { toast } from 'react-toastify'
 import { GroupsService } from '@/reports/services/group.service'
-import { Group } from '@/reports/models/group.interface'
+import { type Group } from '@/reports/models/group.interface'
 import { ReportToastContext } from '../../pages/ReportsView'
 
 interface UpdateFieldFormProps {
@@ -42,7 +42,7 @@ const UpdateFieldForm = ({ group, groupField, closeModal, onFinishSubmit }: Upda
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    const fieldId = groupField ? groupField.fieldId : 0
+    const fieldId = groupField ? groupField.fieldId : ''
     void groupsService.updateField(group.id, fieldId, inputValue)
       .then((response) => {
         onFinishSubmit(response)

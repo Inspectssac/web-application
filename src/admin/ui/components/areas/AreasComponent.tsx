@@ -1,6 +1,6 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { type ReactElement, useEffect, useState } from 'react'
 import { AreasService } from '@/admin/services/areas.service'
-import { Area } from '@/iam/models/user.model'
+import { type Area } from '@/iam/models/user.model'
 // import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
 import AreaForm from './AreaForm'
@@ -75,7 +75,7 @@ const AreasComponent = ({ toastId }: AreaComponentProps): ReactElement => {
               className={'w-full flex justify-between items-center py-2 border-b-2 last-of-type:border-b-0'}>
               <p className='px-2'>{area.name}</p>
               <div className='flex gap-3 px-2'>
-                <EditIcon className='cursor-pointer w-5 h-5' onClick={() => update(area)} />
+                <EditIcon className='cursor-pointer w-5 h-5' onClick={() => { update(area) }} />
               </div>
             </div>
           ))

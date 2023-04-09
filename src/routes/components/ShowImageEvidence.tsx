@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { type ReactElement, useState } from 'react'
 import Button from '@/shared/ui/components/Button'
 import Modal from '@/shared/ui/components/Modal'
 import Spinner from '@/shared/ui/components/Spinner'
