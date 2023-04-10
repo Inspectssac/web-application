@@ -20,7 +20,7 @@ const Home = (): ReactElement => {
   useEffect(() => {
     const reportsJson = localStorage.getItem('routes-request')
     if (!reportsJson) {
-      void dispatch(findAllRoutes({ dateRange: new DateRange(), profileid: '' }))
+      void dispatch(findAllRoutes({ dateRange: new DateRange(), profileId: '' }))
     }
   }, [reports])
 
@@ -29,7 +29,7 @@ const Home = (): ReactElement => {
   }, [reports])
 
   const findAll = (): void => {
-    void dispatch(findAllRoutes({ dateRange, profileid: '' }))
+    void dispatch(findAllRoutes({ dateRange, profileId: '' }))
   }
 
   const onChangeInputDate = (event: React.ChangeEvent<HTMLInputElement>): void => {
