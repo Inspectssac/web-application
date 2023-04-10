@@ -11,8 +11,12 @@ interface VehicleTypeContextInterface {
   remove: (id: string) => void
 
   selectedVehicleType: VehicleType | null
-  vehicleTypeTab: VehicleTypeTab
   setSelectedVehicleType: (vehicleType: VehicleType | null) => void
+
+  vehicleTypeTab: VehicleTypeTab
+
+  vehicleTypeForm: VehicleType | null
+  setVehicleTypeForm: (vehicleType: VehicleType | null) => void
 }
 
 export const VehicleTypeContext = React.createContext<VehicleTypeContextInterface>({
@@ -22,6 +26,8 @@ export const VehicleTypeContext = React.createContext<VehicleTypeContextInterfac
   update: () => { },
   remove: () => { },
   selectedVehicleType: null,
+  setSelectedVehicleType: () => { },
   vehicleTypeTab: 'materials',
-  setSelectedVehicleType: () => { }
+  vehicleTypeForm: null,
+  setVehicleTypeForm: () => { }
 })

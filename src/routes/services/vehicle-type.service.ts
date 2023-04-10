@@ -1,7 +1,6 @@
 import { AppServices } from '@/shared/service/app-api.service'
-import { type VehicleTypeDto } from '../models/interface/vehicle-type-dto.interface'
 import { type Material } from '../models/material.interface'
-import { type VehicleType } from '../models/vehicle-type.interface'
+import { type VehicleTypeDto, type VehicleType } from '../models/vehicle-type.interface'
 
 export class VehicleTypesService extends AppServices {
   constructor () {
@@ -30,6 +29,11 @@ export class VehicleTypesService extends AppServices {
 
   assingChild = async (id: string, childId: string): Promise<VehicleType> => {
     return await this.patch<VehicleType>(`/${id}/assign-child/${childId}`)
+      .then(response => response.data)
+  }
+
+  removeChild = async (id: string, childId: string): Promise<VehicleType> => {
+    return await this.patch<VehicleType>(`/${id}/remove-child/${childId}`)
       .then(response => response.data)
   }
 

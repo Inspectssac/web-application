@@ -1,5 +1,5 @@
 import React, { type ReactElement, useContext, useEffect, useState } from 'react'
-import { type VehicleType } from '@/routes/models/vehicle-type.interface'
+import { VEHICLE_TYPE_INITIAL_STATE, type VehicleType } from '@/routes/models/vehicle-type.interface'
 import { VehicleTypesService } from '@/routes/services/vehicle-type.service'
 import Modal from '@/shared/ui/components/Modal'
 import Button from '@/shared/ui/components/Button'
@@ -16,16 +16,6 @@ interface AssingVehicleTypeProps {
   close: () => void
 }
 
-const VEHICLE_TYPE_INITIAL_STATE: VehicleType = {
-  id: '',
-  name: '',
-  createdAt: '',
-  updatedAt: '',
-  materials: [],
-  children: [],
-  parent: null
-}
-
 const AssingVehicleType = ({ reportType, reportTypeVehicleTypes, update, close }: AssingVehicleTypeProps): ReactElement => {
   const reportToastContext = useContext(ReportToastContext)
   const vehicleTypeService = new VehicleTypesService()
@@ -40,7 +30,7 @@ const AssingVehicleType = ({ reportType, reportTypeVehicleTypes, update, close }
     void vehicleTypeService.findAll()
       .then(response => {
         const actualVehicleTypeIds = reportTypeVehicleTypes.map(vehicleType => vehicleType.id)
-        setVehicleTypes(response.filter(vehicleType => !actualVehicleTypeIds.includes(vehicleType.id)))
+        setVehicleTypes(response.filter(vehicleType => !actualVehicleTypeIds.includes(vehicleType.id) && !vehicleType.isCart))
       })
   }, [reportTypeVehicleTypes])
 

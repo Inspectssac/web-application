@@ -29,7 +29,7 @@ const AssignSubtype = ({ close }: AssignSubtypeProps): ReactElement => {
     void vehicleTypeService.findAll()
       .then(response => {
         const actualSubtypes = vehicleType?.children.map(vehicleType => vehicleType.id)
-        setSubtypes(response.filter(subtype => !actualSubtypes?.includes(subtype.id) && subtype.id !== vehicleType?.id && subtype.parent === null && subtype.children.length <= 0))
+        setSubtypes(response.filter(subtype => !actualSubtypes?.includes(subtype.id) && subtype.isCart && subtype.parent === null))
       })
   }, [vehicleType])
 
@@ -48,7 +48,6 @@ const AssignSubtype = ({ close }: AssignSubtypeProps): ReactElement => {
     const vehicleTypeService = new VehicleTypesService()
     void vehicleTypeService.assingChild(vehicleType?.id ?? '', selectedSubtype.id ?? '')
       .then(response => {
-        console.log(response)
         setVehicleType(response)
         update(response)
         close()

@@ -33,6 +33,7 @@ const REPORT_TYPE_INITIAL_STATE: ReportType = {
   updatedAt: '',
   id: '',
   name: '',
+  active: true,
   vehicleTypes: []
 }
 

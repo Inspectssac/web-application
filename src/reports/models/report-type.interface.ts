@@ -5,5 +5,6 @@ export interface ReportType {
   updatedAt: string
   id: string
   name: string
+  active: boolean
   vehicleTypes: VehicleType[]
 }

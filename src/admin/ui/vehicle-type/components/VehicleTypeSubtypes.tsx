@@ -12,10 +12,7 @@ const VehicleTypeSubTypes = (): ReactElement => {
   const [showAssignSubtype, setShowAssignSubtype] = React.useState(false)
 
   const subTypes = useMemo(
-    () => {
-      console.log('vehicleType?.children', vehicleType?.children)
-      return vehicleType?.children ?? []
-    }
+    () => vehicleType?.children ?? []
     , [vehicleType])
 
   const body = (): React.ReactElement => {

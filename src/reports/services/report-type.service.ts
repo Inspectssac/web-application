@@ -41,6 +41,11 @@ export class ReportTypesService extends AppServices {
       .then(response => response.data)
   }
 
+  toggleActive = async (id: string): Promise<ReportType> => {
+    return await this.patch<ReportType>(`/${id}/toggle-active`)
+      .then(response => response.data)
+  }
+
   createGroup = async (reportTypeId: string, group: Pick<Group, 'name'>): Promise<Group> => {
     return await this.post<Group>(`/${reportTypeId}/groups`, group)
       .then(response => response.data)

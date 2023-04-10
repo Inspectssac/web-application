@@ -18,13 +18,20 @@ export type VehicleTypeTab = 'materials' | 'subtypes'
 const VehicleTypesView = (): ReactElement => {
   const [vehicleTypes, set, add, update, remove] = useArrayReducer<VehicleType>([])
   const [selectedVehicleType, setSelectedVehicleType] = useState<VehicleType | null>(null)
+  const [vehicleTypeForm, setVehicleTypeForm] = useState<VehicleType | null>(null)
   const [vehicleTypeTab, setVehicleTypeTab] = useState<VehicleTypeTab>('materials')
 
   useEffect(() => {
     const vehicleTypesService = new VehicleTypesService()
     void vehicleTypesService.findAll()
       .then(response => {
-        response.sort((a, b) => a.id > b.id ? 1 : -1)
+        response.sort((a, b) => {
+          const boolDiff = Number(a.isCart) - Number(b.isCart)
+
+          if (boolDiff !== 0) return boolDiff
+
+          return a.name.localeCompare(b.name)
+        })
         set(response)
       })
   }, [])
@@ -32,6 +39,12 @@ const VehicleTypesView = (): ReactElement => {
   useEffect(() => {
     if (vehicleTypes.length > 0 && selectedVehicleType === null) setSelectedVehicleType(vehicleTypes[0])
   }, [vehicleTypes])
+
+  useEffect(() => {
+    if (selectedVehicleType?.isCart) {
+      setVehicleTypeTab('materials')
+    }
+  }, [selectedVehicleType])
 
   return (
     <VehicleTypeContext.Provider
@@ -42,8 +55,10 @@ const VehicleTypesView = (): ReactElement => {
         update,
         remove,
         selectedVehicleType,
+        setSelectedVehicleType,
         vehicleTypeTab,
-        setSelectedVehicleType
+        vehicleTypeForm,
+        setVehicleTypeForm
       }}>
 
       <div className='container-page'>
@@ -55,7 +70,7 @@ const VehicleTypesView = (): ReactElement => {
           </h1>
           <div className='flex gap-3'>
             <Button color={vehicleTypeTab === 'materials' ? 'primary' : 'secondary'} onClick={() => { setVehicleTypeTab('materials') }}>Materiales</Button>
-            <Button color={vehicleTypeTab === 'subtypes' ? 'primary' : 'secondary'} onClick={() => { setVehicleTypeTab('subtypes') }}>Subtipos</Button>
+            {!selectedVehicleType?.isCart && <Button color={vehicleTypeTab === 'subtypes' ? 'primary' : 'secondary'} onClick={() => { setVehicleTypeTab('subtypes') }}>Carretas</Button>}
           </div>
         </div>
 

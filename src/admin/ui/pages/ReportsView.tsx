@@ -2,17 +2,20 @@ import React, { type ReactElement, useEffect, useState } from 'react'
 import { type ReportType } from '@/reports/models/report-type.interface'
 import { ReportTypesService } from '@/reports/services/report-type.service'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
-import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 import ReportTypeForm from '../components/report-types/ReportTypeForm'
 import GroupsComponent from '../components/groups/GroupsComponent'
 import Toast from '@/shared/ui/components/Toast'
 import VehicleTypeList from '../components/report-types/VehicleTypeList'
+import { toast } from 'react-toastify'
+import ToggleOnIcon from '@/shared/ui/assets/icons/ToogleOnIcon'
+import ToggleOffIcon from '@/shared/ui/assets/icons/ToggleOfIcon'
 
 const INITIAL_STATE: ReportType = {
   createdAt: '',
   updatedAt: '',
   id: '',
   name: '',
+  active: true,
   vehicleTypes: []
 }
 
@@ -39,7 +42,7 @@ const ReportsView = (): ReactElement => {
   }, [])
 
   useEffect(() => {
-    if (reportTypes.length > 0) setSelectedReportType(reportTypes[0])
+    if (reportTypes.length > 0 && selectedReportType === INITIAL_STATE) setSelectedReportType(reportTypes[0])
   }, [reportTypes])
 
   useEffect(() => {
@@ -77,6 +80,18 @@ const ReportsView = (): ReactElement => {
     setReportTypes(reportTypeList)
   }
 
+  const handleToggleRerportTypeActive = (reportType: ReportType): void => {
+    void reportTypesService.toggleActive(reportType.id)
+      .then((response) => {
+        updateReportTypeList(response, response.id)
+        toast('Tipo de checklist actualizado correctamente', { toastId: TOAST_ID, type: 'success' })
+      })
+      .catch((error) => {
+        const { message } = error.data
+        toast(message, { toastId: TOAST_ID, type: 'error' })
+      })
+  }
+
   return (
     <ReportToastContext.Provider value={{ id: TOAST_ID }}>
       <div className='container-page'>
@@ -98,7 +113,13 @@ const ReportsView = (): ReactElement => {
                         <p className='px-2'>{reportType.name}</p>
                         <div className='flex gap-3 px-2'>
                           <EditIcon className='cursor-pointer w-5 h-5' onClick={() => { handleUpdate(reportType) }} />
-                          <DeleteIcon className='cursor-pointer w-5 h-5 ' onClick={() => { console.log('click') }} />
+                          <div onClick={() => { handleToggleRerportTypeActive(reportType) }}>
+                            {
+                              reportType.active
+                                ? (<ToggleOnIcon className='w-6 h-6 cursor-pointer text-success' />)
+                                : (<ToggleOffIcon className='w-6 h-6 cursor-pointer' />)
+                            }
+                          </div>
                         </div>
                       </div>
                         ))
