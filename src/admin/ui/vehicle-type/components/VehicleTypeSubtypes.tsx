@@ -29,7 +29,7 @@ const VehicleTypeSubTypes = (): ReactElement => {
       .then(response => {
         setVehicleType(response)
         update(response)
-        toast('Subtipo eliminado correctamente', { toastId, type: 'success' })
+        toast('Carreta desasignada correctamente', { toastId, type: 'success' })
       })
       .catch(error => {
         const { message } = error.data
@@ -41,8 +41,8 @@ const VehicleTypeSubTypes = (): ReactElement => {
     return (
       <section>
         <div className='flex justify-between items-center mb-3 gap-4'>
-          <h2 className='uppercase font-bold text-lg'>Subtipos asignados al <span className='text-red'>tipo de vehiculo {vehicleType?.name}</span></h2>
-          <Button color='primary' onClick={() => { setShowAssignSubtype(true) }}>Agregar subtipo</Button>
+          <h2 className='uppercase font-bold text-lg'>Carretas asignadas al <span className='text-red'>tipo de vehiculo {vehicleType?.name}</span></h2>
+          <Button color='primary' onClick={() => { setShowAssignSubtype(true) }}>Agregar Carreta</Button>
         </div>
         {
           subTypes.length > 0
