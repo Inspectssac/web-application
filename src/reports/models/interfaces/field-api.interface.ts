@@ -16,12 +16,12 @@ export interface FieldApiResponse {
 
 export const transformAllToFieldArrayEntity = (fieldsApi: FieldApiResponse[]): Field[] => {
   return fieldsApi.map((fieldApi) => {
-    const { createdAt, updatedAt, value, ...field } = fieldApi
+    const { value, ...field } = fieldApi
     return field
   })
 }
 
 export const transformToFieldEntity = (fieldApi: FieldApiResponse): Field => {
-  const { createdAt, updatedAt, value, ...field } = fieldApi
+  const { value, ...field } = fieldApi
   return field
 }

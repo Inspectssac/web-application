@@ -9,6 +9,7 @@ import VehicleTypeList from '../components/report-types/VehicleTypeList'
 import { toast } from 'react-toastify'
 import ToggleOnIcon from '@/shared/ui/assets/icons/ToogleOnIcon'
 import ToggleOffIcon from '@/shared/ui/assets/icons/ToggleOfIcon'
+import { REPORT_TYPE_GROUP_INITIAL_STATE } from '@/reports/models/report-type-group.interface'
 
 const INITIAL_STATE: ReportType = {
   createdAt: '',
@@ -16,7 +17,8 @@ const INITIAL_STATE: ReportType = {
   id: '',
   name: '',
   active: true,
-  vehicleTypes: []
+  vehicleTypes: [],
+  reportTypeGroup: REPORT_TYPE_GROUP_INITIAL_STATE
 }
 
 type FormAction = 'add' | 'update'

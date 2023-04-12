@@ -10,6 +10,7 @@ import RoutesServices, { RoutePDFServices } from '../services/route.services'
 import { type FieldGroup } from '@/reports/models/group.interface'
 import { type ReportType } from '@/reports/models/report-type.interface'
 import Button from '@/shared/ui/components/Button'
+import { REPORT_TYPE_GROUP_INITIAL_STATE } from '@/reports/models/report-type-group.interface'
 
 const ROUTE_INITIAL_STATE: Route = {
   id: '',
@@ -37,7 +38,8 @@ const REPORT_TYPE_INITIAL_STATE: ReportType = {
   id: '',
   name: '',
   active: true,
-  vehicleTypes: []
+  vehicleTypes: [],
+  reportTypeGroup: REPORT_TYPE_GROUP_INITIAL_STATE
 }
 
 const REPORT_INITIAL_STATE: Report = {

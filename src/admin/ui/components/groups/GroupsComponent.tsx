@@ -24,7 +24,8 @@ const GROUP_STATE: Group = {
   createdAt: '',
   fieldsGroups: [],
   reportTypeId: '',
-  updatedAt: ''
+  updatedAt: '',
+  active: true
 }
 
 const GroupsComponent = ({ reportType }: GroupsComponentProps): ReactElement => {
