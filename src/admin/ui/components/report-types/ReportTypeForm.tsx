@@ -29,7 +29,7 @@ const ReportTypeForm = ({ reportType, formAction, reset, onFinishSubmit }: Repor
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    const { id, createdAt, updatedAt, vehicleTypes, ...newField } = inputValue
+    const { id, createdAt, updatedAt, vehicleTypes, active, reportTypeGroup, ...newField } = inputValue
 
     if (formAction === 'update') {
       void reportTypesService.update(id, newField)
