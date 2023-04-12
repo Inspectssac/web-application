@@ -4,16 +4,38 @@ import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
 
 import { VehicleTypeContext } from '@/admin/ui/vehicle-type/context'
 import AssignSubtype from './AssignSubtype'
+import { type VehicleType } from '@/routes/models/vehicle-type.interface'
+import { VehicleTypesService } from '@/routes/services/vehicle-type.service'
+import { toast } from 'react-toastify'
 
 const VehicleTypeSubTypes = (): ReactElement => {
   const {
-    selectedVehicleType: vehicleType
+    selectedVehicleType: vehicleType,
+    setSelectedVehicleType: setVehicleType,
+    update,
+    toastId
   } = useContext(VehicleTypeContext)
   const [showAssignSubtype, setShowAssignSubtype] = React.useState(false)
 
   const subTypes = useMemo(
     () => vehicleType?.children ?? []
     , [vehicleType])
+
+  const removeChild = (subtype: VehicleType): void => {
+    const result = confirm(`Estás seguro que quieres desaginar la carreta: ${subtype.name ?? ''}`)
+    if (!result) return
+    const vehicleTypeService = new VehicleTypesService()
+    void vehicleTypeService.removeChild(vehicleType?.id ?? '', subtype.id ?? '')
+      .then(response => {
+        setVehicleType(response)
+        update(response)
+        toast('Subtipo eliminado correctamente', { toastId, type: 'success' })
+      })
+      .catch(error => {
+        const { message } = error.data
+        toast(message, { toastId, type: 'error' })
+      })
+  }
 
   const body = (): React.ReactElement => {
     return (
@@ -27,10 +49,10 @@ const VehicleTypeSubTypes = (): ReactElement => {
             ? (
               <div className='flex gap-4 flex-wrap'>
                 {
-                  subTypes.map(material => (
-                    <div key={material.id} className='max-w-[220px] p-7 bg-black text-white rounded-lg flex flex-col justify-between items-center gap-2'>
-                      <p className='uppercase'>{material.name}</p>
-                      <DeleteIcon className='w-6 h-6 cursor-pointer text-red' onClick={() => { }} />
+                  subTypes.map(subtType => (
+                    <div key={subtType.id} className='max-w-[220px] p-7 bg-black text-white rounded-lg flex flex-col justify-between items-center gap-2'>
+                      <p className='uppercase'>{subtType.name}</p>
+                      <DeleteIcon className='w-6 h-6 cursor-pointer text-red' onClick={() => { removeChild(subtType) }} />
                     </div>
                   ))
                 }

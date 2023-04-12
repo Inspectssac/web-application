@@ -1,6 +1,7 @@
 export interface Profile {
   createdAt: string
   updatedAt: string
+  active: boolean
   id: string
   name: string
   lastName: string

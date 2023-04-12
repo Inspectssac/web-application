@@ -26,7 +26,7 @@ const INITIAL_STATE = {
 
 const getInitialState = (group: Group | null): Pick<Group, 'name'> => {
   if (group === null) return INITIAL_STATE
-  const { createdAt, updatedAt, id, reportTypeId, fieldsGroups, ...groupDto } = group
+  const { createdAt, updatedAt, id, reportTypeId, fieldsGroups, active, ...groupDto } = group
   return groupDto
 }
 

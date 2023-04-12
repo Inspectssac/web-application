@@ -19,10 +19,12 @@ interface AssignFieldFormProps {
   close: () => void
 }
 
-const FIELD_INITIAL_STATE = {
+const FIELD_INITIAL_STATE: Field = {
   id: '',
   name: '',
   placeholder: '',
+  createdAt: '',
+  updatedAt: '',
   type: FieldType.TEXT,
   active: true,
   values: []
@@ -78,6 +80,7 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit, close }: AssignFi
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
+
     void groupsService.assignField(group.id, selectedField.id, inputValue)
       .then((response) => {
         onFinishSubmit(response)

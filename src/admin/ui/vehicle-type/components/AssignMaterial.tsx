@@ -23,7 +23,8 @@ const MATERIAL_INITIAL_STATE: Material = {
   id: '',
   name: '',
   createdAt: '',
-  updatedAt: ''
+  updatedAt: '',
+  active: true
 }
 
 const AssignMaterial = ({ vehicleTypeMaterials, vehicleType, update, close }: AssingMaterialProps): ReactElement => {

@@ -27,7 +27,8 @@ const PROFILE_INIT_STATE: ProfileDto = {
   licenseCategory: '',
   licenseExpiration: new Date().toISOString(),
   phone1: '',
-  phone2: ''
+  phone2: '',
+  active: true
 }
 
 const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps): ReactElement => {

@@ -22,7 +22,7 @@ const GROUP_FIELD_INITIAL_STATE = {
 
 const getInitialState = (groupField: GroupField | null): GroupFieldDto => {
   if (groupField === null) return GROUP_FIELD_INITIAL_STATE
-  const { field, fieldId, groupId, ...groupFieldDto } = groupField
+  const { field, fieldId, groupId, priority, ...groupFieldDto } = groupField
   return groupFieldDto
 }
 

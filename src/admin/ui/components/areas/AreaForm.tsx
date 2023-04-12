@@ -22,7 +22,7 @@ const INITIAL_STATE = {
 
 const getInitialState = (area: Area | null): AreaDto => {
   if (area === null) return INITIAL_STATE
-  const { id, createdAt, updatedAt, ...areaDto } = area
+  const { id, createdAt, updatedAt, active, ...areaDto } = area
   return areaDto
 }
 

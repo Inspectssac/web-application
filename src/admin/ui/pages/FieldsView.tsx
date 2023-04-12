@@ -11,10 +11,12 @@ import EditIcon from '@/shared/ui/assets/icons/EditIcon'
 import ToggleOnIcon from '@/shared/ui/assets/icons/ToogleOnIcon'
 import ToggleOffIcon from '@/shared/ui/assets/icons/ToggleOfIcon'
 
-const INITIAL_STATE = {
+const INITIAL_STATE: Field = {
   id: '',
   name: '',
   placeholder: '',
+  createdAt: '',
+  updatedAt: '',
   type: FieldType.TEXT,
   active: true,
   values: []

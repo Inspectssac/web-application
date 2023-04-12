@@ -18,6 +18,7 @@ import Redirect from '@/shared/ui/components/Redirect'
 import TermsAndConditions from '@/shared/ui/pages/TermsAndConditions'
 import VehiclesView from '@/admin/ui/pages/VehiclesView'
 import MaterialsView from '@/admin/ui/pages/MaterialsView'
+import ReportTypeGroupView from '@/admin/ui/report-type-group'
 
 const authRequiredRoutes: RouteObject[] = [
   {
@@ -50,8 +51,12 @@ const authRequiredRoutes: RouteObject[] = [
         element: <UsersView />
       },
       {
+        path: 'grupos-reportes',
+        element: <ReportTypeGroupView />
+      },
+      {
         path: 'reportes',
-        element: <ReportsView />
+        element: <ReportsView/>
       },
       {
         path: 'campos',

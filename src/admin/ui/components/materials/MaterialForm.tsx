@@ -22,7 +22,7 @@ const INITIAL_STATE = {
 
 const getInitialState = (material: Material | null): MaterialDto => {
   if (material === null) return INITIAL_STATE
-  const { id, createdAt, updatedAt, ...materialDto } = material
+  const { id, createdAt, updatedAt, active, ...materialDto } = material
   return materialDto
 }
 

@@ -39,6 +39,7 @@ const VehicleTypeComponent = (): ReactElement => {
   }
 
   const removeVehicleType = (vehicleType: VehicleType): void => {
+    console.log('removeVehicleType')
     const vehicleTypesService = new VehicleTypesService()
     const result = confirm(`Estás seguro que quieres eliminar el tipo de vehículo: ${vehicleType.name}`)
     if (!result) return

@@ -3,11 +3,12 @@ export interface Group {
   name: string
   createdAt: string
   updatedAt: string
+  active: boolean
   reportTypeId: string
   fieldsGroups: []
 }
 
-export interface ReportGroup {
+export interface FieldGroup {
   id: string
   name: string
 }

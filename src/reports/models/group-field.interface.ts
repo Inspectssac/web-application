@@ -7,4 +7,5 @@ export interface GroupField {
   maxLength: number
   isCritical: boolean
   needImage: boolean
+  priority: string
 }

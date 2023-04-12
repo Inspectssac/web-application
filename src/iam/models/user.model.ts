@@ -2,8 +2,8 @@ import { type UserRole } from '@/admin/models/role.enum'
 import { type Profile } from '@/profiles/models/profile.entity'
 
 export interface User {
-  updatedAt: string
   createdAt: string
+  updatedAt: string
   id: string
   username: string
   password: string
@@ -16,6 +16,7 @@ export interface User {
 export interface Area {
   id: string
   name: string
-  updatedAt: string
   createdAt: string
+  updatedAt: string
+  active: boolean
 }

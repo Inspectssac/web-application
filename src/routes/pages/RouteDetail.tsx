@@ -7,11 +7,11 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import ShowImageEvidence from '../components/ShowImageEvidence'
 import { type Route } from '../models/route.interface'
 import RoutesServices, { RoutePDFServices } from '../services/route.services'
-import { type ReportGroup } from '@/reports/models/group.interface'
+import { type FieldGroup } from '@/reports/models/group.interface'
 import { type ReportType } from '@/reports/models/report-type.interface'
 import Button from '@/shared/ui/components/Button'
 
-const ROUTE_INITIAL_STATE = {
+const ROUTE_INITIAL_STATE: Route = {
   id: '',
   createdAt: '',
   updatedAt: '',
@@ -23,6 +23,9 @@ const ROUTE_INITIAL_STATE = {
   checked: false,
   doubleLicensePlate: false,
   isFull: false,
+  message: '',
+  active: true,
+  state: '',
   vehicles: [],
   reports: [],
   routeProfiles: []
@@ -43,6 +46,7 @@ const REPORT_INITIAL_STATE: Report = {
   id: '',
   location: '',
   checked: false,
+  active: true,
   type: '',
   checkpoints: [],
   routeId: '',
@@ -62,7 +66,7 @@ const RouteDetail = (): ReactElement => {
   const [route, setRoute] = useState<Route>(ROUTE_INITIAL_STATE)
   const [report, setReport] = useState<Report>(REPORT_INITIAL_STATE)
   const [fieldReports, setFieldReports] = useState<Map<string, FieldReport[]>>(new Map<string, FieldReport[]>())
-  const [groups, setGroups] = useState<ReportGroup[]>([])
+  const [groups, setGroups] = useState<FieldGroup[]>([])
 
   const [isPdfLoading, setIsPdfLoading] = useState<boolean>(false)
 
@@ -94,7 +98,7 @@ const RouteDetail = (): ReactElement => {
 
   const groupFieldReports = (fieldReports: FieldReport[]): void => {
     const fieldReportsMap = new Map<string, FieldReport[]>()
-    const reportGroups: ReportGroup[] = []
+    const reportGroups: FieldGroup[] = []
 
     fieldReports.forEach(fieldReport => {
       const groupId = fieldReport.group.id

@@ -5,6 +5,9 @@ export interface Checkpoint {
   id: string
   checked: boolean
   location: string
+  createdAt: string
+  updatedAt: string
+  active: boolean
   observations: Observation[]
   profile: Profile
 }

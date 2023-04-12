@@ -11,9 +11,12 @@ export interface Route {
   materialType: string
   name: string
   code: string
+  message: string
+  state: string
   checked: boolean
   doubleLicensePlate: boolean
   isFull: boolean
+  active: boolean
   vehicles: Vehicle[]
   reports: Report[]
   routeProfiles: RouteProfile[]

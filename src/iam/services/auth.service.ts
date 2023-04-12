@@ -16,13 +16,14 @@ export class AuthServices extends AppServices {
       .then(response => {
         if (response.status === StatusCodes.CREATED) {
           const { tokens, authenticatedUser } = response.data
-          const { id, username, role, areas } = authenticatedUser
+          const { id, username, role, areas, profile } = authenticatedUser
 
           const userStorage: UserStorage = {
             id,
             username,
             role,
-            areas
+            areas,
+            profile
           }
 
           TokenService.saveToken(tokens.accessToken)

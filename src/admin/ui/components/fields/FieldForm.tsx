@@ -35,7 +35,7 @@ const FieldForm = ({ field, toastId, formAction, onFinishSubmit, reset }: FieldF
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    const { id, values, ...newField } = inputValue
+    const { id, values, createdAt, updatedAt, ...newField } = inputValue
 
     if (formAction === 'update') {
       void fieldsService.update(id, newField)

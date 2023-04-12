@@ -3,6 +3,7 @@ import { type VehicleType } from './vehicle-type.interface'
 export interface Vehicle {
   createdAt: string
   updatedAt: string
+  active: boolean
   licensePlate: string
   provider: string
   company: string

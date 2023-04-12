@@ -1,5 +1,5 @@
 import { type Field } from './field.entity'
-import { type ReportGroup } from './group.interface'
+import { type FieldGroup } from './group.interface'
 
 export interface FieldReport {
   fieldId: string
@@ -8,6 +8,7 @@ export interface FieldReport {
   type: string
   isCritical: boolean
   imageEvidence: string
-  group: ReportGroup
+  priority: string
+  group: FieldGroup
   field: Field
 }
