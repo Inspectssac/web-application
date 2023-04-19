@@ -1,5 +1,4 @@
-import { type GroupFieldDto } from '@/reports/models/interfaces/group-field-dto.interface'
-import { type GroupField } from '@/reports/models/group-field.interface'
+import { type GroupFieldDto, type GroupField, GROUP_FIELD_INITIAL_STATE } from '@/reports/models/group-field.interface'
 import Button from '@/shared/ui/components/Button'
 import React, { type ReactElement, useContext, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -14,15 +13,9 @@ interface UpdateFieldFormProps {
   onFinishSubmit: (reportTypeField: GroupField) => void
 }
 
-const GROUP_FIELD_INITIAL_STATE = {
-  maxLength: 0,
-  isCritical: true,
-  needImage: false
-}
-
 const getInitialState = (groupField: GroupField | null): GroupFieldDto => {
   if (groupField === null) return GROUP_FIELD_INITIAL_STATE
-  const { field, fieldId, groupId, priority, ...groupFieldDto } = groupField
+  const { field, fieldId, groupId, ...groupFieldDto } = groupField
   return groupFieldDto
 }
 
