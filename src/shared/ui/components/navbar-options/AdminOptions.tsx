@@ -21,7 +21,7 @@ export const DesktopAdminOptions = (): ReactElement => {
       { to: 'admin/usuarios', name: 'M. Usuarios', icon: <UserIcon className='w-5 h-5 mr-2'/> }
     ]
 
-    if (currentUser?.profile.companyWhoHires.toUpperCase() !== 'MARCOBRE') {
+    if (currentUser?.company.toUpperCase() !== 'MARCOBRE') {
       itemsAux.push({ to: 'admin/grupos-reportes', name: 'M. Grupo Checklists', icon: <MaterialIcon className='w-5 h-5 mr-2'/> })
     }
 

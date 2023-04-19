@@ -99,7 +99,7 @@ const UserDetailModal = ({ user, close, updateUser }: UserDetailModalProps): Rea
           </div>
           <div className='flex gap-2'>
             <p className='font-semibold'>Empresa que contrata: </p>
-            <p>{profile?.companyWhoHires}</p>
+            <p>{user?.company}</p>
           </div>
           <div className='flex gap-2'>
             <p className='font-semibold'>Licencia: </p>

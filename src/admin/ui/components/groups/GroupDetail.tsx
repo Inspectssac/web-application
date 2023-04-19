@@ -98,6 +98,13 @@ const GroupDetail = ({ group, close }: GroupDetailProps): ReactElement => {
       sortFunc: (a, b) => a.field.name > b.field.name ? 1 : -1
     },
     {
+      id: 'priority',
+      columnName: 'Prioridad',
+      filterFunc: (groupField) => groupField.priority,
+      render: (groupField) => groupField.priority,
+      sortFunc: (a, b) => a.priority > b.priority ? 1 : -1
+    },
+    {
       id: 'active',
       columnName: 'Activo',
       filterFunc: (groupField) => groupField.field.active ? 'activo' : 'no activo',

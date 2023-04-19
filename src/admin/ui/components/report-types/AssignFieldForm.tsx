@@ -1,39 +1,23 @@
-import { FieldType } from '@/reports/models/enums/field-type.enum'
-import { type Field } from '@/reports/models/field.entity'
-import { type GroupFieldDto } from '@/reports/models/interfaces/group-field-dto.interface'
-import { type GroupField } from '@/reports/models/group-field.interface'
-import { FieldsService } from '@/reports/services/field.service'
-import Button from '@/shared/ui/components/Button'
 import React, { type ReactElement, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+
+import { FIELD_INITIAL_STATE, type Field } from '@/reports/models/field.entity'
+import { type GroupFieldDto, type GroupField, GROUP_FIELD_INITIAL_STATE } from '@/reports/models/group-field.interface'
+import { FieldsService } from '@/reports/services/field.service'
 import { GroupsService } from '@/reports/services/group.service'
 import { type Group } from '@/reports/models/group.interface'
 import { ReportTypesService } from '@/reports/services/report-type.service'
+
+import Button from '@/shared/ui/components/Button'
 import { ReportToastContext } from '../../pages/ReportsView'
+import { PRIORITY } from '@/reports/models/enums/priority.enum'
 
 interface AssignFieldFormProps {
   group: Group
   groupFields: GroupField[]
   onFinishSubmit: (reportTypeField: GroupField) => void
   close: () => void
-}
-
-const FIELD_INITIAL_STATE: Field = {
-  id: '',
-  name: '',
-  placeholder: '',
-  createdAt: '',
-  updatedAt: '',
-  type: FieldType.TEXT,
-  active: true,
-  values: []
-}
-
-const GROUP_FIELD_INITIAL_STATE = {
-  maxLength: 0,
-  isCritical: true,
-  needImage: false
 }
 
 const AssignFieldForm = ({ group, groupFields, onFinishSubmit, close }: AssignFieldFormProps): ReactElement => {
@@ -46,6 +30,8 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit, close }: AssignFi
   const [fields, setFields] = useState<Field[]>([])
   const [selectedField, setSelectedField] = useState<Field>(FIELD_INITIAL_STATE)
   const [hasMaxLength, setHasMaxLength] = useState<boolean>(false)
+
+  const priorities = Object.values(PRIORITY)
 
   const [inputValue, setInputValue] = useState<GroupFieldDto>(GROUP_FIELD_INITIAL_STATE)
   useEffect(() => {
@@ -99,7 +85,18 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit, close }: AssignFi
 
     setInputValue({
       ...inputValue,
-      [name]: type === 'checkbox' ? checked : parseInt(value)
+      [name]: type === 'checkbox' ? checked : parseInt(value),
+      priority: name === 'isCritical' ? checked ? PRIORITY.CRITICAL : PRIORITY.LOW : inputValue.priority
+    })
+  }
+
+  const handleSelectPrioritySelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    const { value } = event.target
+
+    setInputValue({
+      ...inputValue,
+      priority: value as PRIORITY,
+      isCritical: value === PRIORITY.CRITICAL
     })
   }
 
@@ -134,6 +131,21 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit, close }: AssignFi
             <label htmlFor='needImage'>Imagen</label>
             <input onChange={handleChange} id='needImage' checked={inputValue.needImage} type="checkbox" name='needImage' />
           </div>
+        </div>
+
+        <div className='mt-2'>
+          <p className='font-bold text-sm'>Selecciona la prioridad</p>
+          <select
+            className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none capitalize'
+            name="type" value={inputValue.priority} onChange={handleSelectPrioritySelect}>
+            {
+              priorities.map(priority => {
+                return (
+                  <option key={priority} value={priority} className='capitalize'>{priority}</option>
+                )
+              })
+            }
+          </select>
         </div>
 
         <div className='mt-5 flex justify-center gap-3 items-center'>

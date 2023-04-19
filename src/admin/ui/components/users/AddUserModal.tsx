@@ -19,7 +19,6 @@ interface AddUserModalProps {
 const PROFILE_INIT_STATE: ProfileDto = {
   dni: '',
   company: '',
-  companyWhoHires: '',
   email: '',
   name: '',
   lastName: '',
@@ -27,8 +26,7 @@ const PROFILE_INIT_STATE: ProfileDto = {
   licenseCategory: '',
   licenseExpiration: new Date().toISOString(),
   phone1: '',
-  phone2: '',
-  active: true
+  phone2: ''
 }
 
 const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps): ReactElement => {
@@ -41,6 +39,7 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
   const [newUser, setNewUser] = useState<AddUser>({
     username: '',
     password: '',
+    company: '',
     role: UserRole.USER
   })
 
@@ -55,6 +54,7 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
     password: false,
     dni: false,
     company: false,
+    companyWhoHires: false,
     email: false,
     name: false,
     lastName: false,
@@ -88,14 +88,11 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
     const areaId = areaRef.current?.value ?? areas[0].id.toString()
     void usersService.create(newUser)
       .then((user) => {
-        console.log('user', user)
         void usersService.createProfile(user.id, newProfile)
           .then(profile => {
-            console.log('profile', profile)
             void areasService.assignUser(areaId, user.id)
               .then(userWithArea => {
                 userWithArea.profile = profile
-                console.log('user wiht area', userWithArea)
                 refreshUserList(userWithArea)
                 toast('Usuario creado correctamente', { toastId: toastContext.id, type: 'success' })
               })
@@ -110,6 +107,7 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
           })
       })
       .catch(error => {
+        console.log(error)
         const { message } = error.data
         toast(message, { toastId: toastContext.id, type: 'error' })
       })
@@ -193,10 +191,10 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
             setValue={(value) => { setValueProfile('dni', value) }}></Input>
 
           <Input
-            value={newProfile.companyWhoHires}
+            value={newUser.company}
             name='companyWhoHires' placeholder='Empresa quien contrata' type='text'
             setValid={(valid) => { setIsValidInput('companyWhoHires', valid) }}
-            setValue={(value) => { setValueProfile('companyWhoHires', value) }}></Input>
+            setValue={(value) => { setValueUser('company', value) }}></Input>
           <Input
             value={newProfile.company}
             name='company' placeholder='Empresa del transportista' type='text'

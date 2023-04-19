@@ -45,9 +45,9 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
     imei: false,
     model: false,
     brand: false,
-    lastMaintenance: false,
-    soatExpiration: false,
-    technicalReviewExpiration: false
+    lastMaintenance: true,
+    soatExpiration: true,
+    technicalReviewExpiration: true
   })
 
   useEffect(() => {
@@ -73,7 +73,6 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
   }
 
   useEffect(() => {
-    console.log(validInputs)
     setCanSubmit(Object.values(validInputs).every(v => v))
   }, [validInputs])
 
@@ -164,6 +163,7 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           <label className='font-medium' htmlFor="soatExpiration">Fecha Vencimiento Soat</label>
           <Input
             value={new Date(inputValue.soatExpiration).toISOString().substring(0, 10)}
+            required={false}
             name='soatExpiration' placeholder='' type='date'
             setValid={(valid) => { setIsValidInput('soatExpiration', valid) }}
             setValue={(value) => { setValueInputValue('soatExpiration', value) }}></Input>
@@ -172,6 +172,7 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           <label className='font-medium' htmlFor="technicalReviewExpiration">Fecha Vencimiento Revisión Técnica</label>
           <Input
             value={new Date(inputValue.technicalReviewExpiration).toISOString().substring(0, 10)}
+            required={false}
             name='technicalReviewExpiration' placeholder='' type='date'
             setValid={(valid) => { setIsValidInput('technicalReviewExpiration', valid) }}
             setValue={(value) => { setValueInputValue('technicalReviewExpiration', value) }}></Input>
@@ -180,6 +181,7 @@ const AddVehicleForm = ({ closeModal, onFinishSubmit }: AddVehicleFormProps): Re
           <label className='font-medium' htmlFor="lastMaintenance">Último Mantenimiento</label>
           <Input
             value={new Date(inputValue.lastMaintenance).toISOString().substring(0, 10)}
+            required={false}
             name='lastMaintenance' placeholder='' type='date'
             setValid={(valid) => { setIsValidInput('lastMaintenance', valid) }}
             setValue={(value) => { setValueInputValue('lastMaintenance', value) }}></Input>

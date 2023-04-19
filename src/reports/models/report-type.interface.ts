@@ -7,6 +7,7 @@ export interface ReportType {
   id: string
   name: string
   active: boolean
+  company: string
   reportTypeGroup: ReportTypeGroup | null
   vehicleTypes: VehicleType[]
 }
@@ -16,6 +17,7 @@ export const REPORT_TYPE_INITIAL_STATE: ReportType = {
   updatedAt: '',
   id: '',
   name: '',
+  company: '',
   active: false,
   vehicleTypes: [],
   reportTypeGroup: null

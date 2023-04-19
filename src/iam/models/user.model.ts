@@ -7,6 +7,7 @@ export interface User {
   id: string
   username: string
   password: string
+  company: string
   active: boolean
   role: UserRole
   areas: Area[]

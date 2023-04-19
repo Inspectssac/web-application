@@ -7,7 +7,6 @@ export interface Profile {
   lastName: string
   dni: string
   company: string
-  companyWhoHires: string
   phone1: string
   phone2: string
   email: string
@@ -17,4 +16,4 @@ export interface Profile {
   fullName: string
 }
 
-export type ProfileDto = Omit<Profile, 'id' | 'createdAt' | 'updatedAt' | 'fullName'>
+export type ProfileDto = Omit<Profile, 'id' | 'createdAt' | 'updatedAt' | 'fullName' | 'active'>

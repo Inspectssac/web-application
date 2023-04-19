@@ -28,7 +28,7 @@ const INITIAL_STATE: VehicleDto = {
 
 const getInitialState = (vehicle: Vehicle | null): VehicleDto => {
   if (vehicle === null) return INITIAL_STATE
-  const { createdAt, updatedAt, vehicleType, ...vehicleDto } = vehicle
+  const { createdAt, updatedAt, vehicleType, active, ...vehicleDto } = vehicle
 
   return vehicleDto
 }
@@ -41,15 +41,15 @@ const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicl
 
   const [canSubmit, setCanSubmit] = useState<boolean>(false)
   const [validInputs, setValidInputs] = useState({
-    licensePlate: false,
-    provider: false,
-    company: false,
-    imei: false,
-    model: false,
-    brand: false,
-    lastMaintenance: false,
-    soatExpiration: false,
-    technicalReviewExpiration: false
+    licensePlate: true,
+    provider: true,
+    company: true,
+    imei: true,
+    model: true,
+    brand: true,
+    lastMaintenance: true,
+    soatExpiration: true,
+    technicalReviewExpiration: true
   })
 
   useEffect(() => {
@@ -65,6 +65,7 @@ const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicl
         toast('Vehículo actualizado correctamente', { toastId: toastContext.id, type: 'success' })
       })
       .catch((error) => {
+        console.log(error)
         const { message } = error.data
         toast(message, { toastId: toastContext.id, type: 'error' })
       })
@@ -78,7 +79,6 @@ const UpdateVehicleForm = ({ vehicle, closeModal, onFinishSubmit }: UpdateVehicl
   }, [validInputs])
 
   const setIsValidInput = (name: string, valid: boolean): void => {
-    // setCanSubmit(valid)
     setValidInputs({
       ...validInputs,
       [name]: valid

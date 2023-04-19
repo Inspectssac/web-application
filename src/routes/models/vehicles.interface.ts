@@ -7,6 +7,7 @@ export interface Vehicle {
   licensePlate: string
   provider: string
   company: string
+  companyWhoHires: string
   imei: string
   brand: string
   model: string
