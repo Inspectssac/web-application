@@ -17,6 +17,7 @@ const INITIAL_STATE: ReportType = {
   id: '',
   name: '',
   active: true,
+  company: '',
   vehicleTypes: [],
   reportTypeGroup: REPORT_TYPE_GROUP_INITIAL_STATE
 }
