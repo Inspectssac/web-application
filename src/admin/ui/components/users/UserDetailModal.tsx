@@ -8,6 +8,7 @@ import React, { type ReactElement, useContext, useEffect, useState } from 'react
 import { toast } from 'react-toastify'
 import { ToastContext } from '../../pages/UsersView'
 import ChangeRoleModal from './ChangeRoleModal'
+import AssignCompany from './AssignCompany'
 
 interface UserDetailModalProps {
   user: User | null
@@ -22,6 +23,7 @@ const UserDetailModal = ({ user, close, updateUser }: UserDetailModalProps): Rea
   const [profile, setProfile] = useState<Profile | null>(null)
 
   const [showChangeRole, setShowChangeRole] = useState<boolean>(false)
+  const [showAddCompany, setShowAddCompany] = useState<boolean>(false)
 
   useEffect(() => {
     if (user === null) close()
@@ -33,6 +35,10 @@ const UserDetailModal = ({ user, close, updateUser }: UserDetailModalProps): Rea
 
   const handleShowChangeRole = (): void => {
     setShowChangeRole(!showChangeRole)
+  }
+
+  const handleShowAddCompany = (): void => {
+    setShowAddCompany(!showAddCompany)
   }
 
   const handleDeactivate = (): void => {
@@ -122,10 +128,27 @@ const UserDetailModal = ({ user, close, updateUser }: UserDetailModalProps): Rea
             <p>{profile?.phone2}</p>
           </div>
         </div>
+        <div>
+          <h3 className='font-bold text-xl after:h-[1px] after:block after:w-28 after:bg-gray-400'>Empresas</h3>
+          <div>
+            {
+              profile && profile.companies.length > 0
+                ? profile?.companies.map((company, index) => (
+                <div key={company.id} className='flex gap-2'>
+                  <p className='font-semibold'>Empresa {index + 1}: </p>
+                  <p>{company.name}</p>
+                </div>))
+                : <p>No tiene empresas asignadas</p>
+            }
+          </div>
+        </div>
+
         { showChangeRole && <ChangeRoleModal user={user} updateUser={updateUser} close={handleShowChangeRole} />}
+        { showAddCompany && user && <AssignCompany user={user} updateUser={updateUser} close={handleShowAddCompany} />}
         <div className='mt-3 flex gap-2 items-center'>
           <Button color='secondary' onClick={handleDeactivate}>{ user?.active ? 'Desactivar' : 'Activar'}</Button>
           <Button color='success' onClick={handleShowChangeRole}>Cambiar rol</Button>
+          <Button color='success' onClick={handleShowAddCompany}>Añadir empresa</Button>
         </div>
 
       </div>

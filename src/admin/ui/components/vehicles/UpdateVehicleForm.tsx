@@ -1,6 +1,6 @@
 import React, { type ReactElement, useContext, useEffect, useState } from 'react'
 import { type VehicleDto } from '@/routes/models/interface/vehicle-dto.interface'
-import { type Vehicle } from '@/routes/models/vehicles.interface'
+import { type Vehicle } from '@/routes/models/vehicle.interface'
 import { VehiclesService } from '@/routes/services/vehicle.service'
 import Modal from '@/shared/ui/components/Modal'
 import { toast } from 'react-toastify'

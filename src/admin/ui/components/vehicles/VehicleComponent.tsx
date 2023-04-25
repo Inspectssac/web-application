@@ -1,5 +1,5 @@
 import React, { type ReactElement, useContext, useEffect, useState } from 'react'
-import { type Vehicle } from '@/routes/models/vehicles.interface'
+import { type Vehicle } from '@/routes/models/vehicle.interface'
 import { VehiclesService } from '@/routes/services/vehicle.service'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
 import DeleteIcon from '@/shared/ui/assets/icons/DeleteIcon'
@@ -11,6 +11,10 @@ import { toast } from 'react-toastify'
 import ImportModal from '../ImportModal'
 import { VehicleToastContext } from '../../pages/VehiclesView'
 import Table, { type Action, type Column } from '@/shared/ui/components/table/Table'
+import AdminIcon from '@/shared/ui/assets/icons/AdminIcon'
+import AssignCompany from './AssignCompany'
+import VehicleDetail from './VehicleDetail'
+import EyeIcon from '@/shared/ui/assets/icons/EyeIcon'
 
 const VehicleComponent = (): ReactElement => {
   const toastContext = useContext(VehicleToastContext)
@@ -20,6 +24,8 @@ const VehicleComponent = (): ReactElement => {
   const [showAddVehicleModal, setShowAddVehicleModal] = useState<boolean>(false)
   const [showUpdateVehicleModal, setShowUpdateVehicleModal] = useState<boolean>(false)
   const [showImportModal, setShowImportModal] = useState<boolean>(false)
+  const [showAssignCompany, setShowAssignCompany] = useState<boolean>(false)
+  const [showDetailModal, setShowDetailModal] = useState<boolean>(false)
 
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null)
 
@@ -34,6 +40,14 @@ const VehicleComponent = (): ReactElement => {
 
   const toggleUpdateModal = (): void => {
     setShowUpdateVehicleModal(!showUpdateVehicleModal)
+  }
+
+  const toggleShowDetailModal = (): void => {
+    setShowDetailModal(!showDetailModal)
+  }
+
+  const toggleAssignCompany = (): void => {
+    setShowAssignCompany(!showAssignCompany)
   }
 
   const onFinishSubmit = (vehicle: Vehicle): void => {
@@ -82,10 +96,19 @@ const VehicleComponent = (): ReactElement => {
     toggleUpdateModal()
   }
 
+  const assignCompany = (vehicle: Vehicle): void => {
+    setSelectedVehicle(vehicle)
+    toggleAssignCompany()
+  }
+
   const handleImportExcel = (): void => {
     setShowImportModal(true)
   }
 
+  const show = (vehicle: Vehicle): void => {
+    setSelectedVehicle(vehicle)
+    toggleShowDetailModal()
+  }
   const VEHICLE_COLUMNS: Array<Column<Vehicle>> = [
     {
       id: 'licensePlate',
@@ -177,6 +200,13 @@ const VehicleComponent = (): ReactElement => {
       render: (vehicle) => vehicle.vehicleType.name
     },
     {
+      id: 'cart',
+      columnName: 'Carreta',
+      filterFunc: (vehicle) => vehicle.vehicleType.isCart ? 'Si' : 'No',
+      sortFunc: (a, b) => a.vehicleType.isCart > b.vehicleType.isCart ? 1 : -1,
+      render: (vehicle) => vehicle.vehicleType.isCart ? 'Si' : 'No'
+    },
+    {
       id: 'brand',
       columnName: 'Marca',
       filterFunc: (vehicle) => vehicle.brand,
@@ -202,6 +232,15 @@ const VehicleComponent = (): ReactElement => {
     {
       icon: () => (<DeleteIcon className='cursor-pointer w-5 h-5 text-red' />),
       actionFunc: remove
+    },
+
+    {
+      icon: () => (<AdminIcon className='cursor-pointer w-5 h-5 ' />),
+      actionFunc: assignCompany
+    },
+    {
+      icon: () => (<EyeIcon className='cursor-pointer w-5 h-5 ' />),
+      actionFunc: show
     }
   ]
 
@@ -209,12 +248,14 @@ const VehicleComponent = (): ReactElement => {
     <div className=''>
       {showAddVehicleModal && <AddVehicleForm closeModal={toggleAddModal} onFinishSubmit={onFinishSubmit} />}
       {showUpdateVehicleModal && <UpdateVehicleForm closeModal={toggleUpdateModal} vehicle={selectedVehicle} onFinishSubmit={onFinishSubmit} />}
+      {showAssignCompany && selectedVehicle && <AssignCompany closeModal={toggleAssignCompany} vehicle={selectedVehicle} onFinishSubmit={onFinishSubmit} />}
       {showImportModal && <ImportModal close={() => { setShowImportModal(false) }} refreshList={refreshImportedVehicles} toastId={toastContext.id} type='vehicle' />}
+      {showDetailModal && selectedVehicle && <VehicleDetail closeModal={toggleShowDetailModal} vehicle={selectedVehicle}/>}
 
       <div className='flex justify-between items-center mb-5'>
         <div className='flex flex-col sm:flex-row gap-2 sm:justify-center'>
           <Button color='primary' onClick={handleImportExcel}>Importar Excel</Button>
-          <Button color='primary' onClick={toggleAddModal}>Añadir vehículo</Button>
+          <Button color='primary' onClick={toggleAddModal}>Añadir vehículo - semirremolque</Button>
         </div>
       </div>
       {

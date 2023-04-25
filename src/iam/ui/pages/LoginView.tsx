@@ -9,6 +9,7 @@ import LoginForm from '../components/LoginForm'
 const Login = (): ReactElement => {
   const navigate = useNavigate()
   const authenticated = useSelector(isAuthenticated)
+  // const currentUser = useSelector(getCurrentUser)
 
   // const isAboveSmallScreen = useMediaQuery('(min-width: 640px)')
 

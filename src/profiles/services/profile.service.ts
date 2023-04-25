@@ -15,4 +15,14 @@ export class ProfileService extends AppServices {
     return await this.get<Profile>(`/id/${id}`)
       .then(response => response.data)
   }
+
+  assignCompany = async (id: string, companyId: string): Promise<Profile> => {
+    return await this.patch<Profile>(`/${id}/assign-company/${companyId}`)
+      .then(response => response.data)
+  }
+
+  removeCompany = async (id: string, companyId: string): Promise<Profile> => {
+    return await this.patch<Profile>(`/${id}/remove-company/${companyId}`)
+      .then(response => response.data)
+  }
 }

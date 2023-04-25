@@ -19,6 +19,7 @@ import TermsAndConditions from '@/shared/ui/pages/TermsAndConditions'
 import VehiclesView from '@/admin/ui/pages/VehiclesView'
 import MaterialsView from '@/admin/ui/pages/MaterialsView'
 import ReportTypeGroupView from '@/admin/ui/report-type-group'
+import CompaniesView from '@/admin/ui/companies'
 
 const authRequiredRoutes: RouteObject[] = [
   {
@@ -73,6 +74,10 @@ const authRequiredRoutes: RouteObject[] = [
       {
         path: 'tipo-materiales',
         element: <MaterialsView />
+      },
+      {
+        path: 'empresas',
+        element: <CompaniesView />
       }
     ]
   },

@@ -151,8 +151,10 @@ const RouteDetail = (): ReactElement => {
       <div className='h-[1px] bg-gray-400 w-full my-4'></div>
       <div className='border-[1px] border-black border-b-0 mx-auto h-full mb-10'>
         <div className='flex justify-center  border-b-[1px] border-black'>
-          <div className='w-[15%] grid place-items-center border-r-[1px] border-black'>
-            <p>Logo</p>
+          <div className='w-[30%] grid place-items-center border-r-[1px] border-black'>
+            <div className='p-5'>
+              <img src="./logo-header.png" alt="" width={250}/>
+            </div>
           </div>
           <div className='w-[30%] border-r-[1px] border-black'>
             <div className='border-b-[1px] border-black py-2 bg-blue-dark text-white'>
@@ -182,9 +184,6 @@ const RouteDetail = (): ReactElement => {
             <div className='h-[30%] grid place-items-center'>
               <p className=''>Área: Seguridad y Salud Ocupacional</p>
             </div>
-          </div>
-          <div className='w-[15%] grid place-items-center'>
-            <p>Logo</p>
           </div>
         </div>
         <div className='h-3'></div>

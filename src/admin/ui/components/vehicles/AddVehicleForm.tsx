@@ -1,6 +1,6 @@
 import { type VehicleDto } from '@/routes/models/interface/vehicle-dto.interface'
 import { type VehicleType } from '@/routes/models/vehicle-type.interface'
-import { type Vehicle } from '@/routes/models/vehicles.interface'
+import { type Vehicle } from '@/routes/models/vehicle.interface'
 import { VehicleTypesService } from '@/routes/services/vehicle-type.service'
 import { VehiclesService } from '@/routes/services/vehicle.service'
 import Button from '@/shared/ui/components/Button'

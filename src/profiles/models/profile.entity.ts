@@ -1,3 +1,5 @@
+import { type Company } from './company.interface'
+
 export interface Profile {
   createdAt: string
   updatedAt: string
@@ -14,6 +16,39 @@ export interface Profile {
   licenseCategory: string
   licenseExpiration: string
   fullName: string
+  companies: Company[]
 }
 
-export type ProfileDto = Omit<Profile, 'id' | 'createdAt' | 'updatedAt' | 'fullName' | 'active'>
+export interface ProfileDto extends Omit<Profile, 'id' | 'createdAt' | 'updatedAt' | 'fullName' | 'active' | 'companies'> {}
+
+export const INITIAL_STATE_PROFILE: Profile = {
+  createdAt: '',
+  updatedAt: '',
+  active: true,
+  id: '',
+  name: '',
+  lastName: '',
+  dni: '',
+  company: '',
+  phone1: '',
+  phone2: '',
+  email: '',
+  license: '',
+  licenseCategory: '',
+  licenseExpiration: '',
+  fullName: '',
+  companies: []
+}
+
+export const INITIAL_STATE_PROFILE_DTO: ProfileDto = {
+  name: '',
+  lastName: '',
+  dni: '',
+  company: '',
+  phone1: '',
+  phone2: '',
+  email: '',
+  license: '',
+  licenseCategory: '',
+  licenseExpiration: ''
+}

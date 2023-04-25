@@ -9,7 +9,7 @@ const VehiclesView = (): ReactElement => {
   return (
     <VehicleToastContext.Provider value={{ id: TOAST_ID }}>
       <div className='container-page'>
-        <h1 className='text-3xl mb-4 after:h-px after:w-52 after:bg-gray-light after:block after:mt-1'>Vehículos</h1>
+        <h1 className='text-3xl font-semibold mb-4 after:h-px after:w-72 after:bg-gray-light after:block after:mt-1'>Vehículos y Semirremolques</h1>
         <div className='mb-5 sm:mb-0'>
           <VehicleComponent />
         </div>

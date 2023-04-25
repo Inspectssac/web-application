@@ -29,7 +29,7 @@ const ReportTypeForm = ({ reportType, formAction, reset, onFinishSubmit }: Repor
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    const { id, createdAt, updatedAt, vehicleTypes, active, reportTypeGroup, ...newField } = inputValue
+    const { id, createdAt, updatedAt, vehicleTypes, active, reportTypeGroup, company, ...newField } = inputValue
 
     if (formAction === 'update') {
       void reportTypesService.update(id, newField)
@@ -39,6 +39,7 @@ const ReportTypeForm = ({ reportType, formAction, reset, onFinishSubmit }: Repor
           toast('Tipo de checklist actualizado correctamente', { toastId: reportToastContext.id, type: 'success' })
         })
         .catch((error) => {
+          console.log(error)
           const { message } = error.data
           toast(message, { toastId: reportToastContext.id, type: 'error' })
         })
@@ -52,6 +53,7 @@ const ReportTypeForm = ({ reportType, formAction, reset, onFinishSubmit }: Repor
         toast('Tipo de checklist creado correctamente', { toastId: reportToastContext.id, type: 'success' })
       })
       .catch((error) => {
+        console.log(error)
         const { message } = error.data
         toast(message, { toastId: reportToastContext.id, type: 'error' })
       })

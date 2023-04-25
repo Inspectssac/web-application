@@ -3,7 +3,7 @@ import Modal from '@/shared/ui/components/Modal'
 import React, { type ReactElement, useState } from 'react'
 import { toast } from 'react-toastify'
 
-type ImportObject = 'user' | 'vehicle'
+type ImportObject = 'user' | 'vehicle' | 'company'
 
 interface ImportExcelProps {
   close: () => void
@@ -31,7 +31,13 @@ const ImportExcel = ({ close, refreshList, toastId, type }: ImportExcelProps): R
     const formData = new FormData()
     formData.append('excel-file', file)
 
-    const importExcelFunction = type === 'user' ? adminService.importUserExcel : adminService.importVehicleExcel
+    const importFunctions = {
+      user: adminService.importUserExcel,
+      vehicle: adminService.importVehicleExcel,
+      company: adminService.importCompanyExcel
+    }
+
+    const importExcelFunction = importFunctions[type]
 
     void importExcelFunction(formData)
       .then(response => {
