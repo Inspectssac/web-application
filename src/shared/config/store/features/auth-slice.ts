@@ -5,7 +5,7 @@ import { STATUS, type AUTH_STATE } from '@/shared/config/store/types'
 import { type UserStorage } from '@/iam/models/interfaces/user-storage.interface'
 
 const getInitialState = (): AUTH_STATE => {
-  const userJson = localStorage.getItem('user')
+  const userJson = sessionStorage.getItem('user')
   if (!userJson) {
     return {
       user: null,

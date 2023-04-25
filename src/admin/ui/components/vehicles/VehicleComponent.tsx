@@ -24,6 +24,7 @@ const VehicleComponent = (): ReactElement => {
   const [showAddVehicleModal, setShowAddVehicleModal] = useState<boolean>(false)
   const [showUpdateVehicleModal, setShowUpdateVehicleModal] = useState<boolean>(false)
   const [showImportModal, setShowImportModal] = useState<boolean>(false)
+  const [showImportAssignCompanyModal, setShowImportAssignCompanyModal] = useState<boolean>(false)
   const [showAssignCompany, setShowAssignCompany] = useState<boolean>(false)
   const [showDetailModal, setShowDetailModal] = useState<boolean>(false)
 
@@ -56,6 +57,13 @@ const VehicleComponent = (): ReactElement => {
 
   const refreshImportedVehicles = (newVehicles: Vehicle[]): void => {
     setVehicles(vehicles.concat(newVehicles))
+  }
+
+  const refreshImportedVehiclesWithCompany = (newVehicles: Vehicle[]): void => {
+    setVehicles(vehicles.map(vehicle => {
+      const newVehicle = newVehicles.find(newVehicle => newVehicle.licensePlate === vehicle.licensePlate)
+      return newVehicle ?? vehicle
+    }))
   }
 
   const refreshList = (vehicle: Vehicle, licensePlate: string, remove: boolean = false): void => {
@@ -250,11 +258,13 @@ const VehicleComponent = (): ReactElement => {
       {showUpdateVehicleModal && <UpdateVehicleForm closeModal={toggleUpdateModal} vehicle={selectedVehicle} onFinishSubmit={onFinishSubmit} />}
       {showAssignCompany && selectedVehicle && <AssignCompany closeModal={toggleAssignCompany} vehicle={selectedVehicle} onFinishSubmit={onFinishSubmit} />}
       {showImportModal && <ImportModal close={() => { setShowImportModal(false) }} refreshList={refreshImportedVehicles} toastId={toastContext.id} type='vehicle' />}
-      {showDetailModal && selectedVehicle && <VehicleDetail closeModal={toggleShowDetailModal} vehicle={selectedVehicle}/>}
+      {showImportAssignCompanyModal && <ImportModal close={() => { setShowImportAssignCompanyModal(false) }} refreshList={refreshImportedVehiclesWithCompany} toastId={toastContext.id} type='assign-vehicle-company' />}
+      {showDetailModal && selectedVehicle && <VehicleDetail closeModal={toggleShowDetailModal} vehicle={selectedVehicle} />}
 
       <div className='flex justify-between items-center mb-5'>
         <div className='flex flex-col sm:flex-row gap-2 sm:justify-center'>
           <Button color='primary' onClick={handleImportExcel}>Importar Excel</Button>
+          <Button color='primary' onClick={() => { setShowImportAssignCompanyModal(true) }}>Asignar empresas Excel</Button>
           <Button color='primary' onClick={toggleAddModal}>Añadir vehículo - semirremolque</Button>
         </div>
       </div>

@@ -58,7 +58,7 @@ const createRouteStorage = (routes: Route[], dateRange: DateRange): void => {
   const aux: Report[] = []
   const reports = routes.reduce((previosValue, currentValue) => previosValue.concat(currentValue.reports), aux)
 
-  localStorage.setItem('routes-request', JSON.stringify({
+  sessionStorage.setItem('routes-request', JSON.stringify({
     routes,
     reports,
     dateRange: dateRange.toObject(),

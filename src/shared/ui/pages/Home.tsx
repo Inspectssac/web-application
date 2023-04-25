@@ -18,7 +18,7 @@ const Home = (): ReactElement => {
   const [dateRange, setDateRange] = useState<DateRange>(new DateRange())
 
   useEffect(() => {
-    const reportsJson = localStorage.getItem('routes-request')
+    const reportsJson = sessionStorage.getItem('routes-request')
     if (!reportsJson) {
       void dispatch(findAllRoutes({ dateRange: new DateRange(), profileId: '' }))
     }

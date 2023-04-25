@@ -27,6 +27,7 @@ const UsersView = (): ReactElement => {
   const [showAddModal, setShowAddModal] = useState(false)
   const [showImportModal, setShowImportModal] = useState(false)
   const [showDetailModal, setShowDetailModal] = useState<boolean>(false)
+  const [showImportAssignCompanyModal, setShowImportAssignCompanyModal] = useState<boolean>(false)
 
   useEffect(() => {
     void usersService.getAll()
@@ -72,6 +73,13 @@ const UsersView = (): ReactElement => {
 
   const refreshImportedUsers = (newUsers: User[]): void => {
     setUsers(users.concat(newUsers))
+  }
+
+  const refreshImportedUsersWithCompany = (newUsers: User[]): void => {
+    setUsers(users.map(user => {
+      const newUser = newUsers.find(newUser => newUser.id === user.id)
+      return newUser ?? user
+    }))
   }
 
   const USER_COLUMNS: Array<Column<User>> = [
@@ -131,6 +139,7 @@ const UsersView = (): ReactElement => {
           <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-gray-light after:block after:mt-1'>Usuarios</h1>
           <div className='flex flex-col sm:flex-row gap-2 sm:justify-center'>
             <Button color='secondary' onClick={handleImportExcel}>Importar Excel</Button>
+            <Button color='secondary' onClick={() => { setShowImportAssignCompanyModal(true) }}>Assignar Empresas Excel</Button>
             <Button color='primary' onClick={handleAddUser}>Añadir usuario</Button>
           </div>
         </div>
@@ -148,6 +157,7 @@ const UsersView = (): ReactElement => {
         {showDetailModal && <UserDetailModal user={selectedUser} close={() => { setShowDetailModal(false) }} updateUser={updateUser} />}
 
         {showImportModal && <ImportModal close={() => { setShowImportModal(false) }} refreshList={refreshImportedUsers} toastId={TOAST_ID} type='user' />}
+        {showImportAssignCompanyModal && <ImportModal close={() => { setShowImportAssignCompanyModal(false) }} refreshList={refreshImportedUsersWithCompany} toastId={TOAST_ID} type='assign-user-company' />}
         <Toast id={TOAST_ID}></Toast>
       </div>
     </ToastContext.Provider>

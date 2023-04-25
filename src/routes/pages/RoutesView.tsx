@@ -33,7 +33,7 @@ const RoutesView = (): ReactElement => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const routesJson = localStorage.getItem('routes-request')
+    const routesJson = sessionStorage.getItem('routes-request')
     if (!routesJson) {
       void dispatch(findAllRoutes({ dateRange: new DateRange(), profileId: '' }))
     }

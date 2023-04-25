@@ -28,7 +28,7 @@ const getRoutesFromJson = (routesJson: string): ROUTES_STATE => {
 }
 
 const getInitialState = (): ROUTES_STATE => {
-  const routesJson = localStorage.getItem('routes-request')
+  const routesJson = sessionStorage.getItem('routes-request')
   if (!routesJson) {
     return DEFAULT_STATE
   }
@@ -58,7 +58,7 @@ const routesSlice = createSlice<ROUTES_STATE, SliceCaseReducers<ROUTES_STATE>>({
       .addCase(findAllRoutes.fulfilled, (state, action) => {
         state.routes = action.payload
 
-        const routeRequest = JSON.parse(localStorage.getItem('routes-request') ?? '')
+        const routeRequest = JSON.parse(sessionStorage.getItem('routes-request') ?? '')
 
         state.lastRequest = routeRequest.lastRequest ? new Date(routeRequest.lastRequest) : new Date()
         state.dateRange = routeRequest.dateRange ? DateRange.fromJson(routeRequest.dateRange) : new DateRange()

@@ -27,7 +27,7 @@ export class AuthServices extends AppServices {
           }
 
           TokenService.saveToken(tokens.accessToken)
-          localStorage.setItem('user', JSON.stringify(userStorage))
+          sessionStorage.setItem('user', JSON.stringify(userStorage))
 
           return userStorage
         }
@@ -36,8 +36,8 @@ export class AuthServices extends AppServices {
 
   logout = (): void => {
     TokenService.removeToken()
-    localStorage.removeItem('user')
-    localStorage.removeItem('routes-request')
+    sessionStorage.removeItem('user')
+    sessionStorage.removeItem('routes-request')
   }
 
   currentUser = async (): Promise<User | null> => {

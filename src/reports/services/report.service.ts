@@ -16,8 +16,8 @@ export class ReportsService extends AppServices {
   findAll = async ({ dateStart, dateEnd }: FindAllReportsOptions): Promise<Report[]> => {
     return await this.get<Report[]>(`?date-start=${dateStart}&date-end=${dateEnd}`)
       .then(response => {
-        localStorage.setItem('reports', JSON.stringify(response.data))
-        localStorage.setItem('last-request-reports', JSON.stringify(new Date()))
+        sessionStorage.setItem('reports', JSON.stringify(response.data))
+        sessionStorage.setItem('last-request-reports', JSON.stringify(new Date()))
         return response.data
       })
   }
