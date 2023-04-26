@@ -1,4 +1,4 @@
-import React, { type ReactElement, useContext, useEffect, useState } from 'react'
+import React, { type ReactElement, useContext, useEffect, useState, useMemo } from 'react'
 import { type Vehicle } from '@/routes/models/vehicle.interface'
 import { VehiclesService } from '@/routes/services/vehicle.service'
 import EditIcon from '@/shared/ui/assets/icons/EditIcon'
@@ -15,8 +15,14 @@ import AdminIcon from '@/shared/ui/assets/icons/AdminIcon'
 import AssignCompany from './AssignCompany'
 import VehicleDetail from './VehicleDetail'
 import EyeIcon from '@/shared/ui/assets/icons/EyeIcon'
+import Divider from '@/shared/ui/components/Divider'
 
-const VehicleComponent = (): ReactElement => {
+interface VehicleComponentProps {
+  viewOption: number
+  handleViewOption: (option: number) => void
+}
+
+const VehicleComponent = ({ viewOption, handleViewOption }: VehicleComponentProps): ReactElement => {
   const toastContext = useContext(VehicleToastContext)
   const vehiclesService = new VehiclesService()
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
@@ -34,6 +40,18 @@ const VehicleComponent = (): ReactElement => {
     void vehiclesService.findAll()
       .then(setVehicles)
   }, [])
+
+  const vehiclesFiltered = useMemo(() => {
+    if (viewOption === 1) return vehicles
+
+    if (viewOption === 2) return vehicles.filter(vehicle => !vehicle.vehicleType.isCart)
+
+    return vehicles.filter(vehicle => vehicle.vehicleType.isCart)
+  }, [vehicles, viewOption])
+
+  const handleVehicleViewChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    handleViewOption(Number(event.target.value))
+  }
 
   const toggleAddModal = (): void => {
     setShowAddVehicleModal(!showAddVehicleModal)
@@ -208,13 +226,6 @@ const VehicleComponent = (): ReactElement => {
       render: (vehicle) => vehicle.vehicleType.name
     },
     {
-      id: 'cart',
-      columnName: 'Carreta',
-      filterFunc: (vehicle) => vehicle.vehicleType.isCart ? 'Si' : 'No',
-      sortFunc: (a, b) => a.vehicleType.isCart > b.vehicleType.isCart ? 1 : -1,
-      render: (vehicle) => vehicle.vehicleType.isCart ? 'Si' : 'No'
-    },
-    {
       id: 'brand',
       columnName: 'Marca',
       filterFunc: (vehicle) => vehicle.brand,
@@ -265,12 +276,22 @@ const VehicleComponent = (): ReactElement => {
         <div className='flex flex-col sm:flex-row gap-2 sm:justify-center'>
           <Button color='primary' onClick={handleImportExcel}>Importar Excel</Button>
           <Button color='primary' onClick={() => { setShowImportAssignCompanyModal(true) }}>Asignar empresas Excel</Button>
-          <Button color='primary' onClick={toggleAddModal}>Añadir vehículo - semirremolque</Button>
+          <Button color='primary' onClick={toggleAddModal}>Añadir { viewOption === 1 ? 'vehiculo o semirremolque' : viewOption === 2 ? 'vehiculo' : 'semirremolque' }</Button>
         </div>
       </div>
+      <Divider></Divider>
+      <div>
+        <h3 className='font-semibold uppercase'>Selecciona que tipo de vehículo quieres visualizar</h3>
+        <select className='block w-full h-10 px-2 border-b border-solid border-purple-900 outline-none' onChange={handleVehicleViewChange}>
+          <option value="1">Todos</option>
+          <option value="2">Vehículos</option>
+          <option value="3">Semirremolques</option>
+        </select>
+      </div>
+
       {
         vehicles.length > 0
-          ? <Table columns={VEHICLE_COLUMNS} data={vehicles} showFilter={true} pagination={PAGINATION} actions={VEHICLE_ACTIONS} />
+          ? <Table columns={VEHICLE_COLUMNS} data={vehiclesFiltered} showFilter={true} pagination={PAGINATION} actions={VEHICLE_ACTIONS} />
           : (<p>No hay vehiculos registrados</p>)
 
       }
