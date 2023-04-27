@@ -12,6 +12,8 @@ import { ReportTypesService } from '@/reports/services/report-type.service'
 import Button from '@/shared/ui/components/Button'
 import { ReportToastContext } from '../../pages/ReportsView'
 import { PRIORITY } from '@/reports/models/enums/priority.enum'
+import { useSelector } from 'react-redux'
+import { getCurrentUser } from '@/shared/config/store/features/auth-slice'
 
 interface AssignFieldFormProps {
   group: Group
@@ -24,6 +26,7 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit, close }: AssignFi
   const reportToastContext = useContext(ReportToastContext)
   const groupsService = new GroupsService()
   const navigate = useNavigate()
+  const currentUser = useSelector(getCurrentUser)
 
   const fieldsService = new FieldsService()
   const reportTypesService = new ReportTypesService()
@@ -133,20 +136,22 @@ const AssignFieldForm = ({ group, groupFields, onFinishSubmit, close }: AssignFi
           </div>
         </div>
 
-        <div className='mt-2'>
-          <p className='font-bold text-sm'>Selecciona la prioridad</p>
-          <select
-            className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none capitalize'
-            name="type" value={inputValue.priority} onChange={handleSelectPrioritySelect}>
-            {
-              priorities.map(priority => {
-                return (
-                  <option key={priority} value={priority} className='capitalize'>{priority}</option>
-                )
-              })
-            }
-          </select>
-        </div>
+        {currentUser.company !== 'MARCOBRE' && (
+          <div className='mt-2'>
+            <p className='font-bold text-sm'>Selecciona la prioridad</p>
+            <select
+              className='block w-full h-10 px-2 border-b border-solid border-blue-dark outline-none capitalize'
+              name="type" value={inputValue.priority} onChange={handleSelectPrioritySelect}>
+              {
+                priorities.map(priority => {
+                  return (
+                    <option key={priority} value={priority} className='capitalize'>{priority}</option>
+                  )
+                })
+              }
+            </select>
+          </div>
+        )}
 
         <div className='mt-5 flex justify-center gap-3 items-center'>
           <Button color='primary' type='submit'>Añadir</Button>

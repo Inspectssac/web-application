@@ -139,7 +139,7 @@ const UsersView = (): ReactElement => {
           <h1 className='text-3xl mb-4 after:h-px after:w-32 after:bg-gray-light after:block after:mt-1'>Usuarios</h1>
           <div className='flex flex-col sm:flex-row gap-2 sm:justify-center'>
             <Button color='secondary' onClick={handleImportExcel}>Importar Excel</Button>
-            <Button color='secondary' onClick={() => { setShowImportAssignCompanyModal(true) }}>Assignar Empresas Excel</Button>
+            { currentUser.company !== 'MARCOBRE' && <Button color='secondary' onClick={() => { setShowImportAssignCompanyModal(true) }}>Assignar Empresas Excel</Button>}
             <Button color='primary' onClick={handleAddUser}>Añadir usuario</Button>
           </div>
         </div>

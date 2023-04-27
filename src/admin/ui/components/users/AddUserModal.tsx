@@ -55,13 +55,11 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
     dni: false,
     company: false,
     companyWhoHires: false,
-    email: false,
     name: false,
     lastName: false,
     license: false,
     licenseCategory: false,
-    phone1: false,
-    phone2: false
+    phone1: false
   })
 
   useEffect(() => {
@@ -86,6 +84,7 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
     event.preventDefault()
 
     const areaId = areaRef.current?.value ?? areas[0].id.toString()
+    newUser.company = newUser.company.toUpperCase()
     void usersService.create(newUser)
       .then((user) => {
         void usersService.createProfile(user.id, newProfile)
@@ -97,13 +96,18 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
                 toast('Usuario creado correctamente', { toastId: toastContext.id, type: 'success' })
               })
               .catch(error => {
+                console.log(error)
                 const { message } = error.data
                 toast(message, { toastId: toastContext.id, type: 'error' })
               })
           })
           .catch(error => {
+            console.log(error)
+            void usersService.remove(user.id)
+
             const { message } = error.data
-            toast(message, { toastId: toastContext.id, type: 'error' })
+            const errors = typeof message === 'object' ? Object.values(message).join(',') : message
+            toast(errors, { toastId: toastContext.id, type: 'error' })
           })
       })
       .catch(error => {
@@ -204,8 +208,8 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
           <Input
             value={newProfile.email}
             name='email' placeholder='Correo electrónico' type='email'
-            setValid={(valid) => { setIsValidInput('email', valid) }}
-            setValue={(value) => { setValueProfile('email', value) }}></Input>
+            setValue={(value) => { setValueProfile('email', value) }}
+            required={false}></Input>
 
           <Input
             value={newProfile.license}
@@ -237,8 +241,8 @@ const AddUserModal = ({ close, updateUser: refreshUserList }: AddUserModalProps)
           <Input
             value={newProfile.phone2}
             name='phone2' placeholder='Teléfono 2' type='tel'
-            setValid={(valid) => { setIsValidInput('phone2', valid) }}
-            setValue={(value) => { setValueProfile('phone2', value) }}></Input>
+            setValue={(value) => { setValueProfile('phone2', value) }}
+            required={false}></Input>
 
           <div className='flex justify-center gap-5'>
             <Button color='secondary' onClick={close}>Cerrar</Button>

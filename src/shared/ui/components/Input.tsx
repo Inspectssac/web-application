@@ -35,7 +35,7 @@ const Input = ({ name, placeholder, value, type, reset = false, disabled = false
       return
     }
 
-    if (value.trim() === '') {
+    if (value.trim() === '' && required) {
       setError(`El campo ${name} no puede estar vacío`)
     } else {
       setError('')
